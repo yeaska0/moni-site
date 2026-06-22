@@ -263,16 +263,18 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 
 <!-- MUSIC -->
 <div class="mbar">
+  <button class="mbtn" onclick="prevTrack()">⏮</button>
   <button class="mbtn" id="mbtn" onclick="toggleMusic()">▶</button>
+  <button class="mbtn" onclick="nextTrack()">⏭</button>
   <div>
-    <div class="mtitle">Маралым 🎵</div>
+    <div class="mtitle" id="mtitle">Qolymnan Usta 🎵</div>
     <div class="msub" id="msub">Ойнату үшін басыңыз</div>
   </div>
   <div class="mwave off" id="mwave">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 </div>
-<audio id="aud" loop></audio>
+<audio id="aud"></audio>
 
 <!-- NAV -->
 <nav>
@@ -428,10 +430,29 @@ function toggleVid(cover){
   else{v.pause();b.textContent='▶';cover.style.opacity='1';}
 }
 
-// MUSIC — relative path
+// MUSIC — playlist
+const TRACKS = [
+  {src:'assets/audio/Sadraddin_-_Qolymnan_usta.mp3', title:'Qolymnan Usta 🎵'},
+  {src:'assets/audio/Sadraddin_Bakr_-_Sagynysh.mp3', title:'Sagynysh 🎵'},
+  {src:"assets/audio/Kairat Nurtas - Маралым.mp3",   title:'Маралым 🎵'},
+];
+let trackIdx=0, playing=false;
 const aud=document.getElementById('aud');
-aud.src='assets/audio/Kairat Nurtas - Маралым.mp3';
-let playing=false;
+function loadTrack(i){
+  const wasPlaying=playing;
+  aud.pause(); playing=false;
+  trackIdx=i;
+  aud.src=TRACKS[i].src;
+  document.getElementById('mtitle').textContent=TRACKS[i].title;
+  document.getElementById('mbtn').textContent='▶';
+  document.getElementById('msub').textContent='Ойнату үшін басыңыз';
+  document.getElementById('mwave').classList.add('off');
+  if(wasPlaying) toggleMusic();
+}
+function nextTrack(){loadTrack((trackIdx+1)%TRACKS.length);}
+function prevTrack(){loadTrack((trackIdx-1+TRACKS.length)%TRACKS.length);}
+aud.src=TRACKS[0].src;
+aud.addEventListener('ended',()=>nextTrack());
 function toggleMusic(){
   if(!playing){
     aud.play().then(()=>{
