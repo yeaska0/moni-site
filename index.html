@@ -241,6 +241,48 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 .f-txt { color: rgba(255,255,255,0.65) !important; }
 ::-webkit-scrollbar-track { background: var(--oc-pale) !important; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(var(--oc-blue), var(--oc-sky)) !important; border-radius: 10px !important; }
+
+/* ═══ ROMANTIC HEARTS ═══ */
+.heart-float {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
+  animation: heartRise linear forwards;
+  user-select: none;
+  filter: drop-shadow(0 0 6px rgba(255,100,130,0.7));
+}
+@keyframes heartRise {
+  0%   { transform: translateY(0) scale(1) rotate(-10deg); opacity: 1; }
+  50%  { transform: translateY(-45vh) scale(1.15) rotate(10deg); opacity: 0.8; }
+  100% { transform: translateY(-100vh) scale(0.6) rotate(-5deg); opacity: 0; }
+}
+.heart-click {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: heartPop 0.9s ease-out forwards;
+  user-select: none;
+}
+@keyframes heartPop {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+  60%  { transform: translate(-50%,-50%) scale(1.4); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) scale(0.8) translateY(-60px); opacity: 0; }
+}
+/* Hero romantic glow */
+.h-m { text-shadow: 0 0 40px rgba(255,150,180,0.5), 0 0 80px rgba(255,100,130,0.3) !important; }
+.h-y { text-shadow: 0 0 40px rgba(144,224,239,0.6) !important; }
+/* Counter romantic pulse */
+.c-num { animation: heartbeat 1.8s ease-in-out infinite; }
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14%      { transform: scale(1.06); }
+  28%      { transform: scale(1); }
+  42%      { transform: scale(1.04); }
+}
+/* Letter card glow */
+.lcard { box-shadow: 0 8px 40px rgba(255,100,130,0.2), var(--oc-glow) !important; }
+/* Footer heart */
+.f-names { animation: heartbeat 2s ease-in-out infinite; }
 </style>
 </head>
 <body>
@@ -394,6 +436,42 @@ setInterval(()=>{
   const d=6+Math.random()*8;p.style.animation=`fall ${d}s linear forwards`;
   document.body.appendChild(p);setTimeout(()=>p.remove(),d*1000);
 },2400);
+
+// FLOATING HEARTS (rising from bottom)
+const heartEmojis=['❤️','💕','💗','💓','💖','💝','🩷','💞'];
+setInterval(()=>{
+  const h=document.createElement('div');
+  h.className='heart-float';
+  h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+  h.style.left=(5+Math.random()*90)+'vw';
+  h.style.bottom='0px';
+  h.style.fontSize=(1+Math.random()*1.6)+'rem';
+  const d=4+Math.random()*5;
+  h.style.animation=`heartRise ${d}s ease-in-out forwards`;
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),d*1000);
+},1200);
+
+// CLICK HEARTS
+document.addEventListener('click',e=>{
+  const count=5+Math.floor(Math.random()*4);
+  for(let i=0;i<count;i++){
+    const h=document.createElement('div');
+    h.className='heart-click';
+    h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+    h.style.left=e.clientX+'px';
+    h.style.top=e.clientY+'px';
+    h.style.fontSize=(0.9+Math.random())+'rem';
+    const angle=(Math.random()-0.5)*120;
+    const dist=40+Math.random()*60;
+    h.style.setProperty('--tx',`${Math.sin(angle*Math.PI/180)*dist}px`);
+    h.style.setProperty('--ty',`${-dist}px`);
+    h.style.animation=`heartPop ${0.7+Math.random()*0.5}s ease-out forwards`;
+    h.style.transform=`translate(-50%,-50%)`;
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1200);
+  }
+});
 
 // COUNTER
 const start=new Date('2026-04-14T22:02:00');
