@@ -241,6 +241,71 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 .f-txt { color: rgba(255,255,255,0.65) !important; }
 ::-webkit-scrollbar-track { background: var(--oc-pale) !important; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(var(--oc-blue), var(--oc-sky)) !important; border-radius: 10px !important; }
+/* ═══ SPLASH SCREEN ═══ */
+#splash{position:fixed;inset:0;background:linear-gradient(135deg,#03045e,#0077b6,#023e8a);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .8s ease,visibility .8s ease}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+.splash-name{font-family:'Dancing Script',cursive;font-size:clamp(4rem,15vw,9rem);color:#fff;text-shadow:0 0 40px rgba(144,224,239,.8),0 0 80px rgba(0,180,216,.5);animation:splashPulse 1.2s ease-in-out infinite}
+.splash-hearts{font-size:2rem;animation:splashFade 1s ease-in-out infinite alternate;letter-spacing:8px}
+.splash-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,.7);font-size:1.1rem;letter-spacing:3px}
+@keyframes splashPulse{0%,100%{transform:scale(1);text-shadow:0 0 40px rgba(144,224,239,.8)}50%{transform:scale(1.04);text-shadow:0 0 80px rgba(255,150,180,.9),0 0 120px rgba(255,100,130,.5)}}
+@keyframes splashFade{from{opacity:.4}to{opacity:1}}
+
+/* ═══ STARS ═══ */
+.star{position:fixed;border-radius:50%;background:white;pointer-events:none;z-index:0;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+
+/* ═══ TIMELINE ═══ */
+#timeline{padding:100px 40px;background:linear-gradient(180deg,#caf0f8,#e0f7fd);position:relative;z-index:1}
+.tl-wrap{max-width:700px;margin:0 auto;position:relative}
+.tl-wrap::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,#0077b6,transparent);transform:translateX(-50%)}
+.tl-item{display:flex;gap:30px;align-items:center;margin-bottom:50px}
+.tl-item:nth-child(even){flex-direction:row-reverse}
+.tl-dot{width:16px;height:16px;border-radius:50%;background:var(--oc-blue);border:3px solid white;box-shadow:0 0 0 3px var(--oc-sky),0 0 20px rgba(0,119,182,.5);flex-shrink:0;position:relative;z-index:1}
+.tl-card{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border:1px solid rgba(0,180,216,.3);border-radius:16px;padding:22px 26px;flex:1;box-shadow:0 4px 20px rgba(0,119,182,.15);transition:transform .3s}
+.tl-card:hover{transform:translateY(-4px)}
+.tl-date{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--oc-sky);margin-bottom:6px}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--oc-navy);font-weight:700}
+.tl-desc{font-size:.95rem;color:#555;margin-top:6px;font-style:italic}
+
+/* ═══ 10 REASONS ═══ */
+#reasons{padding:100px 40px;background:linear-gradient(135deg,#e0f7fd,#b3e5fc);position:relative;z-index:1}
+.r-grid{max-width:900px;margin:30px auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.r-card{background:rgba(255,255,255,.85);backdrop-filter:blur(14px);border:1px solid rgba(0,180,216,.25);border-radius:20px;padding:26px;text-align:center;transition:all .35s;cursor:default;position:relative;overflow:hidden}
+.r-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,150,180,.08),rgba(0,180,216,.08));opacity:0;transition:opacity .3s}
+.r-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 12px 40px rgba(255,100,130,.2)}
+.r-card:hover::before{opacity:1}
+.r-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--oc-sky);line-height:1}
+.r-text{font-size:1rem;color:var(--oc-navy);margin-top:8px;line-height:1.5;font-style:italic}
+
+/* ═══ HIDDEN LETTER MODAL ═══ */
+#hiddenModal{display:none;position:fixed;inset:0;background:rgba(3,4,94,.92);z-index:9000;align-items:center;justify-content:center;padding:30px}
+#hiddenModal.on{display:flex}
+.hm-card{background:linear-gradient(135deg,#fff9fc,#fff);border-radius:24px;padding:52px;max-width:560px;width:100%;position:relative;box-shadow:0 30px 80px rgba(255,100,130,.3),0 0 0 2px rgba(255,150,180,.3);animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.hm-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#ccc;line-height:1}
+.hm-icon{font-size:3rem;text-align:center;margin-bottom:16px;animation:heartbeat 1.5s ease-in-out infinite}
+.hm-title{font-family:'Dancing Script',cursive;font-size:2rem;color:#c9536a;text-align:center;margin-bottom:20px}
+.hm-body{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.9;color:#3d1a22;font-style:italic;white-space:pre-line}
+
+/* ═══ CONFETTI ═══ */
+.conf{position:fixed;pointer-events:none;z-index:99998;width:10px;height:10px;border-radius:2px;animation:confFall linear forwards}
+@keyframes confFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ═══ 3D CARD ═══ */
+.g-item{transform-style:preserve-3d;transition:transform .1s}
+
+/* ═══ SURPRISE BTN ═══ */
+#surpriseBtn{position:fixed;left:26px;bottom:26px;z-index:500;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#ff7f50,#ff4d6d);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 20px rgba(255,100,130,.5);transition:all .3s;animation:surprisePulse 2s ease-in-out infinite}
+@keyframes surprisePulse{0%,100%{box-shadow:0 4px 20px rgba(255,100,130,.5)}50%{box-shadow:0 4px 40px rgba(255,100,130,.85),0 0 0 8px rgba(255,100,130,.15)}}
+#surpriseBtn:hover{transform:scale(1.15) rotate(10deg)}
+#surpriseModal{display:none;position:fixed;inset:0;background:rgba(3,4,94,.85);z-index:9001;align-items:center;justify-content:center}
+#surpriseModal.on{display:flex}
+.sm-card{background:linear-gradient(135deg,#fff,#fff0f5);border-radius:24px;padding:50px 44px;max-width:480px;text-align:center;box-shadow:0 30px 80px rgba(255,100,130,.3);animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.sm-emoji{font-size:4rem;display:block;margin-bottom:16px;animation:heartbeat 1.2s ease-in-out infinite}
+.sm-title{font-family:'Dancing Script',cursive;font-size:2.2rem;color:#c9536a;margin-bottom:12px}
+.sm-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#3d1a22;line-height:1.8}
+.sm-close{margin-top:28px;padding:12px 34px;background:linear-gradient(135deg,#ff7f50,#ff4d6d);color:white;border:none;border-radius:50px;font-size:1rem;cursor:pointer;font-family:'Dancing Script',cursive;font-size:1.2rem}
+
 
 /* ═══ ROMANTIC HEARTS ═══ */
 .heart-float {
@@ -294,6 +359,11 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 </div>
 
 
+<div id="splash">
+  <div class="splash-hearts">💙 ❤️ 💙</div>
+  <div class="splash-name">Moni</div>
+  <div class="splash-sub">сізге арналған 💕</div>
+</div>
 <div class="cursor" id="cur"></div>
 <div class="cursor-ring" id="curR"></div>
 
@@ -403,9 +473,69 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
   </div>
 </section>
 
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="st rv">
+    <span class="st-eye">Біздің оқиғамыз</span>
+    <h2 class="st-h2">Бірге жүрген жол ✨</h2>
+    <div class="st-div"><b></b>💙<b></b></div>
+  </div>
+  <div class="tl-wrap rv">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-date">14 сәуір 2026</div>
+        <div class="tl-title">🌹 Алғашқы кездесу</div>
+        <div class="tl-desc">Бәрі осы күннен басталды — ең маңызды күн</div>
+      </div>
+      <div class="tl-dot"></div>
+      <div style="flex:1"></div>
+    </div>
+    <div class="tl-item">
+      <div style="flex:1"></div>
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">14 сәуір 2026 — қазір</div>
+        <div class="tl-title">💕 Бірге болу</div>
+        <div class="tl-desc">Күн сайын жаңа естелік, жаңа күлкі, жаңа бақыт</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-date">Болашақта...</div>
+        <div class="tl-title">🌊 Жаңа оқиғалар</div>
+        <div class="tl-desc">Алда тағы да көп керемет сәттер күтеді 💙</div>
+      </div>
+      <div class="tl-dot"></div>
+      <div style="flex:1"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 REASONS -->
+<section id="reasons">
+  <div class="st rv">
+    <span class="st-eye">Жүректен</span>
+    <h2 class="st-h2">Сені неліктен жақсы көремін 💗</h2>
+    <div class="st-div"><b></b>❤️<b></b></div>
+  </div>
+  <div class="r-grid rv" id="rGrid">
+    <div class="r-card"><div class="r-num">01</div><div class="r-text">Сенің жылы жүзің — кез-келген күнімді жарықтандырады</div></div>
+    <div class="r-card"><div class="r-num">02</div><div class="r-text">Күлкің — оны естігенде жаным тынышталады</div></div>
+    <div class="r-card"><div class="r-num">03</div><div class="r-text">Жүрегің — ақкөңіл, таза, мейірімді</div></div>
+    <div class="r-card"><div class="r-num">04</div><div class="r-text">Мінезің — адамды өзіне баурап алатын ерекшелігің</div></div>
+    <div class="r-card"><div class="r-num">05</div><div class="r-text">Сенімен сөйлескенде барлық уайымым ұмытыламын</div></div>
+    <div class="r-card"><div class="r-num">06</div><div class="r-text">Қамқорлығың — маңайыңдағыларды байқайтын жүрегің</div></div>
+    <div class="r-card"><div class="r-num">07</div><div class="r-text">Табандылығың — мақсатыңа жетуге тырысатын рухың</div></div>
+    <div class="r-card"><div class="r-num">08</div><div class="r-text">Нұрлылығың — бөлмеге кіргенде барлығы жарықтанады</div></div>
+    <div class="r-card"><div class="r-num">09</div><div class="r-text">Шыдамдылығың — кез-келген жағдайда сабырлы боласың</div></div>
+    <div class="r-card"><div class="r-num">10</div><div class="r-text">Жай өзің болуың — бұл жеткілікті, сен ерекшесің ❤️</div></div>
+  </div>
+</section>
+
 <footer>
   <div class="f-names">Moni</div>
-  <p class="f-txt">14 сәуір 2026 — мәңгілік ❤️</p>
+  <p class="f-txt">14 сәуір 2026 — мәңгілік <span id="footerHeart" style="cursor:pointer;font-size:1.3em" title="💌">❤️</span></p>
 </footer>
 
 <script>
@@ -555,6 +685,108 @@ document.getElementById('lb').addEventListener('click',function(e){if(e.target==
 // REVEAL
 const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+
+// SPLASH SCREEN
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hide');
+    launchConfetti();
+  },2000);
+});
+
+// STARS
+(function createStars(){
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=1+Math.random()*2.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
+    document.body.appendChild(s);
+  }
+})();
+
+// CONFETTI
+function launchConfetti(){
+  const colors=['#ff4d6d','#ff7f50','#00b4d8','#90e0ef','#caf0f8','#fff','#ffd6e7'];
+  for(let i=0;i<90;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');
+      c.className='conf';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.borderRadius=Math.random()>.5?'50%':'2px';
+      c.style.width=(6+Math.random()*8)+'px';
+      c.style.height=(6+Math.random()*8)+'px';
+      const d=2+Math.random()*3;
+      c.style.animation=`confFall ${d}s linear forwards`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),d*1000);
+    },i*30);
+  }
+}
+
+// HIDDEN LETTER — footer ❤️ click
+let heartClickCount=0;
+document.getElementById('footerHeart').addEventListener('click',()=>{
+  heartClickCount++;
+  if(heartClickCount>=1) openHidden();
+});
+function openHidden(){document.getElementById('hiddenModal').classList.add('on');document.body.style.overflow='hidden';}
+function closeHidden(){document.getElementById('hiddenModal').classList.remove('on');document.body.style.overflow='';heartClickCount=0;}
+
+// SURPRISE
+function openSurprise(){document.getElementById('surpriseModal').classList.add('on');}
+function closeSurprise(){document.getElementById('surpriseModal').classList.remove('on');}
+
+// 3D GALLERY CARDS
+document.querySelectorAll('.g-item').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(600px) rotateY(${x*14}deg) rotateX(${-y*14}deg) scale(1.04)`;
+  });
+  card.addEventListener('mouseleave',()=>card.style.transform='');
+});
+
 </script>
+
+<!-- HIDDEN LETTER MODAL -->
+<div id="hiddenModal" onclick="if(event.target===this)closeHidden()">
+  <div class="hm-card">
+    <button class="hm-close" onclick="closeHidden()">✕</button>
+    <div class="hm-icon">💌</div>
+    <div class="hm-title">Жасырын хат</div>
+    <div class="hm-body">Moni,
+
+Бұл хатты тек сен таба аласың.
+Сен осында жеттің дегені — сен мені іздедің.
+Немесе кездейсоқ таптың. Екеуі де маған қуаныш.
+
+Білесің бе, менің үшін ең бақытты сәт —
+сенің күлкіңді көрген кез.
+
+Сені жақсы көремін, Moni.
+Мәңгілікке. 💙</div>
+  </div>
+</div>
+
+<!-- SURPRISE MODAL -->
+<div id="surpriseModal" onclick="if(event.target===this)closeSurprise()">
+  <div class="sm-card">
+    <span class="sm-emoji">🌊💙</span>
+    <div class="sm-title">Moni-ге сюрприз!</div>
+    <p class="sm-text">Сен осы сайтты аштың —
+демек бүгін ерекше күн!
+Сені шексіз жақсы көремін,
+толқындай мәңгілік 🌊❤️</p>
+    <button class="sm-close" onclick="closeSurprise()">Жабу 💕</button>
+  </div>
+</div>
+
+<!-- SURPRISE BUTTON -->
+<button id="surpriseBtn" onclick="openSurprise()" title="Сюрприз!">🎁</button>
+
 </body>
 </html>
