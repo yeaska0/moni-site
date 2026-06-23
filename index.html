@@ -415,22 +415,7 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
   <div class="hero-photo"><img id="heroImg" alt="Moni"></div>
 </section>
 
-<!-- COUNTER -->
-<section id="counter">
-  <div class="rv">
-    <p class="c-label">Бізге бірге болғанымызға</p>
-    <div class="c-wrap">
-      <div class="c-unit"><span class="c-num" id="cD">0</span><div class="c-sub">Күн</div></div>
-      <div class="c-sep">:</div>
-      <div class="c-unit"><span class="c-num" id="cH">00</span><div class="c-sub">Сағат</div></div>
-      <div class="c-sep">:</div>
-      <div class="c-unit"><span class="c-num" id="cM">00</span><div class="c-sub">Минут</div></div>
-      <div class="c-sep">:</div>
-      <div class="c-unit"><span class="c-num" id="cS">00</span><div class="c-sub">Секунд</div></div>
-    </div>
-    <p class="c-since">📅 2026 жылдың 14 сәуірінен, сағат 22:02</p>
-  </div>
-</section>
+
 
 <!-- GALLERY -->
 <section id="gallery">
@@ -459,6 +444,17 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
     <h2 class="st-h2">Moni-ге Хат 💌</h2>
     <div class="st-div"><b></b>💌<b></b></div>
   </div>
+  <div id="letterGate" class="lcard rv" style="text-align:center;padding:50px 40px">
+    <div style="font-size:3rem;margin-bottom:16px">🔐</div>
+    <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--oc-blue);margin-bottom:24px">Хат жасырын — пароль енгізіңіз</p>
+    <input id="letterPass" type="password" placeholder="••••" maxlength="10"
+      style="text-align:center;font-size:1.8rem;letter-spacing:8px;width:160px;padding:12px;border:2px solid rgba(0,180,216,0.3);border-radius:50px;outline:none;background:rgba(255,255,255,0.9);color:#03045e"
+      onkeydown="if(event.key==='Enter')checkLetterPass()">
+    <br><br>
+    <button onclick="checkLetterPass()" style="padding:12px 36px;font-family:'Dancing Script',cursive;font-size:1.2rem">Ашу 💌</button>
+    <p id="letterErr" style="color:#e55;margin-top:12px;font-size:.9rem;display:none">Пароль дұрыс емес ❌</p>
+  </div>
+  <div id="letterContent" style="display:none">
   <div class="lcard rv">
     <div class="l-deco">🌹</div>
     <p class="l-to">Сүйіктім Moni-ге,</p>
@@ -475,37 +471,11 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр, жақсы адамдар жолықсын.
 Ал мен үшін сен әрдайым ерекше адам болып қала бересің.</div>
   </div>
+</div>
 </section>
 
 
-<!-- TIMELINE -->
-<section id="timeline">
-  <div class="st rv">
-    <span class="st-eye">Біздің оқиғамыз</span>
-    <h2 class="st-h2">Бірге жүрген жол ✨</h2>
-    <div class="st-div"><b></b>💙<b></b></div>
-  </div>
-  <div class="tl-wrap rv">
-    <div class="tl-item">
-      <div class="tl-card">
-        <div class="tl-date">14 сәуір 2026</div>
-        <div class="tl-title">🌹 Алғашқы кездесу</div>
-        <div class="tl-desc">Бәрі осы күннен басталды — ең маңызды күн</div>
-      </div>
-      <div class="tl-dot"></div>
-      <div style="flex:1"></div>
-    </div>
-    <div class="tl-item">
-      <div style="flex:1"></div>
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-date">14 сәуір 2026 — қазір</div>
-        <div class="tl-title">💕 Бірге болу</div>
-        <div class="tl-desc">Күн сайын жаңа естелік, жаңа күлкі, жаңа бақыт</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 
 
@@ -663,6 +633,19 @@ function toggleMusic(){
     document.getElementById('mbtn').textContent='▶';
     document.getElementById('msub').textContent='Ойнату үшін басыңыз';
     document.getElementById('mwave').classList.add('off');
+  }
+}
+
+
+// LETTER PASSWORD
+function checkLetterPass(){
+  const val = document.getElementById('letterPass').value;
+  if(val === '2006'){
+    document.getElementById('letterGate').style.display='none';
+    document.getElementById('letterContent').style.display='block';
+  } else {
+    document.getElementById('letterErr').style.display='block';
+    document.getElementById('letterPass').value='';
   }
 }
 
