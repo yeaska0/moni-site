@@ -235,13 +235,13 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 ::-webkit-scrollbar-track { background: var(--oc-pale) !important; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(var(--oc-blue), var(--oc-sky)) !important; border-radius: 10px !important; }
 /* ═══ SPLASH SCREEN ═══ */
-#splash{position:fixed;inset:0;background:linear-gradient(135deg,#03045e,#0077b6,#023e8a);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .8s ease,visibility .8s ease}
-#splash.hide{opacity:0;visibility:hidden;pointer-events:none}
-.splash-name{font-family:'Dancing Script',cursive;font-size:clamp(4rem,15vw,9rem);color:#fff;text-shadow:0 0 40px rgba(144,224,239,.8),0 0 80px rgba(0,180,216,.5);animation:splashPulse 1.2s ease-in-out infinite}
-.splash-hearts{font-size:2rem;animation:splashFade 1s ease-in-out infinite alternate;letter-spacing:8px}
-.splash-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,.7);font-size:1.1rem;letter-spacing:3px}
-@keyframes splashPulse{0%,100%{transform:scale(1);text-shadow:0 0 40px rgba(144,224,239,.8)}50%{transform:scale(1.04);text-shadow:0 0 80px rgba(255,150,180,.9),0 0 120px rgba(255,100,130,.5)}}
-@keyframes splashFade{from{opacity:.4}to{opacity:1}}
+
+
+
+
+
+50%{transform:scale(1.04);text-shadow:0 0 80px rgba(255,150,180,.9),0 0 120px rgba(255,100,130,.5)}}
+to{opacity:1}}
 
 /* ═══ STARS ═══ */
 
@@ -390,9 +390,7 @@ function checkGate(){
 
 
 
-<div id="splash">
-  <div class="splash-hearts">💙 ❤️ 💙</div>
-  <div class="splash-name">Moni</div>
+<div class="splash-name">Moni</div>
   <div class="splash-sub">сізге арналған 💕</div>
 </div>
 <div class="cursor" id="cur"></div>
@@ -659,12 +657,7 @@ const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.targe
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 
 
-// SPLASH SCREEN
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('splash').classList.add('hide');
-  },2000);
-});
+
 
 
 
