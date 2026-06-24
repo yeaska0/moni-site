@@ -159,31 +159,21 @@ body {
   background: linear-gradient(160deg, #e0f7fd 0%, #b3e5fc 50%, #81d4fa 100%) fixed;
   color: var(--oc-navy);
 }
-.wave-container {
-  position: fixed; bottom: 0; left: 0; width: 100%; height: 150px;
-  pointer-events: none; z-index: 0; overflow: hidden;
-}
-.wave {
-  position: absolute; bottom: 0; left: 0; width: 200%; height: 100%;
-  background-repeat: repeat-x;
-}
+
+
 .w1 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath fill='%230077b6' fill-opacity='0.25' d='M0,80 C240,30 480,120 720,70 C960,20 1200,110 1440,70 L1440,120 L0,120Z'/%3E%3C/svg%3E");
   background-size: 50% 100%;
-  animation: waveScroll 10s linear infinite;
 }
 .w2 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath fill='%2300b4d8' fill-opacity='0.2' d='M0,60 C360,110 720,10 1080,60 C1260,85 1350,30 1440,60 L1440,120 L0,120Z'/%3E%3C/svg%3E");
   background-size: 55% 100%; height: 75%;
-  animation: waveScroll 14s linear infinite reverse;
 }
 .w3 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath fill='%2390e0ef' fill-opacity='0.2' d='M0,90 C200,50 480,120 720,70 C960,20 1200,100 1440,70 L1440,120 L0,120Z'/%3E%3C/svg%3E");
   background-size: 60% 100%; height: 55%;
-  animation: waveScroll 18s linear infinite;
 }
-@keyframes waveScroll {
-  from { transform: translateX(0); }
+
   to   { transform: translateX(-50%); }
 }
 section, header, footer, .hero, .music-wrap, nav, #hero, #counter, #gallery, #videos, #letter {
@@ -254,7 +244,7 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 @keyframes splashFade{from{opacity:.4}to{opacity:1}}
 
 /* ═══ STARS ═══ */
-.star{position:fixed;border-radius:50%;background:white;pointer-events:none;z-index:0;animation:twinkle linear infinite}
+
 @keyframes twinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
 
 /* ═══ TIMELINE ═══ */
@@ -397,11 +387,7 @@ function checkGate(){
 </script>
 
 <!-- OCEAN WAVES -->
-<div class="wave-container">
-  <div class="wave w1"></div>
-  <div class="wave w2"></div>
-  <div class="wave w3"></div>
-</div>
+
 
 
 <div id="splash">
@@ -556,64 +542,15 @@ document.getElementById('heroImg').src = IMG4;
 const cur=document.getElementById('cur'),curR=document.getElementById('curR');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function a(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(a)})();
 
-// PETALS
-const ptls=['🌸','🌺','🌹','✨','💕','🌷'];
-setInterval(()=>{
-  const p=document.createElement('div');
-  p.className='petal';p.textContent=ptls[Math.floor(Math.random()*ptls.length)];
-  p.style.left=Math.random()*100+'vw';p.style.fontSize=(0.8+Math.random()*.9)+'rem';
-  const d=6+Math.random()*8;p.style.animation=`fall ${d}s linear forwards`;
-  document.body.appendChild(p);setTimeout(()=>p.remove(),d*1000);
-},2400);
 
-// FLOATING HEARTS (rising from bottom)
-const heartEmojis=['❤️','💕','💗','💓','💖','💝','🩷','💞'];
-setInterval(()=>{
-  const h=document.createElement('div');
-  h.className='heart-float';
-  h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
-  h.style.left=(5+Math.random()*90)+'vw';
-  h.style.bottom='0px';
-  h.style.fontSize=(1+Math.random()*1.6)+'rem';
-  const d=4+Math.random()*5;
-  h.style.animation=`heartRise ${d}s ease-in-out forwards`;
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),d*1000);
-},1200);
 
-// CLICK HEARTS
-document.addEventListener('click',e=>{
-  const count=5+Math.floor(Math.random()*4);
-  for(let i=0;i<count;i++){
-    const h=document.createElement('div');
-    h.className='heart-click';
-    h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
-    h.style.left=e.clientX+'px';
-    h.style.top=e.clientY+'px';
-    h.style.fontSize=(0.9+Math.random())+'rem';
-    const angle=(Math.random()-0.5)*120;
-    const dist=40+Math.random()*60;
-    h.style.setProperty('--tx',`${Math.sin(angle*Math.PI/180)*dist}px`);
-    h.style.setProperty('--ty',`${-dist}px`);
-    h.style.animation=`heartPop ${0.7+Math.random()*0.5}s ease-out forwards`;
-    h.style.transform=`translate(-50%,-50%)`;
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1200);
-  }
-});
 
-// COUNTER
-const start=new Date('2026-04-14T22:02:00');
-function tick(){
-  const diff=Date.now()-start;if(diff<0)return;
-  document.getElementById('cD').textContent=Math.floor(diff/86400000);
-  document.getElementById('cH').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
-  document.getElementById('cM').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-  document.getElementById('cS').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-}
-setInterval(tick,1000);tick();
+
+
+
+
+
 
 // GALLERY
 const gg=document.getElementById('gGrid');
@@ -705,40 +642,12 @@ document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('splash').classList.add('hide');
-    launchConfetti();
   },2000);
 });
 
-// STARS
-(function createStars(){
-  for(let i=0;i<60;i++){
-    const s=document.createElement('div');
-    s.className='star';
-    const sz=1+Math.random()*2.5;
-    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
-    document.body.appendChild(s);
-  }
-})();
 
-// CONFETTI
-function launchConfetti(){
-  const colors=['#ff4d6d','#ff7f50','#00b4d8','#90e0ef','#caf0f8','#fff','#ffd6e7'];
-  for(let i=0;i<90;i++){
-    setTimeout(()=>{
-      const c=document.createElement('div');
-      c.className='conf';
-      c.style.left=Math.random()*100+'vw';
-      c.style.background=colors[Math.floor(Math.random()*colors.length)];
-      c.style.borderRadius=Math.random()>.5?'50%':'2px';
-      c.style.width=(6+Math.random()*8)+'px';
-      c.style.height=(6+Math.random()*8)+'px';
-      const d=2+Math.random()*3;
-      c.style.animation=`confFall ${d}s linear forwards`;
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),d*1000);
-    },i*30);
-  }
-}
+
+
 
 // HIDDEN LETTER — footer ❤️ click
 let heartClickCount=0;
