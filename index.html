@@ -354,6 +354,48 @@ footer { background: linear-gradient(135deg, #03045e, #0077b6) !important; }
 </style>
 </head>
 <body>
+<div id="siteGate" style="
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(135deg,#0a0a2e 0%,#1a0a3e 50%,#0d1b4b 100%);
+  z-index:99999;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-family:'Dancing Script',cursive;
+">
+  <div style="text-align:center;padding:40px;background:rgba(255,255,255,0.05);
+    border-radius:24px;border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter:blur(20px);max-width:380px;width:90%;">
+    <div style="font-size:3rem;margin-bottom:8px;">💙</div>
+    <h2 style="color:#fff;font-size:2.2rem;margin:0 0 6px;">Moni</h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:1rem;margin:0 0 28px;font-family:sans-serif;">Бұл сайт тек сен үшін ✨</p>
+    <input id="gatePass" type="password" placeholder="Пароль..."
+      style="width:100%;box-sizing:border-box;padding:14px 18px;
+        border:1px solid rgba(255,255,255,0.2);border-radius:12px;
+        background:rgba(255,255,255,0.08);color:#fff;font-size:1.1rem;
+        font-family:sans-serif;outline:none;margin-bottom:12px;"
+      onkeydown="if(event.key==='Enter')checkGate()">
+    <div id="gateErr" style="color:#ff6b9d;font-size:0.9rem;margin-bottom:10px;display:none;font-family:sans-serif;">Пароль дұрыс емес ❌</div>
+    <button onclick="checkGate()" style="
+      width:100%;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);
+      border:none;border-radius:12px;color:#fff;font-size:1.2rem;
+      font-family:'Dancing Script',cursive;cursor:pointer;letter-spacing:1px;">
+      Кіру 💙
+    </button>
+  </div>
+</div>
+<script>
+function checkGate(){
+  var v=document.getElementById('gatePass').value;
+  if(v==='LoveMonika06'){
+    document.getElementById('siteGate').style.opacity='0';
+    document.getElementById('siteGate').style.transition='opacity 0.6s';
+    setTimeout(function(){document.getElementById('siteGate').style.display='none';},600);
+  } else {
+    document.getElementById('gateErr').style.display='block';
+    document.getElementById('gatePass').value='';
+    document.getElementById('gatePass').focus();
+  }
+}
+</script>
+
 <!-- OCEAN WAVES -->
 <div class="wave-container">
   <div class="wave w1"></div>
@@ -640,7 +682,7 @@ function toggleMusic(){
 // LETTER PASSWORD
 function checkLetterPass(){
   const val = document.getElementById('letterPass').value;
-  if(val === '2006'){
+  if(val === 'LoveMonika06'){
     document.getElementById('letterGate').style.display='none';
     document.getElementById('letterContent').style.display='block';
   } else {
