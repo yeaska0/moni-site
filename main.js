@@ -167,7 +167,7 @@ const i18n = {
       'Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.',
     letterSig:    'Ақалек · Ақмарал',
     letterDate:   '14 сәуір 2026 — мәңгілік ❤️',
-    footerName:   'Moni · Ақмарал · Ақалек',
+    footerName:   'Moni🕊️ · Ақмарал · Ақалек',
     footerDate:   '14 сәуір 2026 — мәңгілік ❤️',
   },
 
@@ -202,7 +202,7 @@ const i18n = {
       'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
     letterSig:    'Акалек · Акмарал',
     letterDate:   '14 апреля 2026 — навсегда ❤️',
-    footerName:   'Moni · Акмарал · Акалек',
+    footerName:   'Moni🕊️ · Акмарал · Акалек',
     footerDate:   '14 апреля 2026 — навсегда ❤️',
   },
 
@@ -237,7 +237,7 @@ const i18n = {
       "I wish you happiness with all my heart. May the life you dream of become real. Always keep smiling.",
     letterSig:    'Akalek · Akmaral',
     letterDate:   'April 14, 2026 — forever ❤️',
-    footerName:   'Moni · Akmaral · Akalek',
+    footerName:   'Moni🕊️ · Akmaral · Akalek',
     footerDate:   'April 14, 2026 — forever ❤️',
   },
 
