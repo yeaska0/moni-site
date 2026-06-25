@@ -258,7 +258,7 @@ aud.addEventListener('ended',nextTrack);loadT(0);
 
 // GATE
 function checkGate(){
-  if(document.getElementById('gatePass').value==='LoveMonika06'){
+  if(document.getElementById('gatePass').value==='0358'){
     const g=document.getElementById('gate');
     g.style.transition='opacity 0.5s';g.style.opacity='0';
     setTimeout(()=>g.style.display='none',500);
@@ -286,7 +286,7 @@ VIDS.forEach(v=>{const d=document.createElement('div');d.className='v-item';d.in
 
 // LETTER
 function checkLetter(){
-  if(document.getElementById('letterPass').value==='LoveMonika06'){
+  if(document.getElementById('letterPass').value==='0358'){
     document.getElementById('letterGate').style.display='none';
     document.getElementById('letterContent').style.display='block';
   }else{
