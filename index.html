@@ -41,6 +41,7 @@
   <ul class="nav-links">
     <li><a href="#gallery" data-i18n="navGallery">Галерея</a></li>
     <li><a href="#videos"  data-i18n="navVideos">Видео</a></li>
+    <li><a href="#music"   data-i18n="navMusic">Музыка</a></li>
     <li><a href="#letter"  data-i18n="navLetter">Хат</a></li>
   </ul>
   <div class="nav-controls">
@@ -129,14 +130,14 @@
 </footer>
 
 <!-- ═══════════════════════════════════════
-     MUSIC BAR — Музыка ойнатқышы
+     MUSIC — Музыка бөлімі
 ═══════════════════════════════════════ -->
-<div class="mbar">
-  <button class="mbtn" onclick="prevTrack()">⏮</button>
-  <button class="mplay" id="playBtn" onclick="togglePlay()">▶</button>
-  <button class="mbtn" onclick="nextTrack()">⏭</button>
-  <div class="mbar-title" id="mbarTitle">Qolymnan Usta 🎵</div>
+<div class="sec" id="music">
+  <p class="sec-title" data-i18n="musicTitle">Музыка</p>
+  <div class="divider"></div>
+  <div class="music-list" id="musicList"></div>
 </div>
+
 <audio id="audio"></audio>
 
 <script src="main.js"></script>

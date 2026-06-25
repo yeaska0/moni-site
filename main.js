@@ -143,7 +143,9 @@ const i18n = {
     gateErr:      'Пароль дұрыс емес',
     navGallery:   'Галерея',
     navVideos:    'Видео',
+    navMusic:     'Музыка',
     navLetter:    'Хат',
+    musicTitle:   'Музыка 🎵',
     heroEyebrow:  'Moni-дің Әлімі ✨',
     heroSub:      'Ақмарал · Ақалек',
     galleryTitle: 'Галерея',
@@ -176,7 +178,9 @@ const i18n = {
     gateErr:      'Неверный пароль',
     navGallery:   'Галерея',
     navVideos:    'Видео',
+    navMusic:     'Музыка',
     navLetter:    'Письмо',
+    musicTitle:   'Музыка 🎵',
     heroEyebrow:  'Алим Мони ✨',
     heroSub:      'Акмарал · Акалек',
     galleryTitle: 'Галерея',
@@ -209,7 +213,9 @@ const i18n = {
     gateErr:      'Wrong password',
     navGallery:   'Gallery',
     navVideos:    'Videos',
+    navMusic:     'Music',
     navLetter:    'Letter',
+    musicTitle:   'Music 🎵',
     heroEyebrow:  "Alim's World ✨",
     heroSub:      'Akmaral · Akalek',
     galleryTitle: 'Gallery',
@@ -404,45 +410,60 @@ document.addEventListener('keydown', (e) => {
 })();
 
 
-/* ── MUSIC PLAYER: музыка ойнатқышы ────────────── */
+/* ── MUSIC: жеке ойнатқыштар ────────────────────── */
 
-const audio      = document.getElementById('audio');
-const playBtn    = document.getElementById('playBtn');
-const titleEl    = document.getElementById('mbarTitle');
-let   trackIndex = 0;
+const audio = document.getElementById('audio');
+let   activeIndex = -1;
 
-function loadTrack(index) {
-  const track         = TRACKS[index];
-  audio.src           = track.src;
-  titleEl.textContent = track.title;
+function buildMusic() {
+  const list = document.getElementById('musicList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  TRACKS.forEach((track, i) => {
+    const card = document.createElement('div');
+    card.className = 'music-card';
+    card.id        = `mcard-${i}`;
+    card.innerHTML = `
+      <button class="mc-btn" id="mcbtn-${i}">▶</button>
+      <span class="mc-title">${track.title}</span>
+    `;
+    card.querySelector('.mc-btn').onclick = () => playCard(i);
+    list.appendChild(card);
+  });
 }
 
-function togglePlay() {
-  if (audio.paused) {
-    audio.play();
-    playBtn.textContent = '⏸';
-  } else {
+function playCard(index) {
+  // Егер осы трек ойнап тұрса — тоқтат
+  if (activeIndex === index && !audio.paused) {
     audio.pause();
-    playBtn.textContent = '▶';
+    setCardState(index, false);
+    return;
   }
+
+  // Алдыңғы картаны тоқтат
+  if (activeIndex >= 0) setCardState(activeIndex, false);
+
+  // Жаңа тректі жүктеп ойнат
+  activeIndex  = index;
+  audio.src    = TRACKS[index].src;
+  audio.play();
+  setCardState(index, true);
 }
 
-function prevTrack() {
-  trackIndex = (trackIndex - 1 + TRACKS.length) % TRACKS.length;
-  loadTrack(trackIndex);
-  audio.play();
-  playBtn.textContent = '⏸';
-}
-
-function nextTrack() {
-  trackIndex = (trackIndex + 1) % TRACKS.length;
-  loadTrack(trackIndex);
-  audio.play();
-  playBtn.textContent = '⏸';
+function setCardState(index, playing) {
+  const card = document.getElementById(`mcard-${index}`);
+  const btn  = document.getElementById(`mcbtn-${index}`);
+  if (!card || !btn) return;
+  card.classList.toggle('playing', playing);
+  btn.textContent = playing ? '⏸' : '▶';
 }
 
 // Трек аяқталса — келесісіне өту
-audio.addEventListener('ended', nextTrack);
+audio.addEventListener('ended', () => {
+  const next = (activeIndex + 1) % TRACKS.length;
+  playCard(next);
+});
 
 
 /* ════════════════════════════════════════════════════
@@ -461,6 +482,6 @@ audio.addEventListener('ended', nextTrack);
   try { savedTheme = localStorage.getItem('theme') || 'dark'; } catch (e) {}
   if (savedTheme === 'light') toggleTheme();
 
-  // Бірінші тректі жүктеу
-  loadTrack(0);
+  // Музыка картаоларын құру
+  buildMusic();
 })();
