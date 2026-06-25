@@ -129,8 +129,192 @@ const VIDS = [
 
 
 /* ════════════════════════════════════════════════════
-   6. ЛОГИКА (FUNCTIONS)
+   6. АУДАРМАЛАР (TRANSLATIONS — i18n)
+   ────────────────────────────────────────────────────
+   kk — Қазақша  |  ru — Орысша  |  en — Ағылшынша
 ════════════════════════════════════════════════════ */
+
+const i18n = {
+
+  kk: {
+    gateSub:      'Менің жауапсыз махаббатым',
+    gateBtn:      'Кіру →',
+    gatePlaceholder: 'Пароль...',
+    gateErr:      'Пароль дұрыс емес',
+    navGallery:   'Галерея',
+    navVideos:    'Видео',
+    navLetter:    'Хат',
+    heroEyebrow:  'Moni-дің Әлімі ✨',
+    heroSub:      'Ақмарал · Ақалек',
+    galleryTitle: 'Галерея',
+    videosTitle:  'Видео',
+    letterTitle:  'Хат 💌',
+    letterGateH3: '🔐 Жасырын хат',
+    letterGateP:  'Хатты ашу үшін пароль енгізіңіз',
+    letterBtn:    'Ашу 💌',
+    letterErr:    'Пароль дұрыс емес',
+    letterTo:     'Сүйіктім Moni-ге,',
+    letterBody:
+      'Мони, саған көптен бері айтқым келген бір нәрсе бар.\n' +
+      'Бәлкім бұл хатты жазбауым керек шығар. Бірақ ішімде сақтап жүруден шаршадым. Сондықтан бір рет болса да жүрегімдегіні жасырмай айтқым келеді.\n' +
+      'Сен мұны білмеуің де мүмкін, бірақ өмірімнің қиын кезеңдерінде маған байқамай үлкен көмек көрсеткен адамдардың бірі өзің болдың.\n' +
+      'Сенімен сөйлескен кездерімде ішімдегі уайымдарым мен шаршаған ойларым бір сәтке болса да жоғалып кететін. Жаным тынышталып, бәрі жақсы болатын сияқты көрінетін.\n' +
+      'Маған сенің сыртқы келбетіңнен бұрын жүрегің ұнайды. Адамды өзіне баурап алатын мінезің, ақкөңілдігің, адамдарға деген қарым-қатынасың, жылы жүзің — осының бәрі сені ерекше етеді.\n' +
+      'Мен сені жақсы көремін. Бірақ бұл хатты сенен бір нәрсе талап ету үшін жазып отырған жоқпын. Керісінше, сені құрметтегендіктен жазып отырмын.\n' +
+      'Тек бір нәрсені білгеніңді қалаймын: сен менің өмірімде із қалдырған адамсың.\n' +
+      'Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.',
+    letterSig:    'Ақалек · Ақмарал',
+    letterDate:   '14 сәуір 2026 — мәңгілік ❤️',
+    footerName:   'Moni · Ақмарал · Ақалек',
+    footerDate:   '14 сәуір 2026 — мәңгілік ❤️',
+  },
+
+  ru: {
+    gateSub:      'Моя безответная любовь',
+    gateBtn:      'Войти →',
+    gatePlaceholder: 'Пароль...',
+    gateErr:      'Неверный пароль',
+    navGallery:   'Галерея',
+    navVideos:    'Видео',
+    navLetter:    'Письмо',
+    heroEyebrow:  'Алим Мони ✨',
+    heroSub:      'Акмарал · Акалек',
+    galleryTitle: 'Галерея',
+    videosTitle:  'Видео',
+    letterTitle:  'Письмо 💌',
+    letterGateH3: '🔐 Тайное письмо',
+    letterGateP:  'Введите пароль, чтобы открыть письмо',
+    letterBtn:    'Открыть 💌',
+    letterErr:    'Неверный пароль',
+    letterTo:     'Моя дорогая Moni,',
+    letterBody:
+      'Мони, есть кое-что, что я давно хотел тебе сказать.\n' +
+      'Может, мне и не стоило писать это письмо. Но я устал держать всё внутри. Поэтому хочу хотя бы раз сказать то, что у меня на сердце.\n' +
+      'Ты, возможно, этого не знаешь, но в самые трудные моменты моей жизни ты незаметно оказалась одним из тех людей, кто очень мне помог.\n' +
+      'Когда мы разговаривали, мои тревоги и усталые мысли хоть на мгновение куда-то уходили. Душа успокаивалась, и казалось, что всё будет хорошо.\n' +
+      'Мне нравится не твоя внешность — мне нравится твоё сердце. Твой характер, притягивающий людей, твоя искренность, тёплое отношение к людям, добрая улыбка — всё это делает тебя особенной.\n' +
+      'Я люблю тебя. Но я пишу это письмо не для того, чтобы чего-то требовать. Напротив — я пишу, потому что уважаю тебя.\n' +
+      'Хочу лишь, чтобы ты знала: ты оставила след в моей жизни.\n' +
+      'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
+    letterSig:    'Акалек · Акмарал',
+    letterDate:   '14 апреля 2026 — навсегда ❤️',
+    footerName:   'Moni · Акмарал · Акалек',
+    footerDate:   '14 апреля 2026 — навсегда ❤️',
+  },
+
+  en: {
+    gateSub:      'My unrequited love',
+    gateBtn:      'Enter →',
+    gatePlaceholder: 'Password...',
+    gateErr:      'Wrong password',
+    navGallery:   'Gallery',
+    navVideos:    'Videos',
+    navLetter:    'Letter',
+    heroEyebrow:  "Alim's World ✨",
+    heroSub:      'Akmaral · Akalek',
+    galleryTitle: 'Gallery',
+    videosTitle:  'Videos',
+    letterTitle:  'Letter 💌',
+    letterGateH3: '🔐 Secret Letter',
+    letterGateP:  'Enter the password to open the letter',
+    letterBtn:    'Open 💌',
+    letterErr:    'Wrong password',
+    letterTo:     'My dearest Moni,',
+    letterBody:
+      "Moni, there's something I've wanted to tell you for a long time.\n" +
+      "Maybe I shouldn't have written this letter. But I'm tired of keeping it all inside. So I want to say, just this once, what is truly in my heart.\n" +
+      "You might not know this, but during the hardest moments of my life, you quietly became one of the people who helped me the most.\n" +
+      "When we talked, my worries and exhausted thoughts would disappear, even if just for a moment. My soul would calm down, and everything felt like it would be okay.\n" +
+      "What I love about you isn't your appearance — it's your heart. The way you draw people in, your sincerity, your warmth toward others, your gentle smile — all of this makes you extraordinary.\n" +
+      "I love you. But I'm not writing this letter to ask anything of you. On the contrary — I'm writing because I respect you.\n" +
+      "I just want you to know: you have left a mark on my life.\n" +
+      "I wish you happiness with all my heart. May the life you dream of become real. Always keep smiling.",
+    letterSig:    'Akalek · Akmaral',
+    letterDate:   'April 14, 2026 — forever ❤️',
+    footerName:   'Moni · Akmaral · Akalek',
+    footerDate:   'April 14, 2026 — forever ❤️',
+  },
+
+};
+
+
+/* ════════════════════════════════════════════════════
+   7. ЛОГИКА (FUNCTIONS)
+════════════════════════════════════════════════════ */
+
+
+/* ── ТІЛ АУЫСТЫРУ (setLang) ─────────────────────── */
+
+let currentLang = 'kk';
+
+function setLang(lang) {
+  currentLang = lang;
+
+  // HTML lang атрибутын жаңарту
+  document.documentElement.lang = lang;
+
+  // data-i18n бар барлық элементтерді жаңарту
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.dataset.i18n;
+    if (i18n[lang][key] !== undefined) {
+      el.textContent = i18n[lang][key];
+    }
+  });
+
+  // Placeholder мәтіндерін жаңарту
+  document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+    const key = el.dataset.i18nPh;
+    if (i18n[lang][key] !== undefined) {
+      el.placeholder = i18n[lang][key];
+    }
+  });
+
+  // Хат мазмұнын жаңарту
+  renderLetterBody();
+
+  // Белсенді тіл батырмасын белгілеу
+  document.querySelectorAll('.lang-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Таңдауды сақтау
+  try { localStorage.setItem('lang', lang); } catch (e) {}
+}
+
+
+/* ── ТАҚЫРЫП АУЫСТЫРУ (toggleTheme) ────────────── */
+
+let currentTheme = 'dark';
+
+function toggleTheme() {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+  // HTML-ге data-theme атрибутын қою
+  document.documentElement.dataset.theme = currentTheme === 'light' ? 'light' : '';
+
+  // Барлық тақырып батырмаларының эмодзисін жаңарту
+  const emoji = currentTheme === 'dark' ? '☀️' : '🌙';
+  document.querySelectorAll('.theme-btn').forEach((btn) => {
+    btn.textContent = emoji;
+  });
+
+  // Таңдауды сақтау
+  try { localStorage.setItem('theme', currentTheme); } catch (e) {}
+}
+
+
+/* ── ХАТ МАЗМҰНЫН САЛУ (renderLetterBody) ──────── */
+
+function renderLetterBody() {
+  const el = document.getElementById('letterBody');
+  if (!el) return;
+
+  const t = i18n[currentLang];
+  el.innerHTML =
+    `<span class="l-to">${t.letterTo}</span>\n` +
+    `${t.letterBody}\n` +
+    `<span class="l-sig">${t.letterSig}<br><small>${t.letterDate}</small></span>`;
+}
 
 
 /* ── GATE: басты пароль ──────────────────────────── */
@@ -228,8 +412,8 @@ const titleEl    = document.getElementById('mbarTitle');
 let   trackIndex = 0;
 
 function loadTrack(index) {
-  const track        = TRACKS[index];
-  audio.src          = track.src;
+  const track         = TRACKS[index];
+  audio.src           = track.src;
   titleEl.textContent = track.title;
 }
 
@@ -260,5 +444,23 @@ function nextTrack() {
 // Трек аяқталса — келесісіне өту
 audio.addEventListener('ended', nextTrack);
 
-// Бетті ашқанда бірінші тректі жүктеу
-loadTrack(0);
+
+/* ════════════════════════════════════════════════════
+   8. ИНИЦИАЛИЗАЦИЯ (INIT)
+   Бет жүктелгенде сақталған тіл мен тақырыпты қолдану
+════════════════════════════════════════════════════ */
+
+(function init() {
+  // Сақталған тілді қолдану (әдепкі: қазақша)
+  let savedLang = 'kk';
+  try { savedLang = localStorage.getItem('lang') || 'kk'; } catch (e) {}
+  setLang(savedLang);
+
+  // Сақталған тақырыпты қолдану (әдепкі: қара)
+  let savedTheme = 'dark';
+  try { savedTheme = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+  if (savedTheme === 'light') toggleTheme();
+
+  // Бірінші тректі жүктеу
+  loadTrack(0);
+})();

@@ -1,35 +1,61 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moni 🌹</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moni 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ═══════════════════════════════════════
+     GATE — Кіру экраны
+═══════════════════════════════════════ -->
 <div id="gate">
+  <div class="gate-controls">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="kk" onclick="setLang('kk')">KK</button>
+      <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+  </div>
   <div class="gate-box">
     <img class="gate-photo" src="assets/images/moni-gate.jpg" alt="Moni">
     <div class="gate-logo">Moni</div>
-    <div class="gate-sub">Моя безответная любовь</div>
-    <input class="gate-input" id="gatePass" type="password" placeholder="Пароль..."
+    <div class="gate-sub" data-i18n="gateSub">Менің жауапсыз махаббатым</div>
+    <input class="gate-input" id="gatePass" type="password"
+      data-i18n-ph="gatePlaceholder" placeholder="Пароль..."
       onkeydown="if(event.key==='Enter')checkGate()">
-    <button class="gate-btn" onclick="checkGate()">Кіру →</button>
-    <div class="gate-err" id="gateErr">Пароль дұрыс емес</div>
+    <button class="gate-btn" onclick="checkGate()" data-i18n="gateBtn">Кіру →</button>
+    <div class="gate-err" id="gateErr" data-i18n="gateErr">Пароль дұрыс емес</div>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     NAVIGATION — Навигация
+═══════════════════════════════════════ -->
 <nav>
   <div class="nav-logo">Moni</div>
   <ul class="nav-links">
-    <li><a href="#gallery">Галерея</a></li>
-    <li><a href="#videos">Видео</a></li>
-    <li><a href="#letter">Хат</a></li>
+    <li><a href="#gallery" data-i18n="navGallery">Галерея</a></li>
+    <li><a href="#videos"  data-i18n="navVideos">Видео</a></li>
+    <li><a href="#letter"  data-i18n="navLetter">Хат</a></li>
   </ul>
+  <div class="nav-controls">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="kk" onclick="setLang('kk')">KK</button>
+      <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+  </div>
 </nav>
 
+<!-- ═══════════════════════════════════════
+     HERO — Басты беттің үстіңгі бөлімі
+═══════════════════════════════════════ -->
 <div id="hero">
   <div class="hero-bg"></div>
   <div class="hero-waves">
@@ -40,62 +66,71 @@
   </div>
   <div style="position:relative;z-index:1">
     <img id="heroImg" class="hero-photo" alt="Moni">
-    <p class="hero-eyebrow">Moni-дің Әлімі ✨</p>
+    <p class="hero-eyebrow" data-i18n="heroEyebrow">Moni-дің Әлімі ✨</p>
     <h1 class="hero-name">Moni</h1>
-    <p class="hero-sub">Ақмарал · Ақалек</p>
+    <p class="hero-sub" data-i18n="heroSub">Ақмарал · Ақалек</p>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     GALLERY — Галерея
+═══════════════════════════════════════ -->
 <div class="sec" id="gallery">
-  <p class="sec-title">Галерея</p>
+  <p class="sec-title" data-i18n="galleryTitle">Галерея</p>
   <div class="divider"></div>
   <div class="g-grid" id="gGrid"></div>
 </div>
 
+<!-- LIGHTBOX -->
 <div id="lb" onclick="closeLb()">
   <button id="lb-close" onclick="closeLb()">✕</button>
   <img id="lbImg" src="" alt="">
 </div>
 
+<!-- ═══════════════════════════════════════
+     VIDEOS — Видео
+═══════════════════════════════════════ -->
 <div class="sec" id="videos">
-  <p class="sec-title">Видео</p>
+  <p class="sec-title" data-i18n="videosTitle">Видео</p>
   <div class="divider"></div>
   <div class="v-grid" id="vGrid"></div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     LETTER — Хат
+═══════════════════════════════════════ -->
 <div class="sec" id="letter">
-  <p class="sec-title">Хат 💌</p>
+  <p class="sec-title" data-i18n="letterTitle">Хат 💌</p>
   <div class="divider"></div>
   <div class="l-gate" id="letterGate">
-    <h3>🔐 Жасырын хат</h3>
-    <p>Хатты ашу үшін пароль енгізіңіз</p>
-    <input class="l-inp" id="letterPass" type="password" placeholder="Пароль..."
+    <h3 data-i18n="letterGateH3">🔐 Жасырын хат</h3>
+    <p data-i18n="letterGateP">Хатты ашу үшін пароль енгізіңіз</p>
+    <input class="l-inp" id="letterPass" type="password"
+      data-i18n-ph="gatePlaceholder" placeholder="Пароль..."
       onkeydown="if(event.key==='Enter')checkLetter()">
-    <button class="l-submit" onclick="checkLetter()">Ашу 💌</button>
-    <div class="l-err" id="letterErr">Пароль дұрыс емес</div>
+    <button class="l-submit" onclick="checkLetter()" data-i18n="letterBtn">Ашу 💌</button>
+    <div class="l-err" id="letterErr" data-i18n="letterErr">Пароль дұрыс емес</div>
   </div>
   <div class="l-content" id="letterContent">
-    <div class="l-body"><span class="l-to">Сүйіктім Moni-ге,</span>Мони, саған көптен бері айтқым келген бір нәрсе бар.
-Бәлкім бұл хатты жазбауым керек шығар. Бірақ ішімде сақтап жүруден шаршадым. Сондықтан бір рет болса да жүрегімдегіні жасырмай айтқым келеді.
-Сен мұны білмеуің де мүмкін, бірақ өмірімнің қиын кезеңдерінде маған байқамай үлкен көмек көрсеткен адамдардың бірі өзің болдың.
-Сенімен сөйлескен кездерімде ішімдегі уайымдарым мен шаршаған ойларым бір сәтке болса да жоғалып кететін. Жаным тынышталып, бәрі жақсы болатын сияқты көрінетін.
-Маған сенің сыртқы келбетіңнен бұрын жүрегің ұнайды. Адамды өзіне баурап алатын мінезің, ақкөңілдігің, адамдарға деген қарым-қатынасың, жылы жүзің — осының бәрі сені ерекше етеді.
-Мен сені жақсы көремін. Бірақ бұл хатты сенен бір нәрсе талап ету үшін жазып отырған жоқпын. Керісінше, сені құрметтегендіктен жазып отырмын.
-Тек бір нәрсені білгеніңді қалаймын: сен менің өмірімде із қалдырған адамсың.
-Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.
-<span class="l-sig">Ақалек · Ақмарал<br><small style="font-size:0.85rem;color:#555">14 сәуір 2026 — мәңгілік ❤️</small></span></div>
+    <div class="l-body" id="letterBody"></div>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
 <footer>
-  <div class="f-name">Moni · Ақмарал · Ақалек</div>
-  <div>14 сәуір 2026 — мәңгілік ❤️</div>
+  <div class="f-name" data-i18n="footerName">Moni · Ақмарал · Ақалек</div>
+  <div data-i18n="footerDate">14 сәуір 2026 — мәңгілік ❤️</div>
   <div class="f-social">
     <a href="https://www.tiktok.com/@aakalek_" target="_blank">TikTok @aakalek_</a>
     <a href="https://www.instagram.com/marralym" target="_blank">Instagram marralym</a>
   </div>
 </footer>
 
+<!-- ═══════════════════════════════════════
+     MUSIC BAR — Музыка ойнатқышы
+═══════════════════════════════════════ -->
 <div class="mbar">
   <button class="mbtn" onclick="prevTrack()">⏮</button>
   <button class="mplay" id="playBtn" onclick="togglePlay()">▶</button>
