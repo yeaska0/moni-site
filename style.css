@@ -684,7 +684,7 @@ nav {
 
 footer {
   border-top: 1px solid var(--border);
-  padding: 40px 24px;
+  padding: 40px 24px 120px;
   text-align: center;
   color: var(--text-dim);
   font-size: 0.8rem;
