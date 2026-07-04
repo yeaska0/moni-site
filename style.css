@@ -1,331 +1,426 @@
 /* ════════════════════════════════════════════════════
-   style.css — Moni сайтының стильдері
-   Мұхит тақырыбы (Ocean Theme)
-   Автор: Ақалек  |  2026
+   style.css — Moni🕊️ · Ultimate Romantic Design
+   Luxury Editorial · Warm Champagne & Rose Gold
+   Автор: Ақалек | 2026
 ════════════════════════════════════════════════════ */
 
 
-/* ═══════════════════════════════════════
-   CSS АЙНЫМАЛЫЛАР — Түс палитрасы
-   Қара режим (әдепкі) + Ақ режим
-═══════════════════════════════════════ */
+/* ── 1. RESET + BASE ─────────────────────────────── */
 
-:root {
-  /* Қара режим — Ocean Dark */
-  --bg:            #020c1b;
-  --bg-deep:       #041e3a;
-  --surface:       #071524;
-  --text:          #caf0f8;
-  --text-muted:    #7ec8e3;
-  --text-dim:      #3a6186;
-  --accent:        #0096c7;
-  --accent-2:      #48cae4;
-  --accent-dark:   #0077a8;
-  --border:        #0d2d4a;
-  --border-2:      #0d3a5c;
-  --nav-bg:        rgba(2,12,27,0.95);
-  --gate-bg:       linear-gradient(135deg,#020c1b 0%,#041e3a 100%);
-  --gate-box:      rgba(7,21,36,0.9);
-  --input-bg:      rgba(0,40,70,0.6);
-  --lb-bg:         rgba(2,12,27,0.97);
-  --mbar-bg:       rgba(7,21,36,0.95);
-}
-
-[data-theme="light"] {
-  /* Ақ режим — Ocean Light */
-  --bg:            #f0f8ff;
-  --bg-deep:       #dceefa;
-  --surface:       #ffffff;
-  --text:          #0a2540;
-  --text-muted:    #0077a8;
-  --text-dim:      #5a8aaa;
-  --accent:        #0096c7;
-  --accent-2:      #0077a8;
-  --accent-dark:   #005f8a;
-  --border:        #bcd8ee;
-  --border-2:      #90bedd;
-  --nav-bg:        rgba(240,248,255,0.95);
-  --gate-bg:       linear-gradient(135deg,#dceefa 0%,#c5e5f7 100%);
-  --gate-box:      rgba(255,255,255,0.92);
-  --input-bg:      rgba(180,220,245,0.4);
-  --lb-bg:         rgba(240,248,255,0.98);
-  --mbar-bg:       rgba(255,255,255,0.95);
-}
-
-
-/* ═══════════════════════════════════════
-   RESET & BASE — Негізгі стильдер
-═══════════════════════════════════════ */
-
-* {
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.5s, color 0.5s;
 }
 
 
-/* ═══════════════════════════════════════
-   LANG & THEME CONTROLS — Тіл / Тақырып
-═══════════════════════════════════════ */
+/* ── 2. CSS АЙНЫМАЛЫЛАРЫ (DESIGN TOKENS) ─────────── */
+
+:root {
+  /* Palette — dark mode */
+  --bg:          #08070a;
+  --surface:     #111018;
+  --surface2:    #1c1a24;
+  --surface3:    #252230;
+
+  --gold:        #c4a878;
+  --gold-light:  #d4bc96;
+  --gold-dim:    rgba(196, 168, 120, 0.12);
+  --gold-glow:   rgba(196, 168, 120, 0.22);
+
+  --rose:        #c8a0a8;
+  --rose-dim:    rgba(200, 160, 168, 0.12);
+  --rose-glow:   rgba(200, 160, 168, 0.18);
+
+  --cream:       #f0e8dc;
+  --text:        #e0d4c4;
+  --text-muted:  #9a8e82;
+  --text-faint:  #5a5450;
+
+  --border:      rgba(196, 168, 120, 0.11);
+  --border-h:    rgba(196, 168, 120, 0.32);
+
+  /* Typography */
+  --font-serif:  'Playfair Display', 'Georgia', serif;
+  --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-script: 'Dancing Script', cursive;
+
+  /* Easing */
+  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Light mode */
+[data-theme="light"] {
+  --bg:          #faf7f2;
+  --surface:     #f4ede0;
+  --surface2:    #ece4d0;
+  --surface3:    #e2d8c4;
+
+  --gold:        #9a7840;
+  --gold-light:  #b09050;
+  --gold-dim:    rgba(154, 120, 64, 0.10);
+  --gold-glow:   rgba(154, 120, 64, 0.18);
+
+  --rose:        #a06870;
+  --rose-dim:    rgba(160, 104, 112, 0.10);
+  --rose-glow:   rgba(160, 104, 112, 0.15);
+
+  --cream:       #1e1208;
+  --text:        #2a1e10;
+  --text-muted:  #7a6850;
+  --text-faint:  #c0b0a0;
+
+  --border:      rgba(120, 88, 48, 0.12);
+  --border-h:    rgba(120, 88, 48, 0.28);
+}
+
+
+/* ── 3. SCROLLBAR ────────────────────────────────── */
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+
+/* ── 4. SCROLL REVEAL ANIMATIONS ─────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.10s; }
+.reveal-delay-2 { transition-delay: 0.20s; }
+.reveal-delay-3 { transition-delay: 0.30s; }
+.reveal-delay-4 { transition-delay: 0.40s; }
+.reveal-delay-5 { transition-delay: 0.50s; }
+.reveal-delay-6 { transition-delay: 0.60s; }
+
+
+/* ── 5. LANG + THEME CONTROLS ───────────────────── */
 
 .lang-switch {
   display: flex;
-  gap: 2px;
-  background: var(--surface);
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 3px;
+  border-radius: 20px;
+  padding: 4px;
 }
 
 .lang-btn {
-  background: none;
+  background: transparent;
   border: none;
+  border-radius: 14px;
+  padding: 4px 10px;
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 4px 8px;
-  border-radius: 5px;
+  letter-spacing: 0.06em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .lang-btn.active,
 .lang-btn:hover {
-  background: var(--accent);
-  color: #fff;
+  background: var(--gold-dim);
+  color: var(--gold);
 }
 
 .theme-btn {
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .theme-btn:hover {
-  border-color: var(--accent);
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  transform: rotate(20deg);
 }
 
 
-/* ═══════════════════════════════════════
-   GATE — Кіру экраны (пароль)
-═══════════════════════════════════════ */
+/* ── 6. GATE — Кіру экраны ───────────────────────── */
 
 #gate {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: var(--gate-bg);
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-#gate::before {
-  content: '';
+#gateCanvas {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 80%, rgba(0,150,199,0.15) 0%, transparent 60%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .gate-controls {
   position: absolute;
-  top: 20px;
+  top: 24px;
   right: 24px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  z-index: 1;
+  gap: 10px;
+  z-index: 2;
 }
 
 .gate-box {
-  width: 100%;
-  max-width: 360px;
-  padding: 40px 40px 48px;
-  background: var(--gate-box);
-  border: 1px solid var(--border-2);
-  border-radius: 20px;
-  text-align: center;
   position: relative;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 60px rgba(0,150,199,0.1);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 52px 44px;
+  background: rgba(17, 16, 24, 0.72);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  max-width: 380px;
+  width: 90%;
+  box-shadow:
+    0 0 100px rgba(196, 168, 120, 0.05),
+    0 40px 80px rgba(0, 0, 0, 0.6);
+  animation: gateBoxIn 1s var(--ease-out) both;
+}
+
+@keyframes gateBoxIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .gate-photo {
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center top;
-  border: 2px solid var(--border-2);
-  margin: 0 auto 16px;
-  display: block;
-  box-shadow: 0 0 30px rgba(0,150,199,0.3), 0 0 60px rgba(0,150,199,0.1);
+  border: 2px solid var(--gold);
+  box-shadow:
+    0 0 0 6px var(--gold-dim),
+    0 0 48px var(--gold-glow);
+  transition: box-shadow 0.4s, transform 0.4s;
+}
+
+.gate-photo:hover {
+  box-shadow:
+    0 0 0 10px var(--gold-dim),
+    0 0 72px var(--gold-glow);
+  transform: scale(1.04);
 }
 
 .gate-logo {
-  font-family: 'Dancing Script', cursive;
-  font-size: 3rem;
-  color: var(--text);
-  margin-bottom: 4px;
-  text-shadow: 0 0 30px rgba(72,202,228,0.5);
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: 0.02em;
 }
 
 .gate-sub {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-bottom: 28px;
-  letter-spacing: 1px;
+  font-family: var(--font-script);
+  font-size: 1.1rem;
+  color: var(--rose);
+  text-align: center;
+  opacity: 0.9;
 }
 
 .gate-input {
   width: 100%;
-  padding: 14px 16px;
-  background: var(--input-bg);
-  border: 1px solid var(--border-2);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 15px 20px;
   color: var(--text);
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  text-align: center;
+  letter-spacing: 0.25em;
   outline: none;
-  margin-bottom: 12px;
-  transition: border 0.2s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .gate-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,150,199,0.15);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
 }
 
 .gate-btn {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  background: linear-gradient(135deg, var(--gold) 0%, var(--rose) 100%);
   border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 1rem;
+  border-radius: 14px;
+  padding: 15px 24px;
+  color: #0a0706;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
   cursor: pointer;
-  letter-spacing: 1px;
-  transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(0,150,199,0.3);
+  transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .gate-btn:hover {
-  opacity: 0.9;
-  box-shadow: 0 6px 28px rgba(0,150,199,0.45);
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--gold-glow);
 }
+
+.gate-btn:active { transform: translateY(0); }
 
 .gate-err {
-  color: var(--accent-2);
-  font-size: 0.85rem;
-  margin-top: 8px;
+  color: #e09080;
+  font-size: 0.82rem;
   display: none;
+  text-align: center;
+  letter-spacing: 0.03em;
 }
 
 
-/* ═══════════════════════════════════════
-   NAVIGATION — Навигация
-═══════════════════════════════════════ */
+/* ── 7. NAV ──────────────────────────────────────── */
 
 nav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-  background: var(--nav-bg);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  padding: 0 44px;
+  height: 64px;
+  background: rgba(8, 7, 10, 0.60);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.4s, box-shadow 0.4s;
+}
+
+nav.scrolled {
+  background: rgba(8, 7, 10, 0.88);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
 }
 
 .nav-logo {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.8rem;
-  color: var(--text);
-  text-shadow: 0 0 20px rgba(72,202,228,0.4);
-  flex-shrink: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .nav-links {
   display: flex;
-  gap: 24px;
   list-style: none;
+  gap: 4px;
 }
 
 .nav-links a {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: color 0.2s;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 
 .nav-links a:hover {
-  color: var(--text);
+  color: var(--gold);
+  background: var(--gold-dim);
 }
 
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+  gap: 10px;
 }
 
 
-/* ═══════════════════════════════════════
-   HERO — Басты беттің үстіңгі бөлімі
-═══════════════════════════════════════ */
+/* ── 8. HERO ─────────────────────────────────────── */
 
 #hero {
-  min-height: 90vh;
+  position: relative;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 80px 24px;
-  position: relative;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(196, 168, 120, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 75% 25%, rgba(200, 160, 168, 0.04) 0%, transparent 60%),
+    var(--bg);
 }
 
-.hero-bg {
+#heroCanvas {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, rgba(0,150,199,0.12) 0%, transparent 65%);
-}
-
-.hero-waves {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 120px;
-}
-
-.hero-waves svg {
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 120px 32px 80px;
+  animation: heroFadeIn 1.6s var(--ease-out) 0.2s both;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero-photo {
@@ -333,91 +428,237 @@ nav {
   height: 160px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border-2);
-  margin: 0 auto 28px;
-  display: block;
-  box-shadow: 0 0 40px rgba(0,150,199,0.25);
+  border: 2px solid var(--gold);
+  box-shadow:
+    0 0 0 8px var(--gold-dim),
+    0 0 80px var(--gold-glow),
+    0 24px 48px rgba(0, 0, 0, 0.5);
+  margin-bottom: 36px;
+  animation: heroFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
 }
 
 .hero-eyebrow {
-  color: var(--text-muted);
   font-size: 0.75rem;
-  letter-spacing: 4px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  color: var(--gold);
+  margin-bottom: 18px;
+  opacity: 0.9;
 }
 
 .hero-name {
-  font-family: 'Dancing Script', cursive;
-  font-size: clamp(4rem, 12vw, 8rem);
-  color: var(--text);
-  line-height: 1;
-  text-shadow: 0 0 60px rgba(72,202,228,0.3);
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 13vw, 10rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--gold-light) 45%, var(--rose) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
 }
 
-.hero-sub {
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  margin-top: 10px;
+.hero-tagline {
+  font-family: var(--font-script);
+  font-size: clamp(1.2rem, 3vw, 1.9rem);
+  color: var(--rose);
+  margin-bottom: 44px;
+  opacity: 0.85;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 34px;
+  background: transparent;
+  border: 1px solid var(--border-h);
+  border-radius: 50px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+}
+
+.hero-cta:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  box-shadow: 0 0 36px var(--gold-glow);
+  transform: translateY(-3px);
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-faint);
+  font-size: 1.3rem;
+  animation: scrollBounce 2.2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.3; }
+  50%       { transform: translateX(-50%) translateY(7px); opacity: 0.8; }
 }
 
 
-/* ═══════════════════════════════════════
-   SECTIONS — Жалпы бөлімдер
-═══════════════════════════════════════ */
+/* ── 9. SECTIONS BASE ────────────────────────────── */
 
 .sec {
-  padding: 80px 24px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 128px 48px;
 }
 
-.sec-title {
-  font-family: 'Dancing Script', cursive;
-  font-size: 2.2rem;
-  color: var(--text);
+.sec-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.sec-title-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--cream);
+  margin-bottom: 72px;
+  letter-spacing: -0.015em;
+}
+
+.sec-title-serif::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-top: 20px;
+}
+
+
+/* ── 10. TIMELINE — Тарих ────────────────────────── */
+
+.timeline {
+  position: relative;
+  padding-left: 44px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--gold) 15%,
+    var(--rose) 85%,
+    transparent 100%);
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.tl-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.tl-dot {
+  position: absolute;
+  left: -50px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px var(--gold-glow);
+  border: 2px solid var(--bg);
+}
+
+.tl-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
   margin-bottom: 8px;
 }
 
-.divider {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  margin: 12px 0 40px;
-  border-radius: 2px;
+.tl-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.tl-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  max-width: 540px;
 }
 
 
-/* ═══════════════════════════════════════
-   GALLERY — Галерея торы
-═══════════════════════════════════════ */
+/* ── 11. GALLERY — Галерея ───────────────────────── */
 
 .g-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
 }
 
 .g-item {
-  aspect-ratio: 3/4;
+  position: relative;
+  border-radius: 18px;
   overflow: hidden;
-  border-radius: 10px;
+  cursor: pointer;
+  aspect-ratio: 3/4;
   background: var(--surface);
   border: 1px solid var(--border);
-  cursor: pointer;
-  position: relative;
+  transition: transform 0.45s var(--ease), box-shadow 0.45s;
+}
+
+.g-item:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.55),
+    0 0 0 1px var(--border-h);
 }
 
 .g-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s;
+  transition: transform 0.65s var(--ease);
+  display: block;
 }
 
 .g-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.07);
 }
 
 .g-cap {
@@ -425,62 +666,131 @@ nav {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 10px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.75));
-  color: #fff;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
+  padding: 48px 16px 16px;
+  background: linear-gradient(to top, rgba(8, 7, 10, 0.90), transparent);
+  color: var(--cream);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   opacity: 0;
-  transition: opacity 0.3s;
+  transform: translateY(4px);
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .g-item:hover .g-cap {
   opacity: 1;
+  transform: translateY(0);
 }
 
 
-/* ═══════════════════════════════════════
-   LIGHTBOX — Суретті үлкейтіп көру
-═══════════════════════════════════════ */
+/* ── 12. LIGHTBOX ────────────────────────────────── */
 
 #lb {
+  display: none;
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  background: var(--lb-bg);
-  display: none;
+  z-index: 2000;
+  background: rgba(8, 7, 10, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   align-items: center;
   justify-content: center;
 }
 
-#lb img {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 0 60px rgba(0,150,199,0.2);
-}
-
 #lb-close {
-  position: fixed;
-  top: 20px;
+  position: absolute;
+  top: 24px;
   right: 24px;
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
   color: var(--text);
-  font-size: 2rem;
+  font-size: 1rem;
   cursor: pointer;
-  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+  z-index: 1;
 }
 
 #lb-close:hover {
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+#lbImg {
+  max-width: 88vw;
+  max-height: 86vh;
+  border-radius: 18px;
+  object-fit: contain;
+  box-shadow: 0 40px 96px rgba(0, 0, 0, 0.85);
 }
 
 
-/* ═══════════════════════════════════════
-   VIDEOS — Бейне торы
-═══════════════════════════════════════ */
+/* ── 13. REASONS — Себептер ──────────────────────── */
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.reason-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 40px 28px 36px;
+  text-align: center;
+  transition: transform 0.45s var(--ease), box-shadow 0.45s, border-color 0.45s;
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.reason-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reason-card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 28px 56px rgba(0, 0, 0, 0.45),
+    0 0 0 1px var(--border-h),
+    0 0 40px var(--gold-glow);
+  border-color: var(--border-h);
+}
+
+.reason-icon {
+  font-size: 2.6rem;
+  display: block;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 0 14px var(--gold-glow));
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.reason-card:hover .reason-icon {
+  transform: scale(1.15) translateY(-3px);
+}
+
+.reason-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.reason-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+
+/* ── 14. VIDEOS — Видео ──────────────────────────── */
 
 .v-grid {
   display: grid;
@@ -489,321 +799,520 @@ nav {
 }
 
 .v-item {
-  aspect-ratio: 9/16;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s;
+}
+
+.v-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
 }
 
 .v-item video {
   width: 100%;
-  height: 100%;
+  display: block;
+  aspect-ratio: 9/16;
   object-fit: cover;
 }
 
 
-
-/* ═══════════════════════════════════════
-   LETTER — Хат бөлімі
-═══════════════════════════════════════ */
-
-.l-gate {
-  max-width: 380px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 48px 32px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 0 40px rgba(0,150,199,0.08);
-}
-
-.l-gate h3 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 2rem;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.l-gate p {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-bottom: 24px;
-}
-
-.l-inp {
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--input-bg);
-  border: 1px solid var(--border-2);
-  border-radius: 8px;
-  color: var(--text);
-  font-size: 1rem;
-  outline: none;
-  margin-bottom: 12px;
-  transition: border 0.2s;
-}
-
-.l-inp:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,150,199,0.15);
-}
-
-.l-submit {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 0.95rem;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,150,199,0.3);
-}
-
-.l-err {
-  color: var(--accent-2);
-  font-size: 0.8rem;
-  margin-top: 8px;
-  display: none;
-}
-
-.l-content {
-  display: none;
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-.l-body {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 48px 40px;
-  line-height: 2;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  white-space: pre-line;
-  box-shadow: 0 0 60px rgba(0,150,199,0.06);
-}
-
-.l-to {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.8rem;
-  color: var(--text);
-  margin-bottom: 24px;
-  display: block;
-}
-
-.l-sig {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.4rem;
-  color: var(--accent);
-  margin-top: 32px;
-  display: block;
-}
-
-.l-sig small {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
-
-/* ═══════════════════════════════════════
-   MUSIC — Музыка ойнатқыштары
-═══════════════════════════════════════ */
+/* ── 15. MUSIC — Музыка ──────────────────────────── */
 
 .music-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 520px;
+  gap: 12px;
+  max-width: 580px;
 }
 
 .music-card {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
+  padding: 18px 24px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 50px;
-  padding: 10px 24px 10px 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 0 0 0 rgba(0,150,199,0);
-  transition: box-shadow 0.3s, border-color 0.3s;
+  border-radius: 18px;
   cursor: pointer;
+  transition: transform 0.35s var(--ease), border-color 0.35s, background 0.35s, box-shadow 0.35s;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.music-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.music-card:hover {
+  border-color: var(--border-h);
+  background: var(--surface2);
+  transform: translateX(6px);
 }
 
 .music-card.playing {
-  border-color: var(--accent);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 0 20px rgba(0,150,199,0.2);
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  box-shadow: 0 0 28px var(--gold-glow), inset 0 0 28px rgba(196, 168, 120, 0.04);
+  transform: translateX(6px);
 }
 
 .mc-btn {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border: none;
-  color: #fff;
+  background: var(--gold-dim);
+  border: 1px solid var(--border-h);
+  color: var(--gold);
+  font-size: 0.85rem;
   cursor: pointer;
-  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(0,150,199,0.4);
-  transition: transform 0.15s;
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s;
 }
 
-.mc-btn:hover {
-  transform: scale(1.08);
+.mc-btn:hover { transform: scale(1.08); }
+
+.music-card.playing .mc-btn {
+  background: var(--gold);
+  color: #0a0706;
+  border-color: var(--gold);
+  box-shadow: 0 4px 18px var(--gold-glow);
 }
 
 .mc-title {
+  font-size: 0.92rem;
+  font-weight: 500;
   color: var(--text);
-  font-size: 0.95rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex: 1;
+  letter-spacing: 0.01em;
+}
+
+.music-card.playing .mc-title {
+  color: var(--gold-light);
+  font-weight: 600;
 }
 
 
-/* ═══════════════════════════════════════
-   FOOTER — Сайттың төменгі бөлімі
-═══════════════════════════════════════ */
+/* ── 16. LETTER — Хат ───────────────────────────── */
+
+.l-gate {
+  max-width: 480px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 52px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.25);
+}
+
+.l-gate-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 12px var(--rose-glow));
+}
+
+.l-gate h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.l-gate p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.l-inp {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 15px 20px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  text-align: center;
+  letter-spacing: 0.25em;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.l-inp:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.l-submit {
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  border: none;
+  border-radius: 14px;
+  padding: 14px 40px;
+  color: #0a0706;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.l-submit:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--gold-glow);
+}
+
+.l-err {
+  color: #e09080;
+  font-size: 0.82rem;
+  display: none;
+}
+
+.l-content { display: none; }
+
+.l-body {
+  max-width: 660px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 60px 56px;
+  position: relative;
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  line-height: 1.95;
+  color: var(--text);
+  font-size: 0.95rem;
+  white-space: pre-line;
+  overflow: hidden;
+}
+
+.l-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, var(--rose-dim), transparent 60%);
+  pointer-events: none;
+}
+
+.l-to {
+  display: block;
+  font-family: var(--font-script);
+  font-size: 2rem;
+  color: var(--rose);
+  margin-bottom: 28px;
+}
+
+.l-sig {
+  display: block;
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-top: 36px;
+  text-align: right;
+}
+
+.l-sig small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  font-style: normal;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+
+/* ── 17. COUNTDOWN — Санағыш ─────────────────────── */
+
+#countdown {
+  text-align: center;
+  padding: 128px 48px;
+  position: relative;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(196, 168, 120, 0.04), transparent 70%),
+    var(--bg);
+}
+
+#countdown .sec-eyebrow { text-align: center; }
+
+#countdown .sec-title-serif {
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#countdown .sec-title-serif::after { margin: 20px auto 0; }
+
+.count-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 16px;
+}
+
+.count-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 44px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  min-width: 148px;
+  margin: 8px;
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+}
+
+.count-item:hover {
+  border-color: var(--border-h);
+  box-shadow: 0 0 40px var(--gold-glow);
+  transform: translateY(-4px);
+}
+
+.count-num {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(160deg, var(--cream) 20%, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 2ch;
+  display: inline-block;
+  text-align: center;
+}
+
+.count-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+.count-sep {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--gold);
+  opacity: 0.35;
+  margin: 8px 4px 0;
+  padding-bottom: 28px;
+  align-self: center;
+}
+
+
+/* ── 18. FINAL MESSAGE — Қорытынды ──────────────── */
+
+#final {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 50% at 35% 55%, rgba(200, 160, 168, 0.06), transparent 65%),
+    radial-gradient(ellipse 60% 50% at 65% 45%, rgba(196, 168, 120, 0.05), transparent 65%),
+    var(--bg);
+}
+
+#finalCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.final-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 80px 40px;
+  max-width: 820px;
+}
+
+.final-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+
+.final-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  background: linear-gradient(140deg, var(--cream) 15%, var(--gold-light) 45%, var(--rose) 85%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 36px;
+}
+
+.final-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 52px;
+  line-height: 1.85;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.final-quote {
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 4.5vw, 2.4rem);
+  color: var(--rose);
+  margin-bottom: 28px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.final-sig {
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  opacity: 0.75;
+}
+
+
+/* ── 19. FOOTER ──────────────────────────────────── */
 
 footer {
-  border-top: 1px solid var(--border);
-  padding: 40px 24px 120px;
   text-align: center;
-  color: var(--text-dim);
-  font-size: 0.8rem;
+  padding: 72px 48px 88px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .f-name {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.5rem;
-  color: var(--text);
-  margin-bottom: 8px;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+
+.f-date {
+  font-family: var(--font-script);
+  font-size: 1.05rem;
+  color: var(--rose);
+  margin-bottom: 28px;
 }
 
 .f-social {
   display: flex;
-  gap: 24px;
   justify-content: center;
-  margin-top: 16px;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
 .f-social a {
-  color: var(--text-dim);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  transition: color 0.2s;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
 }
 
 .f-social a:hover {
-  color: var(--text);
+  color: var(--gold);
+  background: var(--gold-dim);
 }
 
 
-/* ═══════════════════════════════════════
-   RESPONSIVE — Мобильді бейімдеу
-═══════════════════════════════════════ */
+/* ── 20. RESPONSIVE ──────────────────────────────── */
 
-
-/* ── Планшет (≤ 1024px) ─────────────────────────── */
 @media (max-width: 1024px) {
-  .sec       { padding: 70px 32px; }
-  .v-grid    { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .g-grid    { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .sec          { padding: 100px 36px; }
+  #countdown    { padding: 100px 36px; }
+  .reasons-grid { grid-template-columns: repeat(2, 1fr); }
+  .v-grid       { grid-template-columns: repeat(2, 1fr); }
+  .count-item   { padding: 28px 32px; min-width: 120px; }
 }
 
-
-/* ── Кіші планшет / үлкен телефон (≤ 768px) ──────── */
 @media (max-width: 768px) {
-  /* Навигация — сілтемелер екінші қатарға */
-  nav            { padding: 10px 16px; flex-wrap: wrap; gap: 6px; }
-  .nav-logo      { font-size: 1.5rem; }
-  .nav-controls  { margin-left: auto; }
-  .nav-links     { order: 3; width: 100%; justify-content: center;
-                   gap: 18px; padding: 6px 0 2px; border-top: 1px solid var(--border); }
+  nav { padding: 0 20px; gap: 12px; }
+  .nav-links { display: none; }
 
-  /* Hero */
-  #hero          { padding: 60px 20px; min-height: 80vh; }
-  .hero-photo    { width: 130px; height: 130px; }
+  .sec          { padding: 80px 24px; }
+  #countdown    { padding: 80px 24px; }
+  .sec-title-serif { margin-bottom: 52px; }
 
-  /* Секциялар */
-  .sec           { padding: 60px 20px; }
+  .g-grid       { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .reasons-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .v-grid       { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
-  /* Галерея — 3 баған */
-  .g-grid        { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .count-item   { padding: 24px 24px; min-width: 100px; }
+  .count-sep    { font-size: 2rem; }
+  .count-num    { font-size: 2.8rem; }
 
-  /* Видео — 2 баған */
-  .v-grid        { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .l-body       { padding: 40px 28px; }
+  .l-to         { font-size: 1.6rem; }
 
-  /* Хат */
-  .l-gate        { padding: 36px 24px; }
-  .l-body        { padding: 36px 28px; }
+  .timeline     { padding-left: 32px; }
+  .tl-dot       { left: -38px; }
+  .tl-title     { font-size: 1.3rem; }
 
-  /* Gate */
-  .gate-box      { max-width: 340px; padding: 36px 28px 44px; }
+  .final-title  { font-size: 2.8rem; }
 }
 
-
-/* ── Телефон (≤ 480px) ──────────────────────────── */
 @media (max-width: 480px) {
-  /* Навигация */
-  nav            { padding: 8px 12px; }
-  .nav-links     { gap: 12px; font-size: 0.7rem; }
-  .nav-links a   { font-size: 0.7rem; letter-spacing: 1px; }
-  .lang-btn      { padding: 3px 6px; font-size: 0.65rem; }
-  .theme-btn     { width: 28px; height: 28px; font-size: 0.85rem; }
+  .hero-photo   { width: 120px; height: 120px; }
+  .hero-name    { font-size: 3.8rem; }
 
-  /* Hero */
-  #hero          { padding: 48px 16px; min-height: 70vh; }
-  .hero-photo    { width: 110px; height: 110px; margin-bottom: 20px; }
-  .hero-eyebrow  { font-size: 0.65rem; letter-spacing: 2px; }
+  .gate-box     { padding: 36px 24px; gap: 14px; }
+  .gate-photo   { width: 80px; height: 80px; }
 
-  /* Секциялар */
-  .sec           { padding: 48px 16px; }
-  .sec-title     { font-size: 1.8rem; }
+  .g-grid       { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .reasons-grid { grid-template-columns: 1fr; }
+  .v-grid       { grid-template-columns: 1fr; }
 
-  /* Галерея — 2 баған */
-  .g-grid        { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .count-item   { padding: 20px 18px; min-width: 86px; margin: 6px; }
+  .count-sep    { font-size: 1.4rem; padding-bottom: 20px; }
+  .count-num    { font-size: 2.2rem; }
 
-  /* Видео — 1 баған */
-  .v-grid        { grid-template-columns: 1fr; gap: 14px; max-width: 320px; margin: 0 auto; }
+  .l-gate       { padding: 36px 24px; }
+  .l-body       { padding: 32px 20px; }
+  .l-sig        { font-size: 1.2rem; }
 
-  /* Музыка */
-  .music-list    { max-width: 100%; }
-  .music-card    { padding: 8px 16px 8px 8px; }
-  .mc-btn        { width: 38px; height: 38px; font-size: 0.9rem; }
-  .mc-title      { font-size: 0.85rem; }
+  .final-title  { font-size: 2.4rem; }
+  .final-quote  { font-size: 1.4rem; }
 
-  /* Хат */
-  .l-gate        { padding: 28px 16px; }
-  .l-body        { padding: 24px 16px; font-size: 0.88rem; }
-  .l-to          { font-size: 1.5rem; }
-
-  /* Gate */
-  .gate-box      { max-width: 100%; margin: 0 16px; padding: 28px 20px 36px; }
-  .gate-photo    { width: 80px; height: 80px; }
-  .gate-logo     { font-size: 2.4rem; }
-  .gate-controls { top: 12px; right: 12px; gap: 6px; }
-
-  /* Footer */
-  .f-social      { flex-direction: column; gap: 10px; align-items: center; }
-  footer         { padding: 32px 16px 100px; }
+  .reason-card  { padding: 32px 20px 28px; }
 }
 
-
-/* ── Кіші телефон (≤ 360px) ─────────────────────── */
 @media (max-width: 360px) {
-  .nav-links     { gap: 8px; }
-  .nav-links a   { font-size: 0.65rem; }
-  .g-grid        { grid-template-columns: repeat(2, 1fr); gap: 5px; }
-  .gate-box      { margin: 0 10px; padding: 24px 16px 32px; }
+  .hero-name    { font-size: 3rem; }
+  .count-sep    { display: none; }
+  .count-item   { margin: 4px; min-width: 76px; }
 }

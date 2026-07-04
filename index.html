@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moni🕊️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
      GATE — Кіру экраны
 ═══════════════════════════════════════ -->
 <div id="gate">
+  <canvas id="gateCanvas"></canvas>
   <div class="gate-controls">
     <div class="lang-switch">
       <button class="lang-btn active" data-lang="kk" onclick="setLang('kk')">KK</button>
@@ -36,9 +37,10 @@
 <!-- ═══════════════════════════════════════
      NAVIGATION — Навигация
 ═══════════════════════════════════════ -->
-<nav>
+<nav id="nav">
   <div class="nav-logo">Moni🕊️</div>
   <ul class="nav-links">
+    <li><a href="#story"   data-i18n="navStory">Тарих</a></li>
     <li><a href="#gallery" data-i18n="navGallery">Галерея</a></li>
     <li><a href="#videos"  data-i18n="navVideos">Видео</a></li>
     <li><a href="#music"   data-i18n="navMusic">Музыка</a></li>
@@ -58,26 +60,32 @@
      HERO — Басты беттің үстіңгі бөлімі
 ═══════════════════════════════════════ -->
 <div id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-waves">
-    <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,50 1440,60 L1440,120 L0,120 Z" fill="rgba(0,150,199,0.08)"/>
-      <path d="M0,80 C320,20 640,100 960,70 C1120,55 1320,90 1440,75 L1440,120 L0,120 Z" fill="rgba(72,202,228,0.05)"/>
-    </svg>
-  </div>
-  <div style="position:relative;z-index:1">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-content">
     <img id="heroImg" class="hero-photo" alt="Moni">
     <p class="hero-eyebrow" data-i18n="heroEyebrow">Moni-дің Әлімі ✨</p>
     <h1 class="hero-name">Moni🕊️</h1>
+    <p class="hero-tagline" data-i18n="heroTagline">Менің жауапсыз махаббатым</p>
+    <a href="#story" class="hero-cta" data-i18n="heroCta">Тарихымызды оқу ↓</a>
   </div>
+  <div class="hero-scroll-hint">↓</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     STORY / TIMELINE — Тарих
+═══════════════════════════════════════ -->
+<div class="sec" id="story">
+  <p class="sec-eyebrow reveal" data-i18n="storyEyebrow">Біздің тарихымыз</p>
+  <h2 class="sec-title-serif reveal" data-i18n="storyTitle">Жүректегі естеліктер</h2>
+  <div class="timeline" id="timeline"></div>
 </div>
 
 <!-- ═══════════════════════════════════════
      GALLERY — Галерея
 ═══════════════════════════════════════ -->
 <div class="sec" id="gallery">
-  <p class="sec-title" data-i18n="galleryTitle">Галерея</p>
-  <div class="divider"></div>
+  <p class="sec-eyebrow reveal" data-i18n="galleryEyebrow">Сәттер</p>
+  <h2 class="sec-title-serif reveal" data-i18n="galleryTitle">Галерея</h2>
   <div class="g-grid" id="gGrid"></div>
 </div>
 
@@ -88,11 +96,20 @@
 </div>
 
 <!-- ═══════════════════════════════════════
+     REASONS — Себептер
+═══════════════════════════════════════ -->
+<div class="sec" id="reasons">
+  <p class="sec-eyebrow reveal" data-i18n="reasonsEyebrow">Себептер</p>
+  <h2 class="sec-title-serif reveal" data-i18n="reasonsTitle">Сені неге жақсы көремін</h2>
+  <div class="reasons-grid" id="reasonsGrid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
      VIDEOS — Видео
 ═══════════════════════════════════════ -->
 <div class="sec" id="videos">
-  <p class="sec-title" data-i18n="videosTitle">Видео</p>
-  <div class="divider"></div>
+  <p class="sec-eyebrow reveal" data-i18n="videosEyebrow">Естеліктер</p>
+  <h2 class="sec-title-serif reveal" data-i18n="videosTitle">Видео</h2>
   <div class="v-grid" id="vGrid"></div>
 </div>
 
@@ -100,8 +117,8 @@
      MUSIC — Музыка бөлімі
 ═══════════════════════════════════════ -->
 <div class="sec" id="music">
-  <p class="sec-title" data-i18n="musicTitle">Музыка 🎵</p>
-  <div class="divider"></div>
+  <p class="sec-eyebrow reveal" data-i18n="musicEyebrow">Жүрекке жылы</p>
+  <h2 class="sec-title-serif reveal" data-i18n="musicTitle">Музыка 🎵</h2>
   <div class="music-list" id="musicList"></div>
 </div>
 
@@ -109,9 +126,10 @@
      LETTER — Хат
 ═══════════════════════════════════════ -->
 <div class="sec" id="letter">
-  <p class="sec-title" data-i18n="letterTitle">Хат 💌</p>
-  <div class="divider"></div>
+  <p class="sec-eyebrow reveal" data-i18n="letterEyebrow">Жасырын</p>
+  <h2 class="sec-title-serif reveal" data-i18n="letterTitle">Хат 💌</h2>
   <div class="l-gate" id="letterGate">
+    <div class="l-gate-icon">💌</div>
     <h3 data-i18n="letterGateH3">🔐 Жасырын хат</h3>
     <p data-i18n="letterGateP">Хатты ашу үшін пароль енгізіңіз</p>
     <input class="l-inp" id="letterPass" type="password"
@@ -126,11 +144,54 @@
 </div>
 
 <!-- ═══════════════════════════════════════
+     COUNTDOWN — Уақыт санағышы
+═══════════════════════════════════════ -->
+<div id="countdown">
+  <p class="sec-eyebrow reveal" data-i18n="countEyebrow">14 сәуір 2026 бастап</p>
+  <h2 class="sec-title-serif reveal" data-i18n="countTitle">Бірге өткен уақыт</h2>
+  <div class="count-grid">
+    <div class="count-item reveal reveal-delay-1">
+      <span class="count-num" id="cntDays">000</span>
+      <span class="count-label" data-i18n="cntDays">Күн</span>
+    </div>
+    <div class="count-sep reveal reveal-delay-2">:</div>
+    <div class="count-item reveal reveal-delay-2">
+      <span class="count-num" id="cntHours">00</span>
+      <span class="count-label" data-i18n="cntHours">Сағат</span>
+    </div>
+    <div class="count-sep reveal reveal-delay-3">:</div>
+    <div class="count-item reveal reveal-delay-3">
+      <span class="count-num" id="cntMins">00</span>
+      <span class="count-label" data-i18n="cntMins">Минут</span>
+    </div>
+    <div class="count-sep reveal reveal-delay-4">:</div>
+    <div class="count-item reveal reveal-delay-4">
+      <span class="count-num" id="cntSecs">00</span>
+      <span class="count-label" data-i18n="cntSecs">Секунд</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FINAL MESSAGE — Қорытынды
+═══════════════════════════════════════ -->
+<div id="final">
+  <canvas id="finalCanvas"></canvas>
+  <div class="final-content">
+    <p class="final-eyebrow reveal" data-i18n="finalEyebrow">Соңғы сөз</p>
+    <h2 class="final-title reveal" data-i18n="finalTitle">Сені мәңгі жақсы көремін</h2>
+    <p class="final-sub reveal" data-i18n="finalSub">Бұл сайт — саған арналған сыйлық. Әрдайым бақытты бол.</p>
+    <div class="final-quote reveal" data-i18n="finalQuote">"Жүрегімде сенің орның бар мәңгілік"</div>
+    <div class="final-sig reveal">— Ақалек, 2026 ❤️</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
      FOOTER
 ═══════════════════════════════════════ -->
 <footer>
   <div class="f-name" data-i18n="footerName">Moni🕊️ · Ақмарал · Ақалек</div>
-  <div data-i18n="footerDate">14 сәуір 2026 — мәңгілік ❤️</div>
+  <div class="f-date" data-i18n="footerDate">14 сәуір 2026 — мәңгілік ❤️</div>
   <div class="f-social">
     <a href="https://www.tiktok.com/@aakalek_" target="_blank">TikTok @aakalek_</a>
     <a href="https://www.instagram.com/marralym" target="_blank">Instagram marralym</a>
