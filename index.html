@@ -10,30 +10,6 @@
 <body>
 
 <!-- ═══════════════════════════════════════
-     GATE — Кіру экраны
-═══════════════════════════════════════ -->
-<div id="gate">
-  <canvas id="gateCanvas"></canvas>
-  <div class="gate-controls">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="kk" onclick="setLang('kk')">KK</button>
-      <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
-      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-    </div>
-  </div>
-  <div class="gate-box">
-    <img class="gate-photo" src="assets/images/moni-gate.jpg" alt="Moni">
-    <div class="gate-logo">Moni🕊️</div>
-    <div class="gate-sub" data-i18n="gateSub">Менің жауапсыз махаббатым</div>
-    <input class="gate-input" id="gatePass" type="password"
-      data-i18n-ph="gatePlaceholder" placeholder="Пароль..."
-      onkeydown="if(event.key==='Enter')checkGate()">
-    <button class="gate-btn" onclick="checkGate()" data-i18n="gateBtn">Кіру →</button>
-    <div class="gate-err" id="gateErr" data-i18n="gateErr">Пароль дұрыс емес</div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════
      NAVIGATION — Навигация
 ═══════════════════════════════════════ -->
 <nav id="nav">

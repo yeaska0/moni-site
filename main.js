@@ -295,25 +295,6 @@ function renderLetterBody() {
 }
 
 
-/* ── GATE: басты пароль ──────────────────────────── */
-
-function checkGate() {
-  const input = document.getElementById('gatePass');
-  const err   = document.getElementById('gateErr');
-
-  if (input.value === '0358') {
-    const gate = document.getElementById('gate');
-    gate.style.transition = 'opacity 0.7s';
-    gate.style.opacity    = '0';
-    setTimeout(() => { gate.style.display = 'none'; }, 700);
-  } else {
-    err.style.display = 'block';
-    input.value       = '';
-    input.focus();
-  }
-}
-
-
 /* ── LETTER: хат паролі ─────────────────────────── */
 
 function checkLetter() {
@@ -608,7 +589,6 @@ function initNavScroll() {
   /* Nav scroll */
   initNavScroll();
 
-  /* Particles — gate (бірден), hero (100ms кейін) */
-  createParticles('gateCanvas', 50);
-  setTimeout(() => createParticles('heroCanvas', 70), 100);
+  /* Particles — hero */
+  createParticles('heroCanvas', 70);
 })();
