@@ -173,34 +173,34 @@ const i18n = {
     navVideos:       'Видео',
     navMusic:        'Музыка',
     navLetter:       'Письмо',
-    heroEyebrow:     'Алим Мони ✨',
+    heroEyebrow:     'Алим для Мони ✨',
     galleryTitle:    'Галерея',
     videosTitle:     'Видео',
     musicTitle:      'Музыка 🎵',
     letterTitle:     'Письмо 💌',
-    letterGateH3:    '🔐 Тайное письмо',
+    letterGateH3:    '🔐 Секретное письмо',
     letterGateP:     'Введите пароль, чтобы открыть письмо',
     letterBtn:       'Открыть 💌',
     letterErr:       'Неверный пароль',
-    letterTo:        'Моя дорогая Moni,',
+    letterTo:        'Моя дорогая Мони,',
     letterBody:
       'Мони, есть кое-что, что я давно хотел тебе сказать.\n' +
-      'Может, мне и не стоило писать это письмо. Но я устал держать всё внутри. Поэтому хочу хотя бы раз сказать то, что у меня на сердце.\n' +
-      'Ты, возможно, этого не знаешь, но в самые трудные моменты моей жизни ты незаметно оказалась одним из тех людей, кто очень мне помог.\n' +
-      'Когда мы разговаривали, мои тревоги и усталые мысли хоть на мгновение куда-то уходили. Душа успокаивалась, и казалось, что всё будет хорошо.\n' +
-      'Мне нравится не твоя внешность — мне нравится твоё сердце. Твой характер, притягивающий людей, твоя искренность, тёплое отношение к людям, добрая улыбка — всё это делает тебя особенной.\n' +
-      'Я люблю тебя. Но я пишу это письмо не для того, чтобы чего-то требовать. Напротив — я пишу, потому что уважаю тебя.\n' +
-      'Хочу лишь, чтобы ты знала: ты оставила след в моей жизни.\n' +
+      'Может, и не стоило писать это письмо. Но я устал держать всё внутри себя. Поэтому хочу хотя бы раз открыто сказать то, что у меня на сердце.\n' +
+      'Ты, возможно, этого не знаешь, но в самые трудные периоды моей жизни ты незаметно стала одним из тех людей, кто очень мне помог.\n' +
+      'Когда мы разговаривали, тревоги и тяжёлые мысли хоть на мгновение куда-то уходили. На душе становилось спокойно, и казалось, что всё будет хорошо.\n' +
+      'Мне нравится не твоя внешность — мне нравится твоя душа. Характер, который притягивает людей, искренность, тёплое отношение к окружающим, добрая улыбка — всё это делает тебя особенной.\n' +
+      'Я люблю тебя. Но это письмо — не просьба и не требование. Я пишу его, потому что уважаю тебя.\n' +
+      'Я просто хочу, чтобы ты знала: ты оставила след в моей жизни.\n' +
       'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
-    letterSig:       'Акалек · Акмарал',
+    letterSig:       'Ақалек · Ақмарал',
     letterDate:      '14 апреля 2026 — навсегда ❤️',
-    countEyebrow:    'Со дня знакомства',
+    countEyebrow:    'Со дня нашего знакомства',
     countTitle:      'Время вместе',
     cntDays:         'Дней',
     cntHours:        'Часов',
     cntMins:         'Минут',
     cntSecs:         'Секунд',
-    footerName:      'Moni🕊️ · Акмарал · Акалек',
+    footerName:      'Moni🕊️ · Ақмарал · Ақалек',
     footerDate:      '14 апреля 2026 — навсегда ❤️',
   },
 
@@ -208,39 +208,39 @@ const i18n = {
     gateSub:         'My unrequited love',
     gateBtn:         'Enter →',
     gatePlaceholder: 'Password...',
-    gateErr:         'Wrong password',
+    gateErr:         'Incorrect password',
     navGallery:      'Gallery',
     navVideos:       'Videos',
     navMusic:        'Music',
     navLetter:       'Letter',
-    heroEyebrow:     "Alim's World ✨",
+    heroEyebrow:     "Alim for Moni ✨",
     galleryTitle:    'Gallery',
     videosTitle:     'Videos',
     musicTitle:      'Music 🎵',
     letterTitle:     'Letter 💌',
-    letterGateH3:    '🔐 Secret Letter',
+    letterGateH3:    '🔐 A Secret Letter',
     letterGateP:     'Enter the password to open the letter',
     letterBtn:       'Open 💌',
-    letterErr:       'Wrong password',
+    letterErr:       'Incorrect password',
     letterTo:        'My dearest Moni,',
     letterBody:
-      "Moni, there's something I've wanted to tell you for a long time.\n" +
-      "Maybe I shouldn't have written this letter. But I'm tired of keeping it all inside. So I want to say, just this once, what is truly in my heart.\n" +
-      "You might not know this, but during the hardest moments of my life, you quietly became one of the people who helped me the most.\n" +
-      "When we talked, my worries and exhausted thoughts would disappear, even if just for a moment. My soul would calm down, and everything felt like it would be okay.\n" +
-      "What I love about you isn't your appearance — it's your heart. The way you draw people in, your sincerity, your warmth toward others, your gentle smile — all of this makes you extraordinary.\n" +
-      "I love you. But I'm not writing this letter to ask anything of you. On the contrary — I'm writing because I respect you.\n" +
-      "I just want you to know: you have left a mark on my life.\n" +
-      "I wish you happiness with all my heart. May the life you dream of become real. Always keep smiling.",
-    letterSig:       'Akalek · Akmaral',
+      "Moni, there is something I have wanted to tell you for a long time.\n" +
+      "Perhaps I should not have written this letter. But I am tired of keeping everything inside. So I want to say, just this once, what is truly in my heart.\n" +
+      "You may not know this, but during the hardest times of my life, you quietly became one of the people who helped me the most.\n" +
+      "Whenever we talked, my worries and heavy thoughts would fade away, even for just a moment. I felt at peace, and everything seemed like it would be alright.\n" +
+      "What I love about you is not your appearance — it is your soul. The way you draw people in, your sincerity, your warmth toward others, your gentle smile — all of this makes you extraordinary.\n" +
+      "I love you. But I am not writing this letter to ask anything of you. I am writing it because I respect you.\n" +
+      "I simply want you to know: you have left a mark on my life.\n" +
+      "I wish you happiness with all my heart. May the life you dream of become your reality. Always keep smiling.",
+    letterSig:       'Aqalek · Aqmaral',
     letterDate:      'April 14, 2026 — forever ❤️',
-    countEyebrow:    'Since we met',
+    countEyebrow:    'Since the day we met',
     countTitle:      'Time together',
     cntDays:         'Days',
     cntHours:        'Hours',
     cntMins:         'Minutes',
     cntSecs:         'Seconds',
-    footerName:      'Moni🕊️ · Akmaral · Akalek',
+    footerName:      'Moni🕊️ · Aqmaral · Aqalek',
     footerDate:      'April 14, 2026 — forever ❤️',
   },
 
