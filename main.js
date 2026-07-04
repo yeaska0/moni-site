@@ -154,6 +154,12 @@ const i18n = {
       'Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.',
     letterSig:       'Ақалек · Ақмарал',
     letterDate:      '14 сәуір 2026 — мәңгілік ❤️',
+    countEyebrow:    'Танысқанымызға',
+    countTitle:      'Бірге өткен уақыт',
+    cntDays:         'Күн',
+    cntHours:        'Сағат',
+    cntMins:         'Минут',
+    cntSecs:         'Секунд',
     footerName:      'Moni🕊️ · Ақмарал · Ақалек',
     footerDate:      '14 сәуір 2026 — мәңгілік ❤️',
   },
@@ -188,6 +194,12 @@ const i18n = {
       'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
     letterSig:       'Акалек · Акмарал',
     letterDate:      '14 апреля 2026 — навсегда ❤️',
+    countEyebrow:    'Со дня знакомства',
+    countTitle:      'Время вместе',
+    cntDays:         'Дней',
+    cntHours:        'Часов',
+    cntMins:         'Минут',
+    cntSecs:         'Секунд',
     footerName:      'Moni🕊️ · Акмарал · Акалек',
     footerDate:      '14 апреля 2026 — навсегда ❤️',
   },
@@ -222,6 +234,12 @@ const i18n = {
       "I wish you happiness with all my heart. May the life you dream of become real. Always keep smiling.",
     letterSig:       'Akalek · Akmaral',
     letterDate:      'April 14, 2026 — forever ❤️',
+    countEyebrow:    'Since we met',
+    countTitle:      'Time together',
+    cntDays:         'Days',
+    cntHours:        'Hours',
+    cntMins:         'Minutes',
+    cntSecs:         'Seconds',
     footerName:      'Moni🕊️ · Akmaral · Akalek',
     footerDate:      'April 14, 2026 — forever ❤️',
   },
@@ -262,21 +280,6 @@ function setLang(lang) {
 }
 
 
-/* ── ТАҚЫРЫП АУЫСТЫРУ (toggleTheme) ────────────── */
-
-let currentTheme = 'dark';
-
-function toggleTheme() {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = currentTheme === 'light' ? 'light' : '';
-
-  const emoji = currentTheme === 'dark' ? '☀️' : '🌙';
-  document.querySelectorAll('.theme-btn').forEach((btn) => {
-    btn.textContent = emoji;
-  });
-
-  try { localStorage.setItem('theme', currentTheme); } catch (e) {}
-}
 
 
 /* ── ХАТ МАЗМҰНЫН САЛУ (renderLetterBody) ──────── */
@@ -536,7 +539,42 @@ function initScrollReveal() {
 
 
 /* ════════════════════════════════════════════════════
-   11. NAV SCROLL EFFECT
+   11. COUNTDOWN — Санағыш (14 сәуір 2026 бастап)
+════════════════════════════════════════════════════ */
+
+function initCountdown() {
+  const start = new Date('2026-04-14T00:00:00');
+
+  function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+
+  function update() {
+    const diff = Date.now() - start.getTime();
+    if (diff < 0) return;
+
+    const totalSecs = Math.floor(diff / 1000);
+    const days  = Math.floor(totalSecs / 86400);
+    const hours = Math.floor((totalSecs % 86400) / 3600);
+    const mins  = Math.floor((totalSecs % 3600) / 60);
+    const secs  = totalSecs % 60;
+
+    const d = document.getElementById('cntDays');
+    const h = document.getElementById('cntHours');
+    const m = document.getElementById('cntMins');
+    const s = document.getElementById('cntSecs');
+
+    if (d) d.textContent = days;
+    if (h) h.textContent = pad(hours);
+    if (m) m.textContent = pad(mins);
+    if (s) s.textContent = pad(secs);
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+
+/* ════════════════════════════════════════════════════
+   12. NAV SCROLL EFFECT
 ════════════════════════════════════════════════════ */
 
 function initNavScroll() {
@@ -558,16 +596,14 @@ function initNavScroll() {
   try { savedLang = localStorage.getItem('lang') || 'kk'; } catch (e) {}
   setLang(savedLang);
 
-  /* Сақталған тақырыпты қолдану */
-  let savedTheme = 'dark';
-  try { savedTheme = localStorage.getItem('theme') || 'dark'; } catch (e) {}
-  if (savedTheme === 'light') toggleTheme();
-
   /* Scroll reveal */
   initScrollReveal();
 
   /* Music cards */
   buildMusic();
+
+  /* Countdown */
+  initCountdown();
 
   /* Nav scroll */
   initNavScroll();
