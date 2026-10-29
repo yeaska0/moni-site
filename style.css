@@ -942,7 +942,7 @@ html {
 
 /* Сандардың арасындағы қос нүкте.
    Мөлдірлік opacity арқылы емес, түстің өзі арқылы беріледі:
-   opacity-ді .reveal класы басқарады, сондықтан оны мұнда қолдануға болмайды. */
+   opacity-ді .reveal класы басқарады, сондықтан оны мұнда қолдануғаப் болмайды. */
 .count-sep {
   align-self: center;
   margin: 8px 4px 0;
@@ -1168,4 +1168,69 @@ footer {
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
   }
+}
+
+/* ════════════════════════════════════════════════════
+   20. ЖАҢА ИНТЕРАКТИВТІ ЭФФЕКТІЛЕР (Лайтбокс, Хат, Жүректер)
+════════════════════════════════════════════════════ */
+
+/* Лайтбокс навигация батырмалары (< >) */
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(8, 7, 10, 0.4);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.3s, transform 0.3s;
+}
+.lb-nav:hover {
+  background: var(--gold-dim);
+  transform: translateY(-50%) scale(1.1);
+}
+#lb-prev { left: 24px; }
+#lb-next { right: 24px; }
+
+/* Телефонда батырмаларды кішірейту */
+@media (max-width: 768px) {
+  .lb-nav { width: 40px; height: 40px; font-size: 1.2rem; }
+  #lb-prev { left: 10px; }
+  #lb-next { right: 10px; }
+}
+
+/* Хаттың ашылу анимациясы (жоғарыдан төмен қарай жұмсақ түседі) */
+.l-content {
+  animation: letterOpen 0.8s var(--ease-out) forwards;
+  transform-origin: top center;
+}
+@keyframes letterOpen {
+  0% { opacity: 0; transform: scaleY(0.9) translateY(-20px); }
+  100% { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+/* Тіл ауысқандағы жұмсақ ауысу (Fade) */
+.lang-fade {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+/* Экранды басқанда шығатын ұсақ жұлдыздар/жүректер */
+.click-spark {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.2rem;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 9999;
+}
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0) scale(0.8); }
+  100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
 }

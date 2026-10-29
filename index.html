@@ -23,6 +23,9 @@
   <!-- Браузер қойындысындағы бет атауы -->
   <title>Agalek</title>
 
+  <!-- Браузер қойындысындағы шағын белгіше (жүрекше) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
   <!-- Қаріптерді жылдам жүктеу үшін алдын ала қосылу -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,14 +189,17 @@
 </main>
 
 <!-- ═══════════════════════════════════════
-     LIGHTBOX: суретті үлкейтіп көру
-     Жабу түймесінде бөлек onclick жоқ: басу контейнерге өтіп,
-     closeLb() бір-ақ рет шақырылады
+     LIGHTBOX: суретті үлкейтіп көру (ЖАҢАРТЫЛҒАН)
 ═══════════════════════════════════════ -->
-<div id="lb" role="dialog" aria-modal="true" aria-label="Суретті көру" onclick="closeLb()">
-  <button type="button" id="lb-close" aria-label="Жабу">&times;</button>
-  <img id="lbImg" alt=""
-       src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<div id="lb" role="dialog" aria-modal="true" aria-label="Суретті көру">
+  <button type="button" id="lb-close" aria-label="Жабу" onclick="closeLb()">&times;</button>
+
+  <!-- Алдыңғы және келесі батырмалары -->
+  <button type="button" id="lb-prev" class="lb-nav" aria-label="Алдыңғы" onclick="prevLb(event)">&#10094;</button>
+
+  <img id="lbImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+
+  <button type="button" id="lb-next" class="lb-nav" aria-label="Келесі" onclick="nextLb(event)">&#10095;</button>
 </div>
 
 <!-- ═══════════════════════════════════════

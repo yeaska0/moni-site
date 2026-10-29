@@ -283,6 +283,13 @@ function setLang(lang) {
   /* 2-қадам: бет тілін көрсетеміз (экран оқу құралы мен іздеу жүйесіне керек) */
   document.documentElement.lang = lang;
 
+  /* Тіл ауысқанда мазмұн жұмсақ жыпылықтайды (Fade эффектісі) */
+  const mainEl = document.getElementById('main');
+  if (mainEl) {
+    mainEl.classList.add('lang-fade');
+    setTimeout(() => mainEl.classList.remove('lang-fade'), 300);
+  }
+
   /* 3-қадам: data-i18n бар барлық мәтінді аударамыз */
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     const translation = dictionary[element.dataset.i18n];
@@ -388,34 +395,34 @@ function initLetterGate() {
 
 
 /* ════════════════════════════════════════════════════
-   7. ЛАЙТБОКС (LIGHTBOX): суретті үлкейтіп көру
+   7. ЛАЙТБОКС (LIGHTBOX): суретті үлкейтіп көру (ЖАҢАРТЫЛҒАН)
 ════════════════════════════════════════════════════ */
 
-let lightboxOpen = false;       /* Қазір ашық па */
-let lastFocusedElement = null;  /* Жабылғанда фокусты қайтару үшін */
+let lightboxOpen = false;
+let lastFocusedElement = null;
+let currentGalleryIndex = 0; /* Қай сурет ашық тұрғанын сақтайды */
 
-function openLb(src, altText) {
+function openLb(index) {
   const lightbox = document.getElementById('lb');
   const image    = document.getElementById('lbImg');
   const closeBtn = document.getElementById('lb-close');
   if (!lightbox || !image) return;
 
-  /* Қай элемент басылғанын есте сақтаймыз */
+  currentGalleryIndex = index;
+  const photo = GALLERY[index];
   lastFocusedElement = document.activeElement;
 
-  image.src = src;
-  image.alt = altText || '';
+  image.src = buildPath(IMAGE_DIR, photo.file);
+  image.alt = photo.caption || '';
   lightbox.style.display = 'flex';
-  document.body.style.overflow = 'hidden';  /* Артқы бет айналмайды */
+  document.body.style.overflow = 'hidden';
   lightboxOpen = true;
 
-  /* Фокусты жабу түймесіне береміз (пернетақтамен қолданушыларға) */
   if (closeBtn) closeBtn.focus();
 }
 
 function closeLb() {
   if (!lightboxOpen) return;
-
   const lightbox = document.getElementById('lb');
   const image    = document.getElementById('lbImg');
 
@@ -424,16 +431,38 @@ function closeLb() {
   image.src = BLANK_PIXEL;
   lightboxOpen = false;
 
-  /* Фокусты бұрынғы орнына қайтарамыз */
   if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
     lastFocusedElement.focus();
   }
   lastFocusedElement = null;
 }
 
-/* Escape перне лайтбоксты жабады */
+function nextLb(event) {
+  if (event) event.stopPropagation();
+  currentGalleryIndex = (currentGalleryIndex + 1) % GALLERY.length;
+  openLb(currentGalleryIndex);
+}
+
+function prevLb(event) {
+  if (event) event.stopPropagation();
+  currentGalleryIndex = (currentGalleryIndex - 1 + GALLERY.length) % GALLERY.length;
+  openLb(currentGalleryIndex);
+}
+
+/* Фонды басқанда жабылады */
+document.addEventListener('click', (event) => {
+  const lightbox = document.getElementById('lb');
+  if (lightboxOpen && event.target === lightbox) {
+    closeLb();
+  }
+});
+
+/* Пернетақта: Escape - жабу, Оң/Сол - ауыстыру */
 document.addEventListener('keydown', (event) => {
+  if (!lightboxOpen) return;
   if (event.key === 'Escape') closeLb();
+  if (event.key === 'ArrowRight') nextLb();
+  if (event.key === 'ArrowLeft') prevLb();
 });
 
 
@@ -472,8 +501,8 @@ function buildGallery() {
     item.appendChild(image);
     item.appendChild(caption);
 
-    /* Тінтуірмен басу */
-    item.addEventListener('click', () => openLb(src, photo.caption));
+    /* Тінтуірмен басу (ЖАҢАРТЫЛДЫ: индекс арқылы ашады) */
+    item.addEventListener('click', () => openLb(index));
 
     /* Пернетақта: Enter басқанда бірден ашылады.
        Space басқанда бет төмен айналмасын деп әрекет тоқтатылады,
@@ -482,14 +511,14 @@ function buildGallery() {
     item.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        openLb(src, photo.caption);
+        openLb(index);
       } else if (event.key === ' ') {
         event.preventDefault();
       }
     });
     item.addEventListener('keyup', (event) => {
       if (event.key === ' ') {
-        openLb(src, photo.caption);
+        openLb(index);
       }
     });
 
@@ -917,3 +946,30 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+
+/* ════════════════════════════════════════════════════
+   16. ИНТЕРАКТИВТІ ЭФФЕКТ (Экранды басқандағы жұлдыздар)
+════════════════════════════════════════════════════ */
+
+document.addEventListener('click', function(e) {
+  /* Түймелерді немесе сілтемелерді басқанда жұлдыз шықпауы үшін */
+  if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
+
+  const spark = document.createElement('div');
+  spark.className = 'click-spark';
+
+  /* Эмодзи: ✨ жұлдыз, 💖 жүрек немесе басқасын қоюға болады */
+  spark.innerHTML = '✨';
+
+  /* Басқан жердің координаттары */
+  spark.style.left = (e.pageX - 10) + 'px';
+  spark.style.top = (e.pageY - 10) + 'px';
+
+  document.body.appendChild(spark);
+
+  /* Анимация біткен соң DOM-нан өшіру */
+  setTimeout(() => {
+    spark.remove();
+  }, 1000);
+});
