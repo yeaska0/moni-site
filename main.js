@@ -13,8 +13,48 @@
    1. БАПТАУЛАР (CONFIG)
 ════════════════════════════════════════════════════ */
 
+/* Сайтты ашатын бас пароль */
+const SITE_PASSWORD = '114571';
+const STORAGE_KEY_AUTH = 'site_authenticated';
+
+/* Парольді тексеру және сайтты ашу */
+function unlockSite() {
+  const input = document.getElementById('site-pass-input');
+  const error = document.getElementById('site-pass-err');
+  const overlay = document.getElementById('site-lock-overlay');
+  if (!input || !error || !overlay) return;
+
+  if (input.value.trim() === SITE_PASSWORD) {
+    writeStorage(STORAGE_KEY_AUTH, 'true');
+    overlay.classList.add('unlocked');
+    document.body.style.overflow = '';
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+  }
+}
+
+function checkSiteAuth() {
+  const isAuth = readStorage(STORAGE_KEY_AUTH, 'false');
+  const overlay = document.getElementById('site-lock-overlay');
+  const input = document.getElementById('site-pass-input');
+  const error = document.getElementById('site-pass-err');
+
+  if (isAuth === 'true') {
+    if (overlay) overlay.style.display = 'none';
+  } else {
+    document.body.style.overflow = 'hidden';
+    if (input) {
+      input.addEventListener('input', () => { if (error) error.style.display = 'none'; });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlockSite(); });
+    }
+  }
+}
+
 /* Санағыш осы күннен бастап есептейді (жергілікті уақытпен) */
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
+
 
 /* Әдепкі тіл және тілді браузерде сақтайтын кілт */
 const DEFAULT_LANG = 'en';
@@ -719,9 +759,10 @@ function initNavScroll() {
 /* ════════════════════════════════════════════════════
    15. ІСКЕ ҚОСУ (INIT)
 ════════════════════════════════════════════════════ */
-
 function init() {
+  checkSiteAuth();
   buildGallery();
+
   buildVideos();
   buildMusic();
 

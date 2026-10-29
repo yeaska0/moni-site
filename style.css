@@ -562,3 +562,94 @@ footer {
   0% { opacity: 1; transform: translateY(0) scale(0.8); }
   100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
 }
+
+
+/* ════════════════════════════════════════════════════
+   17. SITE LOCK OVERLAY (СТЕКЛЯННЫЙ КІРУ ҚАҚПАСЫ)
+════════════════════════════════════════════════════ */
+.site-lock-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 30%, #154c68 0%, #061c28 70%, #020b10 100%);
+  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  padding: 20px;
+  transition: opacity 0.6s var(--ease-out), visibility 0.6s var(--ease-out);
+}
+
+.site-lock-overlay.unlocked {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+
+.site-lock-card {
+  width: 100%; max-width: 380px;
+  padding: 44px 32px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+
+  /* Суреттегідей көгілдір әйнек панель */
+  background: rgba(18, 62, 86, 0.45);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 30px var(--cyan-glow);
+}
+
+.lock-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--border-glass);
+  color: var(--aqua);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px var(--cyan-glow);
+  margin-bottom: 24px;
+}
+
+.lock-title {
+  font-family: var(--font-serif), serif;
+  font-size: 1.5rem; color: #fff; margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.lock-subtitle {
+  font-size: 0.82rem; color: var(--text-muted); margin-bottom: 28px;
+}
+
+.lock-input-group {
+  width: 100%; position: relative; margin-bottom: 20px;
+  display: flex; align-items: center;
+}
+
+.lock-icon {
+  position: absolute; left: 16px; font-size: 0.9rem; opacity: 0.7;
+}
+
+.lock-input-group input {
+  width: 100%; padding: 14px 16px 14px 44px;
+  background: rgba(5, 25, 38, 0.6);
+  border: 1px solid var(--border-light);
+  border-radius: 14px; color: #fff; font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.lock-input-group input:focus {
+  outline: none;
+  border-color: var(--aqua);
+  box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.lock-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #1b8eb5, #0a4f6d);
+  border: 1px solid var(--border-glass); border-radius: 14px;
+  color: #fff; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s;
+}
+
+.lock-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px var(--cyan-glow), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.lock-err {
+  display: none; margin-top: 14px; color: var(--danger); font-size: 0.82rem;
+}
