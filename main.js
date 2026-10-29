@@ -25,7 +25,7 @@ const LETTER_PASSWORD = '0358';
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
 
 /* Әдепкі тіл және тілді браузерде сақтайтын кілт */
-const DEFAULT_LANG = 'kk';
+const DEFAULT_LANG = 'en';
 const STORAGE_KEY_LANG = 'lang';
 
 /* Файлдар тұратын бумалар */
