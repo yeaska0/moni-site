@@ -1,139 +1,241 @@
 /* ════════════════════════════════════════════════════
-   style.css — Moni🕊️ · Ultimate Romantic Design
-   Luxury Editorial · Warm Champagne & Rose Gold
+   style.css
+   Сайттың сыртқы көрінісі: түстер, қаріптер, орналасу, анимация.
+   Тақырып: қою фон, алтын мен раушан реңдері.
    Автор: Ақалек | 2026
 ════════════════════════════════════════════════════ */
 
 
-/* ── 1. RESET + BASE ─────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   1. ДИЗАЙН ӨЗГЕРМЕЛІЛЕРІ (DESIGN TOKENS)
+   Барлық түс, қаріп, қисықтық бір жерде жазылған.
+   Бір мәнді осында өзгертсеңіз, бүкіл сайтта өзгереді.
+════════════════════════════════════════════════════ */
 
+:root {
+  /* Браузерге сайттың қараңғы тақырыпты екенін хабарлайды
+     (айналдыру жолағы, форма элементтері қараңғы болады) */
+  color-scheme: dark;
+
+  /* Фон түстері: ең қараңғыдан сәл ашығына қарай */
+  --bg:          #08070a;
+  --surface:     #111018;
+  --surface2:    #1c1a24;
+
+  /* Алтын түстер: тақырыптар мен белсенді элементтер үшін */
+  --gold:        #c4a878;
+  --gold-light:  #d4bc96;
+  --gold-dim:    rgba(196, 168, 120, 0.12);
+  --gold-glow:   rgba(196, 168, 120, 0.22);
+
+  /* Раушан түстер: қолтаңба мен әдемілеуші реңдер үшін */
+  --rose:        #c8a0a8;
+  --rose-dim:    rgba(200, 160, 168, 0.12);
+
+  /* Мәтін түстері. --text-faint бұрын тым күңгірт еді (оқуға қиын),
+     енді оқылу контрасты жақсартылды */
+  --cream:       #f0e8dc;
+  --text:        #e0d4c4;
+  --text-muted:  #9a8e82;
+  --text-faint:  #867c73;
+
+  /* Жиектер: қалыпты және меңзер үстіндегі күйі */
+  --border:      rgba(196, 168, 120, 0.11);
+  --border-h:    rgba(196, 168, 120, 0.32);
+
+  /* Қателік хабарламасының түсі */
+  --danger:      #e09080;
+
+  /* Қаріптер. Негізгі қаріп жүктелмесе, жүйелік қаріп қолданылады */
+  --font-serif:  'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:   'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-script: 'Dancing Script', 'Brush Script MT', cursive;
+
+  /* Қозғалыс қисықтары: анимацияның жұмсақтығын анықтайды */
+  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Бұрыштардың домалақтығы */
+  --radius-sm:   14px;
+  --radius-md:   18px;
+  --radius-lg:   26px;
+
+  /* Жоғарғы мәзірдің биіктігі */
+  --nav-h:       64px;
+}
+
+
+/* ════════════════════════════════════════════════════
+   2. БАСТАПҚЫ ТАЗАЛАУ (RESET) ЖӘНЕ НЕГІЗГІ ҚАСИЕТТЕР
+════════════════════════════════════════════════════ */
+
+/* Барлық элементтің ішкі және сыртқы шегін нөлден бастаймыз.
+   box-sizing: padding пен border элемент енінің ішінде есептеледі */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  /* Мәзірдегі сілтемені басқанда бет баяу, жұмсақ айналады */
+  scroll-behavior: smooth;
+
+  /* Сілтемемен барғанда бөлім тақырыбы бекітілген мәзір астында қалмауы үшін */
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+
+  /* Телефонда бетті бұрғанда мәтін өлшемі өздігінен өзгермейді */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
+
+  /* Көлденең айналдыру жолағы шықпайды */
   overflow-x: hidden;
+
+  /* Қаріптер Mac/iPhone-да жұқа әрі анық көрінеді */
   -webkit-font-smoothing: antialiased;
-  transition: background 0.5s, color 0.5s;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Суреттер мен видеолар контейнерінен асып кетпейді */
+img, video {
+  max-width: 100%;
+}
+
+/* Түймелер мен өрістер беттің қарпін мұра етеді (әйтпесе браузер өз қарпін қояды) */
+button, input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 
-/* ── 2. DESIGN TOKENS ────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   3. ҚОЛЖЕТІМДІЛІК (ACCESSIBILITY)
+════════════════════════════════════════════════════ */
 
-:root {
-  --bg:          #08070a;
-  --surface:     #111018;
-  --surface2:    #1c1a24;
+/* Пернетақтамен (Tab) жүргенде қай элемент таңдалғаны көрінетін алтын жиек.
+   Тінтуірмен басқанда бұл жиек шықпайды (:focus-visible) */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
 
-  --gold:        #c4a878;
-  --gold-light:  #d4bc96;
-  --gold-dim:    rgba(196, 168, 120, 0.12);
-  --gold-glow:   rgba(196, 168, 120, 0.22);
+/* Экранда көрінбейді, бірақ экран оқу құралдарына оқылады */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
 
-  --rose:        #c8a0a8;
-  --rose-dim:    rgba(200, 160, 168, 0.12);
+/* "Мазмұнға өту" сілтемесі: Tab басқанда ғана экранға шығады */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 3000;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  color: var(--cream);
+  border: 1px solid var(--border-h);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
 
-  --cream:       #f0e8dc;
-  --text:        #e0d4c4;
-  --text-muted:  #9a8e82;
-  --text-faint:  #5a5450;
-
-  --border:      rgba(196, 168, 120, 0.11);
-  --border-h:    rgba(196, 168, 120, 0.32);
-
-  --font-serif:  'Playfair Display', 'Georgia', serif;
-  --font-sans:   'Inter', -apple-system, sans-serif;
-  --font-script: 'Dancing Script', cursive;
-
-  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
 }
 
 
+/* ════════════════════════════════════════════════════
+   4. АЙНАЛДЫРУ ЖОЛАҒЫ (SCROLLBAR)
+════════════════════════════════════════════════════ */
 
-/* ── 3. SCROLLBAR ────────────────────────────────── */
+/* Firefox үшін */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) var(--bg);
+}
 
-::-webkit-scrollbar { width: 5px; }
+/* Chrome, Edge, Safari үшін */
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 
-/* ── 4. SCROLL REVEAL ────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   5. СКРОЛЛ КЕЗІНДЕГІ ПАЙДА БОЛУ (REVEAL)
+   Бастапқыда элемент көрінбейді, төменге сәл ығыстырылған.
+   main.js экранға жақындағанда .visible класын қосады,
+   сонда элемент жайлап көтеріліп шығады.
+════════════════════════════════════════════════════ */
 
 .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
 
-
-/* ── 5. LANG + THEME BUTTONS ─────────────────────── */
-
-.lang-switch {
-  display: flex;
-  gap: 3px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 4px;
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  border-radius: 14px;
-  padding: 4px 10px;
-  color: var(--text-muted);
-  font-family: var(--font-sans);
-  font-size: 0.73rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.lang-btn.active, .lang-btn:hover {
-  background: var(--gold-dim);
-  color: var(--gold);
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
+/* ════════════════════════════════════════════════════
+   6. ЖОҒАРҒЫ МӘЗІР (NAV)
+════════════════════════════════════════════════════ */
 
-/* ── 7. NAV ──────────────────────────────────────── */
-
-nav {
+#nav {
+  /* Мәзір бет айналғанда да жоғарыда тұрады */
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;   /* Телефонда сілтемелер екінші қатарға түседі */
+
+  min-height: var(--nav-h);
   padding: 0 44px;
-  height: 64px;
-  background: rgba(8,7,10,0.60);
-  backdrop-filter: blur(24px);
+
+  /* Жартылай мөлдір фон және артындағы мазмұнды бұлыңғырлау */
+  background: rgba(8, 7, 10, 0.6);
   -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
   transition: background 0.4s, box-shadow 0.4s;
 }
 
-nav.scrolled {
-  background: rgba(8,7,10,0.90);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+/* Бет 48 пиксельден асып айналғанда main.js осы класты қосады:
+   фон қоюланып, көлеңке пайда болады */
+#nav.scrolled {
+  background: rgba(8, 7, 10, 0.92);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
 }
 
 .nav-logo {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), serif;
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--cream);
@@ -147,6 +249,7 @@ nav.scrolled {
 }
 
 .nav-links a {
+  display: block;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.82rem;
@@ -154,9 +257,10 @@ nav.scrolled {
   letter-spacing: 0.04em;
   padding: 6px 14px;
   border-radius: 8px;
-  transition: color 0.2s, background 0.2s;
   white-space: nowrap;
+  transition: color 0.2s, background 0.2s;
 }
+
 .nav-links a:hover {
   color: var(--gold);
   background: var(--gold-dim);
@@ -169,21 +273,72 @@ nav.scrolled {
 }
 
 
-/* ── 8. HERO ─────────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   7. ТІЛ АУЫСТЫРҒЫШ (LANG SWITCH)
+════════════════════════════════════════════════════ */
+
+.lang-switch {
+  display: flex;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+  padding: 5px 11px;
+  color: var(--text-muted);
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Белсенді тіл: main.js .active класын және aria-pressed="true" қояды */
+.lang-btn.active,
+.lang-btn[aria-pressed="true"] {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+
+.lang-btn:hover {
+  color: var(--gold);
+}
+
+
+/* ════════════════════════════════════════════════════
+   8. БАСТЫ ЭКРАН (HERO)
+════════════════════════════════════════════════════ */
 
 #hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100vh;   /* Телефондағы нақты биіктік төменде @supports ішінде беріледі */
+
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  /* Екі жұмсақ жарық дақ пен негізгі фон */
   background:
-    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(196,168,120,0.05), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 75% 25%, rgba(200,160,168,0.04), transparent 60%),
-    var(--bg);
+          radial-gradient(ellipse 80% 60% at 50% 60%, rgba(196, 168, 120, 0.06), transparent 70%),
+          radial-gradient(ellipse 60% 40% at 75% 25%, rgba(200, 160, 168, 0.05), transparent 60%),
+          var(--bg);
 }
 
+/* Телефондағы мекенжай жолағын ескеретін биіктік (100svh).
+   Тек қолдау бар браузерде қолданылады, сондықтан ескі браузерге зиян жоқ. */
+@supports (height: 100svh) {
+  #hero {
+    min-height: 100svh;
+  }
+}
+
+/* Бөлшектер анимациясы салынатын кенеп: бүкіл hero бөлімін жабады, басуға кедергі жасамайды */
 #heroCanvas {
   position: absolute;
   inset: 0;
@@ -208,6 +363,7 @@ nav.scrolled {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Дөңгелек басты фото: алтын жиек, жарқыл және жеңіл қалқу анимациясы */
 .hero-photo {
   width: 160px;
   height: 160px;
@@ -215,16 +371,16 @@ nav.scrolled {
   object-fit: cover;
   border: 2px solid var(--gold);
   box-shadow:
-    0 0 0 8px var(--gold-dim),
-    0 0 80px var(--gold-glow),
-    0 24px 48px rgba(0,0,0,0.5);
+          0 0 0 8px var(--gold-dim),
+          0 0 80px var(--gold-glow),
+          0 24px 48px rgba(0, 0, 0, 0.5);
   margin-bottom: 36px;
   animation: heroFloat 6s ease-in-out infinite;
 }
 
 @keyframes heroFloat {
   0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+  50%      { transform: translateY(-10px); }
 }
 
 .hero-eyebrow {
@@ -234,21 +390,23 @@ nav.scrolled {
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 18px;
-  opacity: 0.9;
 }
 
+/* Үлкен ат: кілегейден алтынға, одан раушанға ауысатын градиент түсті мәтін */
 .hero-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), serif;
   font-size: clamp(4.5rem, 13vw, 10rem);
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.02em;
+  color: var(--cream);   /* Градиент қолдамайтын браузер үшін қосалқы түс */
   background: linear-gradient(135deg, var(--cream) 0%, var(--gold-light) 45%, var(--rose) 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* Төмен айналдыру нұсқауы: жоғары-төмен жеңіл қозғалады */
 .hero-scroll-hint {
   position: absolute;
   bottom: 36px;
@@ -260,12 +418,14 @@ nav.scrolled {
 }
 
 @keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.3; }
-  50%       { transform: translateX(-50%) translateY(7px); opacity: 0.8; }
+  0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.4; }
+  50%      { transform: translateX(-50%) translateY(7px); opacity: 0.9; }
 }
 
 
-/* ── 9. SECTIONS BASE ────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   9. БӨЛІМДЕРДІҢ НЕГІЗІ (SECTIONS)
+════════════════════════════════════════════════════ */
 
 .sec {
   max-width: 1200px;
@@ -273,9 +433,10 @@ nav.scrolled {
   padding: 120px 48px;
 }
 
+/* Бөлім тақырыбы */
 .sec-eyebrow {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), serif;
   font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 600;
   color: var(--cream);
@@ -284,6 +445,7 @@ nav.scrolled {
   line-height: 1.15;
 }
 
+/* Тақырып астындағы жіңішке алтын сызық */
 .sec-eyebrow::after {
   content: '';
   display: block;
@@ -294,28 +456,32 @@ nav.scrolled {
 }
 
 
-/* ── 10. GALLERY ─────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   10. ГАЛЕРЕЯ (GALLERY)
+════════════════════════════════════════════════════ */
 
+/* Тор: экран енінен тәуелді бағандар саны автоматты анықталады */
 .g-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
 }
 
+/* Бір сурет карточкасы. Бастапқыда көрінбейді, main.js .visible қосқанда шығады */
 .g-item {
   position: relative;
-  border-radius: 18px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
-  aspect-ratio: 3/4;
+  aspect-ratio: 3 / 4;
   background: var(--surface);
   border: 1px solid var(--border);
   opacity: 0;
   transform: translateY(20px);
   transition:
-    transform 0.45s var(--ease),
-    box-shadow 0.45s,
-    opacity 0.6s var(--ease-out);
+          transform 0.45s var(--ease),
+          box-shadow 0.45s,
+          opacity 0.6s var(--ease-out);
 }
 
 .g-item.visible {
@@ -323,25 +489,22 @@ nav.scrolled {
   transform: translateY(0);
 }
 
-.g-item:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 0 1px var(--border-h);
-}
-
 .g-item img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.65s var(--ease);
-  display: block;
 }
-.g-item:hover img { transform: scale(1.07); }
 
+/* Суреттің астындағы жазу: төменнен қараңғы градиентпен шығады */
 .g-cap {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 48px 16px 16px;
-  background: linear-gradient(to top, rgba(8,7,10,0.90), transparent);
+  background: linear-gradient(to top, rgba(8, 7, 10, 0.9), transparent);
   color: var(--cream);
   font-size: 0.82rem;
   font-weight: 500;
@@ -349,51 +512,62 @@ nav.scrolled {
   transform: translateY(4px);
   transition: opacity 0.3s, transform 0.3s;
 }
-.g-item:hover .g-cap { opacity: 1; transform: translateY(0); }
+
+/* Пернетақтамен таңдалғанда жазу да көрінеді */
+.g-item:focus-visible .g-cap {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 
-/* ── 11. LIGHTBOX ────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   11. ЛАЙТБОКС (LIGHTBOX): суретті үлкейтіп көру
+════════════════════════════════════════════════════ */
 
+/* Бастапқыда жасырын. main.js display: flex қойып ашады */
 #lb {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(8,7,10,0.96);
-  backdrop-filter: blur(20px);
+  background: rgba(8, 7, 10, 0.96);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   align-items: center;
   justify-content: center;
 }
 
 #lb-close {
   position: absolute;
-  top: 24px; right: 24px;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 46px; height: 46px;
-  color: var(--text);
-  font-size: 1rem;
-  cursor: pointer;
+  top: 24px;
+  right: 24px;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 46px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 1.6rem;
+  line-height: 1;
   transition: background 0.2s, transform 0.2s;
-  z-index: 1;
 }
-#lb-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
 
 #lbImg {
   max-width: 88vw;
   max-height: 86vh;
-  border-radius: 18px;
+  border-radius: var(--radius-md);
   object-fit: contain;
-  box-shadow: 0 40px 96px rgba(0,0,0,0.85);
+  box-shadow: 0 40px 96px rgba(0, 0, 0, 0.85);
 }
 
 
-/* ── 12. VIDEOS ──────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   12. ВИДЕО (VIDEOS)
+════════════════════════════════════════════════════ */
 
 .v-grid {
   display: grid;
@@ -402,26 +576,37 @@ nav.scrolled {
 }
 
 .v-item {
-  border-radius: 18px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   opacity: 0;
   transform: translateY(20px);
-  transition: transform 0.45s var(--ease), box-shadow 0.45s, opacity 0.6s var(--ease-out);
+  transition:
+          transform 0.45s var(--ease),
+          box-shadow 0.45s,
+          opacity 0.6s var(--ease-out);
 }
-.v-item.visible { opacity: 1; transform: translateY(0); }
-.v-item:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(0,0,0,0.5); }
 
+.v-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Тік видео пішімі (9:16). object-fit: contain видеоны қиып тастамайды:
+   пішімі басқа видео болса, қара жолақтар қалады, бірақ мазмұн толық көрінеді */
 .v-item video {
-  width: 100%;
   display: block;
-  aspect-ratio: 9/16;
-  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  background: #000;
 }
 
 
-/* ── 13. MUSIC ───────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   13. МУЗЫКА (MUSIC)
+════════════════════════════════════════════════════ */
 
 .music-list {
   display: flex;
@@ -430,6 +615,7 @@ nav.scrolled {
   max-width: 580px;
 }
 
+/* Трек карточкасы. Басатын жалғыз элемент: ойнату түймесі (.mc-btn) */
 .music-card {
   display: flex;
   align-items: center;
@@ -437,19 +623,23 @@ nav.scrolled {
   padding: 18px 24px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  cursor: pointer;
+  border-radius: var(--radius-md);
   opacity: 0;
   transform: translateX(-20px);
   transition:
-    transform 0.35s var(--ease),
-    border-color 0.35s,
-    background 0.35s,
-    box-shadow 0.35s,
-    opacity 0.6s var(--ease-out);
+          transform 0.35s var(--ease),
+          border-color 0.35s,
+          background 0.35s,
+          box-shadow 0.35s,
+          opacity 0.6s var(--ease-out);
 }
-.music-card.visible { opacity: 1; transform: translateX(0); }
-.music-card:hover { border-color: var(--border-h); background: var(--surface2); transform: translateX(6px); }
+
+.music-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Ойнап тұрған трек: алтын жиек, жарқыл */
 .music-card.playing {
   border-color: var(--gold);
   background: var(--gold-dim);
@@ -458,20 +648,29 @@ nav.scrolled {
 }
 
 .mc-btn {
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  background: var(--gold-dim);
-  border: 1px solid var(--border-h);
-  color: var(--gold);
-  font-size: 0.85rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid var(--border-h);
+  color: var(--gold);
   transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s;
 }
-.mc-btn:hover { transform: scale(1.08); }
+
+/* SVG белгіше түйменің ортасында тұрады;
+   "ойнату" үшбұрышы оптикалық түрде ортаға жылжытылады */
+.mc-btn svg {
+  display: block;
+}
+
+.music-card:not(.playing) .mc-btn svg {
+  margin-left: 2px;
+}
+
 .music-card.playing .mc-btn {
   background: var(--gold);
   color: #0a0706;
@@ -480,169 +679,212 @@ nav.scrolled {
 }
 
 .mc-title {
+  flex: 1;
   font-size: 0.92rem;
   font-weight: 500;
   color: var(--text);
-  flex: 1;
 }
-.music-card.playing .mc-title { color: var(--gold-light); font-weight: 600; }
+
+.music-card.playing .mc-title {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* Ойнап тұрған тректе оң жақта үш таяқшалы эквалайзер анимациясы пайда болады */
+.music-card.playing::after {
+  content: '';
+  flex-shrink: 0;
+  width: 22px;
+  height: 18px;
+  background:
+          linear-gradient(var(--gold), var(--gold)) 0 100%    / 4px 40%  no-repeat,
+          linear-gradient(var(--gold), var(--gold)) 9px 100%  / 4px 100% no-repeat,
+          linear-gradient(var(--gold), var(--gold)) 18px 100% / 4px 60%  no-repeat;
+  animation: equalizer 1s ease-in-out infinite;
+}
+
+@keyframes equalizer {
+  0%, 100% { background-size: 4px 40%,  4px 100%, 4px 60%; }
+  50%      { background-size: 4px 100%, 4px 35%,  4px 90%; }
+}
 
 
-/* ── 14. LETTER ──────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   14. ХАТ (LETTER)
+════════════════════════════════════════════════════ */
 
+/* Пароль қақпасы: ортадағы карточка */
 .l-gate {
-  max-width: 480px;
-  text-align: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 26px;
-  padding: 52px 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  max-width: 480px;
   margin: 0 auto;
-  box-shadow: 0 24px 56px rgba(0,0,0,0.25);
+  padding: 52px 44px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.25);
 }
 
-.l-gate-icon { font-size: 2.5rem; }
+/* Конверт белгішесі (SVG). Түсін осы жерде береміз, ол currentColor арқылы қолданылады */
+.l-gate-icon {
+  display: flex;
+  color: var(--gold);
+}
 
 .l-gate h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--cream);
 }
 
-.l-gate p { color: var(--text-muted); font-size: 0.88rem; }
+.l-gate p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
 
+/* Пароль енгізу өрісі */
 .l-inp {
   width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 14px;
   padding: 15px 20px;
-  color: var(--text);
-  font-family: var(--font-sans);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   text-align: center;
   letter-spacing: 0.25em;
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
-.l-inp:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
 
+.l-inp:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+/* "Ашу" түймесі: алтыннан раушанға ауысатын градиент */
 .l-submit {
+  padding: 14px 40px;
   background: linear-gradient(135deg, var(--gold), var(--rose));
   border: none;
-  border-radius: 14px;
-  padding: 14px 40px;
+  border-radius: var(--radius-sm);
   color: #0a0706;
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  cursor: pointer;
   transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-.l-submit:hover {
-  opacity: 0.88;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px var(--gold-glow);
+
+/* Қате хабарламасы: бастапқыда жасырын, main.js көрсетеді */
+.l-err {
+  display: none;
+  color: var(--danger);
+  font-size: 0.82rem;
 }
 
-.l-err { color: #e09080; font-size: 0.82rem; display: none; }
+/* Хат мазмұны: бастапқыда жасырын, пароль дұрыс болғанда көрсетіледі */
+.l-content {
+  display: none;
+}
 
-.l-content { display: none; }
-
+/* Хат қағазы */
 .l-body {
+  position: relative;
+  overflow: hidden;
   max-width: 660px;
   margin: 0 auto;
+  padding: 60px 56px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 26px;
-  padding: 60px 56px;
-  position: relative;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.3);
-  line-height: 1.95;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
   color: var(--text);
   font-size: 0.95rem;
+  line-height: 1.95;
+
+  /* Ішкі қабаттардың реті осы элементтің ішінде ғана есептеледі,
+     сондықтан ::before жарығы мәтіннің артына жіберіледі */
+  isolation: isolate;
+
+  /* \n белгілері жаңа жолға айналады, ал артық бос орындар қысқарады */
   white-space: pre-line;
-  overflow: hidden;
 }
 
+/* Хаттың жоғарғы жағындағы жұмсақ раушан жарығы.
+   z-index: -1 жарықты мәтіннің артына, қағаз фонының үстіне қояды */
 .l-body::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 26px;
+  z-index: -1;
+  border-radius: var(--radius-lg);
   background: radial-gradient(ellipse 80% 50% at 50% 0%, var(--rose-dim), transparent 60%);
   pointer-events: none;
 }
 
+/* "Сүйіктім Moni-ге," жолы: қолжазба қаріппен */
 .l-to {
   display: block;
-  font-family: var(--font-script);
+  margin-bottom: 28px;
+  font-family: var(--font-script), cursive;
   font-size: 2rem;
   color: var(--rose);
-  margin-bottom: 28px;
 }
 
+/* Қолтаңба мен күн: оң жақта */
 .l-sig {
   display: block;
-  font-family: var(--font-script);
+  margin-top: 36px;
+  font-family: var(--font-script), cursive;
   font-size: 1.5rem;
   color: var(--gold);
-  margin-top: 36px;
   text-align: right;
 }
 
 .l-sig small {
   display: block;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--text-faint);
-  font-style: normal;
-  letter-spacing: 0.06em;
   margin-top: 4px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
 }
 
 
-/* ── 15. COUNTDOWN — Санағыш ─────────────────────── */
+/* ════════════════════════════════════════════════════
+   15. САНАҒЫШ (COUNTDOWN)
+════════════════════════════════════════════════════ */
 
 #countdown {
   text-align: center;
   padding: 120px 48px;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(196,168,120,0.04), transparent 70%),
-    var(--bg);
+          radial-gradient(ellipse 70% 50% at 50% 50%, rgba(196, 168, 120, 0.05), transparent 70%),
+          var(--bg);
 }
 
+/* Осы бөлімде тақырып ортада тұрады */
 #countdown .sec-eyebrow {
-  text-align: center;
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-  font-weight: 600;
-  color: var(--cream);
   margin-bottom: 12px;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
 }
 
 #countdown .sec-eyebrow::after {
-  content: '';
-  display: block;
-  width: 48px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent);
   margin: 16px auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
+/* Қолжазба ішкі тақырып */
 .count-title {
-  font-family: var(--font-script);
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-  color: var(--rose);
   margin-bottom: 56px;
-  opacity: 0.85;
+  font-family: var(--font-script), cursive;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 400;
+  color: var(--rose);
 }
 
 .count-grid {
@@ -652,107 +894,192 @@ nav.scrolled {
   flex-wrap: wrap;
 }
 
+/* Бір сан карточкасы (күн, сағат, минут, секунд).
+   Мұндағы transition ішінде opacity мен transform бар: әйтпесе .reveal
+   анимациясы осы жазбамен үстінен басылып, карточкалар жай ғана секіріп шығатын */
 .count-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 148px;
+  margin: 8px;
   padding: 36px 44px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 22px;
-  min-width: 148px;
-  margin: 8px;
-  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
-}
-.count-item:hover {
-  border-color: var(--border-h);
-  box-shadow: 0 0 40px var(--gold-glow);
-  transform: translateY(-4px);
+  transition:
+          opacity 0.85s var(--ease-out),
+          transform 0.6s var(--ease-out),
+          border-color 0.35s,
+          box-shadow 0.35s;
 }
 
+/* Сан: градиент түсті. tabular-nums: барлық цифр бірдей енде болады,
+   сондықтан секунд ауысқанда сан жағы дірілдемейді */
 .count-num {
-  font-family: var(--font-serif);
+  min-width: 2ch;
+  font-family: var(--font-serif), serif;
   font-size: clamp(3rem, 8vw, 5.5rem);
   font-weight: 700;
   line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
   background: linear-gradient(160deg, var(--cream) 20%, var(--gold));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  min-width: 2ch;
-  text-align: center;
+  -webkit-text-fill-color: transparent;
 }
 
 .count-label {
+  margin-top: 10px;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-top: 10px;
 }
 
+/* Сандардың арасындағы қос нүкте.
+   Мөлдірлік opacity арқылы емес, түстің өзі арқылы беріледі:
+   opacity-ді .reveal класы басқарады, сондықтан оны мұнда қолдануға болмайды. */
 .count-sep {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  color: var(--gold);
-  opacity: 0.35;
+  align-self: center;
   margin: 8px 4px 0;
   padding-bottom: 28px;
-  align-self: center;
+  font-family: var(--font-serif), serif;
+  font-size: 3rem;
+  color: rgba(196, 168, 120, 0.35);
 }
 
-.reveal-delay-1 { transition-delay: 0.10s; }
-.reveal-delay-2 { transition-delay: 0.20s; }
-.reveal-delay-3 { transition-delay: 0.30s; }
-.reveal-delay-4 { transition-delay: 0.40s; }
+/* Карточкалар бір-бірден кезекпен шығуы үшін кешігу уақыты.
+   Бұл ереже .count-item-нен кейін тұруы керек (ретінің маңызы бар) */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* Карточка шығып болған соң, меңзер үстіндегі әсер кешікпей жұмыс істейді */
+.count-item.visible:hover {
+  transition-delay: 0s;
+}
 
 
-/* ── 16. FOOTER ──────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   16. БЕТТІҢ ТӨМЕНГІ БӨЛІГІ (FOOTER)
+════════════════════════════════════════════════════ */
 
 footer {
-  text-align: center;
   padding: 72px 48px 88px;
-  border-top: 1px solid var(--border);
+  text-align: center;
   background: var(--surface);
+  border-top: 1px solid var(--border);
 }
 
 .f-name {
-  font-family: var(--font-serif);
+  margin-bottom: 10px;
+  font-family: var(--font-serif), serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--cream);
-  margin-bottom: 10px;
 }
 
 .f-date {
-  font-family: var(--font-script);
+  margin-bottom: 28px;
+  font-family: var(--font-script), cursive;
   font-size: 1.05rem;
   color: var(--rose);
-  margin-bottom: 28px;
 }
 
 .f-social {
   display: flex;
   justify-content: center;
-  gap: 28px;
   flex-wrap: wrap;
+  gap: 28px;
 }
 
 .f-social a {
+  padding: 6px 12px;
+  border-radius: 8px;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.82rem;
   letter-spacing: 0.06em;
-  padding: 6px 12px;
-  border-radius: 8px;
   transition: color 0.2s, background 0.2s;
 }
-.f-social a:hover { color: var(--gold); background: var(--gold-dim); }
 
 
-/* ── 16. RESPONSIVE ──────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   17. МЕҢЗЕР ҮСТІНДЕГІ ӘСЕРЛЕР (HOVER)
+   Тек тінтуірі бар құрылғыларда жұмыс істейді.
+   Телефонда саусақ басқанда әсер "тұрып қалмайды".
+════════════════════════════════════════════════════ */
 
+@media (hover: hover) {
+
+  .g-item:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-h);
+  }
+  .g-item:hover img { transform: scale(1.07); }
+  .g-item:hover .g-cap { opacity: 1; transform: translateY(0); }
+
+  .v-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
+  }
+
+  .music-card:hover {
+    border-color: var(--border-h);
+    background: var(--surface2);
+    transform: translateX(6px);
+  }
+
+  /* Ойнап тұрған картаның фоны меңзер үстінде де алтын болып қалады */
+  .music-card.playing:hover {
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .mc-btn:hover { transform: scale(1.08); }
+
+  #lb-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(90deg);
+  }
+
+  .l-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px var(--gold-glow);
+  }
+
+  .count-item:hover {
+    border-color: var(--border-h);
+    box-shadow: 0 0 40px var(--gold-glow);
+    transform: translateY(-4px);
+  }
+
+  .f-social a:hover {
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+}
+
+/* Сенсорлы экранда тінтуір жоқ, сондықтан сурет жазулары әрдайым көрініп тұрады */
+@media (hover: none) {
+  .g-cap {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════
+   18. БЕЙІМДЕЛУ (RESPONSIVE): планшет және телефон
+════════════════════════════════════════════════════ */
+
+/* Планшет */
 @media (max-width: 1024px) {
   .sec        { padding: 100px 36px; }
   #countdown  { padding: 100px 36px; }
@@ -760,15 +1087,32 @@ footer {
   .count-item { padding: 28px 32px; min-width: 120px; }
 }
 
+/* Үлкен телефон */
 @media (max-width: 768px) {
-  nav { padding: 0 20px; }
-  .nav-links { display: none; }
+  /* Мәзір екі қатарға бөлінеді: жоғарыда ат пен тіл, төменде бөлім сілтемелері.
+     Бұрын сілтемелер толық жасырылатын, телефонда навигация болмайтын */
+  html { scroll-padding-top: 120px; }
 
-  .sec       { padding: 80px 24px; }
-  #countdown { padding: 80px 24px; }
-  .count-item { padding: 24px 24px; min-width: 100px; }
+  #nav {
+    padding: 10px 16px;
+    row-gap: 6px;
+  }
+
+  .nav-links {
+    order: 3;            /* Екінші қатарға түседі */
+    flex-basis: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .sec        { padding: 80px 24px; }
+  #countdown  { padding: 80px 24px; }
+  .count-item { padding: 24px; min-width: 100px; }
   .count-sep  { font-size: 2rem; }
   .count-num  { font-size: 2.8rem; }
+
+  /* Мәзір екі қатар болғандықтан, hero мазмұны төменірек басталады */
+  .hero-content { padding-top: 150px; }
 
   .g-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .v-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -777,23 +1121,51 @@ footer {
   .l-to   { font-size: 1.6rem; }
 }
 
+/* Кіші телефон */
 @media (max-width: 480px) {
-  .hero-photo  { width: 120px; height: 120px; }
-  .hero-name   { font-size: 3.8rem; }
-  .count-item  { padding: 20px 18px; min-width: 86px; margin: 6px; }
-  .count-sep   { font-size: 1.4rem; padding-bottom: 20px; }
-  .count-num   { font-size: 2.2rem; }
+  .hero-photo { width: 120px; height: 120px; }
+  .hero-name  { font-size: 3.8rem; }
 
-  .g-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .count-item { padding: 20px 18px; min-width: 86px; margin: 6px; }
+  .count-sep  { font-size: 1.4rem; padding-bottom: 20px; }
+  .count-num  { font-size: 2.2rem; }
+
+  .g-grid { gap: 8px; }
   .v-grid { grid-template-columns: 1fr; }
 
   .l-gate { padding: 36px 24px; }
   .l-body { padding: 32px 20px; }
   .l-sig  { font-size: 1.2rem; }
+
+  .music-card { padding: 14px 16px; gap: 14px; }
+
+  footer { padding: 56px 24px 72px; }
 }
 
+/* Өте тар экран */
 @media (max-width: 360px) {
   .hero-name  { font-size: 3rem; }
   .count-sep  { display: none; }
   .count-item { margin: 4px; min-width: 76px; }
+}
+
+
+/* ════════════════════════════════════════════════════
+   19. ҚОЗҒАЛЫСТЫ АЗАЙТУ (REDUCED MOTION)
+   Құрылғы параметрінде "анимацияны азайту" қосылған болса
+   (бас айналуы, мигрень, вестибулярлық бұзылыстары бар адамдарға керек),
+   барлық қозғалыс бірден аяқталады.
+════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
 }

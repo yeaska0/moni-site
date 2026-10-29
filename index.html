@@ -1,139 +1,219 @@
 <!DOCTYPE html>
+<!-- Құжат тілі: бастапқыда қазақ тілі. Тіл ауысқанда main.js бұл мәнді жаңартады. -->
 <html lang="kk">
 <head>
+  <!-- Таңбалар кодировкасы: қазақ әріптері дұрыс көрінуі үшін міндетті -->
   <meta charset="UTF-8">
+
+  <!-- Мобильді құрылғыларда бет өлшемін дұрыс көрсету -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moni🕊️</title>
+
+  <!-- Браузер жолағының түсі (телефонда) -->
+  <meta name="theme-color" content="#1a1216">
+
+  <!-- Іздеу жүйелері мен әлеуметтік желілерге арналған сипаттама -->
+  <meta name="description" content="Moni: галерея, видео, музыка және жеке хат.">
+
+  <!-- Сілтеме әлеуметтік желіде жіберілгенде көрсетілетін атау.
+       Бет атауымен (title) бірдей болуы керек. -->
+  <meta property="og:title" content="Agalek">
+  <meta property="og:description" content="Галерея, видео, музыка және жеке хат.">
+  <meta property="og:type" content="website">
+
+  <!-- Браузер қойындысындағы бет атауы -->
+  <title>Agalek</title>
+
+  <!-- Қаріптерді жылдам жүктеу үшін алдын ала қосылу -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Қаріптер: тақырыпқа Playfair Display, қолтаңбаға Dancing Script, мәтінге Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Сайттың дизайн файлы -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- Пернетақтамен жүретіндерге: мәзірді өткізіп, тікелей мазмұнға өту сілтемесі -->
+<a href="#main" class="skip-link">Мазмұнға өту</a>
+
 <!-- ═══════════════════════════════════════
-     NAVIGATION — Навигация
+     NAVIGATION: жоғарғы мәзір
 ═══════════════════════════════════════ -->
-<nav id="nav">
-  <div class="nav-logo">Moni🕊️</div>
+<nav id="nav" aria-label="Негізгі мәзір">
+  <!-- Сайттың белгісі (логотипі) -->
+  <div class="nav-logo">Moni</div>
+
+  <!-- Бөлімдерге сілтемелер. data-i18n кілті тіл ауысқанда мәтінді алмастырады -->
   <ul class="nav-links">
     <li><a href="#gallery" data-i18n="navGallery">Галерея</a></li>
     <li><a href="#videos"  data-i18n="navVideos">Видео</a></li>
     <li><a href="#music"   data-i18n="navMusic">Музыка</a></li>
     <li><a href="#letter"  data-i18n="navLetter">Хат</a></li>
   </ul>
+
+  <!-- Тіл ауыстырғыш: KK, RU, EN. Басқанда main.js ішіндегі setLang() шақырылады -->
   <div class="nav-controls">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="kk" onclick="setLang('kk')">KK</button>
-      <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
-      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <div class="lang-switch" role="group" aria-label="Тілді таңдау">
+      <button type="button" class="lang-btn active" data-lang="kk" aria-label="Қазақша" onclick="setLang('kk')">KK</button>
+      <button type="button" class="lang-btn" data-lang="ru" aria-label="Русский" onclick="setLang('ru')">RU</button>
+      <button type="button" class="lang-btn" data-lang="en" aria-label="English" onclick="setLang('en')">EN</button>
     </div>
   </div>
 </nav>
 
-<!-- ═══════════════════════════════════════
-     HERO — Басты беттің үстіңгі бөлімі
-═══════════════════════════════════════ -->
-<div id="hero">
-  <canvas id="heroCanvas"></canvas>
-  <div class="hero-content">
-    <img id="heroImg" class="hero-photo" alt="Moni">
-    <p class="hero-eyebrow" data-i18n="heroEyebrow">Moni-дің Әлімі ✨</p>
-    <h1 class="hero-name">Moni🕊️</h1>
-  </div>
-  <div class="hero-scroll-hint">↓</div>
-</div>
+<!-- Негізгі мазмұн: экран оқу құралдары мен браузерлер үшін бір басты аймақ -->
+<main id="main">
 
-<!-- ═══════════════════════════════════════
-     GALLERY — Галерея
-═══════════════════════════════════════ -->
-<div class="sec" id="gallery">
-  <p class="sec-eyebrow reveal" data-i18n="galleryTitle">Галерея</p>
-  <div class="g-grid" id="gGrid"></div>
-</div>
+  <!-- ═══════════════════════════════════════
+       HERO: басты экран
+  ═══════════════════════════════════════ -->
+  <header id="hero">
+    <!-- Фондағы анимация кенебі. Мағыналық мазмұны жоқ, сондықтан оқу құралдарынан жасырылған -->
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
 
-<!-- LIGHTBOX -->
-<div id="lb" onclick="closeLb()">
-  <button id="lb-close" onclick="closeLb()">✕</button>
-  <img id="lbImg" src="" alt="">
-</div>
-
-<!-- ═══════════════════════════════════════
-     VIDEOS — Видео
-═══════════════════════════════════════ -->
-<div class="sec" id="videos">
-  <p class="sec-eyebrow reveal" data-i18n="videosTitle">Видео</p>
-  <div class="v-grid" id="vGrid"></div>
-</div>
-
-<!-- ═══════════════════════════════════════
-     MUSIC — Музыка бөлімі
-═══════════════════════════════════════ -->
-<div class="sec" id="music">
-  <p class="sec-eyebrow reveal" data-i18n="musicTitle">Музыка 🎵</p>
-  <div class="music-list" id="musicList"></div>
-</div>
-
-<!-- ═══════════════════════════════════════
-     COUNTDOWN — Санағыш
-═══════════════════════════════════════ -->
-<div id="countdown">
-  <p class="sec-eyebrow reveal" data-i18n="countEyebrow">Танысқанымызға</p>
-  <h2 class="count-title reveal" data-i18n="countTitle">Бірге өткен уақыт</h2>
-  <div class="count-grid">
-    <div class="count-item reveal reveal-delay-1">
-      <span class="count-num" id="cntDays">0</span>
-      <span class="count-label" data-i18n="cntDays">Күн</span>
+    <div class="hero-content">
+      <!-- Басты фото. Нақты src мәнін main.js орнатады.
+           Бос src қайта сұраныс жасамасын деп 1x1 мөлдір сурет қойылған -->
+      <img id="heroImg" class="hero-photo" alt="Moni"
+           src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+           decoding="async">
+      <p class="hero-eyebrow" data-i18n="heroEyebrow">Moni-дің Әлімі</p>
+      <h1 class="hero-name">Moni</h1>
     </div>
-    <div class="count-sep reveal reveal-delay-2">:</div>
-    <div class="count-item reveal reveal-delay-2">
-      <span class="count-num" id="cntHours">00</span>
-      <span class="count-label" data-i18n="cntHours">Сағат</span>
+
+    <!-- Төмен айналдыру нұсқауы. Тек безендіру, сондықтан жасырылған -->
+    <div class="hero-scroll-hint" aria-hidden="true">&darr;</div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       GALLERY: галерея
+  ═══════════════════════════════════════ -->
+  <section class="sec" id="gallery" aria-labelledby="galleryHeading">
+    <p class="sec-eyebrow reveal" id="galleryHeading" data-i18n="galleryTitle">Галерея</p>
+    <!-- Суреттер осы торға main.js арқылы толтырылады -->
+    <div class="g-grid" id="gGrid"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       VIDEOS: видео
+  ═══════════════════════════════════════ -->
+  <section class="sec" id="videos" aria-labelledby="videosHeading">
+    <p class="sec-eyebrow reveal" id="videosHeading" data-i18n="videosTitle">Видео</p>
+    <!-- Видеолар осы торға main.js арқылы толтырылады -->
+    <div class="v-grid" id="vGrid"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       MUSIC: музыка
+  ═══════════════════════════════════════ -->
+  <section class="sec" id="music" aria-labelledby="musicHeading">
+    <p class="sec-eyebrow reveal" id="musicHeading" data-i18n="musicTitle">Музыка</p>
+    <!-- Әндер тізімі main.js арқылы толтырылады -->
+    <div class="music-list" id="musicList"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       COUNTDOWN: бірге өткен уақыт санағышы
+  ═══════════════════════════════════════ -->
+  <section id="countdown" aria-labelledby="countHeading">
+    <p class="sec-eyebrow reveal" data-i18n="countEyebrow">Танысқанымызға</p>
+    <h2 class="count-title reveal" id="countHeading" data-i18n="countTitle">Бірге өткен уақыт</h2>
+
+    <!-- Сандар main.js арқылы әр секунд сайын жаңарады -->
+    <div class="count-grid">
+      <div class="count-item reveal reveal-delay-1">
+        <span class="count-num" id="cntDays">0</span>
+        <span class="count-label" data-i18n="cntDays">Күн</span>
+      </div>
+      <div class="count-sep reveal reveal-delay-2" aria-hidden="true">:</div>
+      <div class="count-item reveal reveal-delay-2">
+        <span class="count-num" id="cntHours">00</span>
+        <span class="count-label" data-i18n="cntHours">Сағат</span>
+      </div>
+      <div class="count-sep reveal reveal-delay-3" aria-hidden="true">:</div>
+      <div class="count-item reveal reveal-delay-3">
+        <span class="count-num" id="cntMins">00</span>
+        <span class="count-label" data-i18n="cntMins">Минут</span>
+      </div>
+      <div class="count-sep reveal reveal-delay-4" aria-hidden="true">:</div>
+      <div class="count-item reveal reveal-delay-4">
+        <span class="count-num" id="cntSecs">00</span>
+        <span class="count-label" data-i18n="cntSecs">Секунд</span>
+      </div>
     </div>
-    <div class="count-sep reveal reveal-delay-3">:</div>
-    <div class="count-item reveal reveal-delay-3">
-      <span class="count-num" id="cntMins">00</span>
-      <span class="count-label" data-i18n="cntMins">Минут</span>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       LETTER: құпия хат
+  ═══════════════════════════════════════ -->
+  <section class="sec" id="letter" aria-labelledby="letterHeading">
+    <p class="sec-eyebrow reveal" id="letterHeading" data-i18n="letterTitle">Хат</p>
+
+    <!-- Пароль қақпасы: дұрыс пароль енгізілгенше хат жасырын тұрады -->
+    <div class="l-gate" id="letterGate">
+      <!-- SVG конверт белгішесі. Түсі қоршаған мәтіннің түсін алады (currentColor) -->
+      <div class="l-gate-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="M3 7l9 6 9-6"></path>
+        </svg>
+      </div>
+      <h3 data-i18n="letterGateH3">Жасырын хат</h3>
+      <p data-i18n="letterGateP">Хатты ашу үшін пароль енгізіңіз</p>
+
+      <!-- Пароль өрісі. Enter басуды main.js ішіндегі initLetterGate() өңдейді -->
+      <label class="visually-hidden" for="letterPass" data-i18n="gatePlaceholder">Пароль</label>
+      <input class="l-inp" id="letterPass" type="password"
+             autocomplete="off"
+             data-i18n-ph="gatePlaceholder" placeholder="Пароль...">
+
+      <!-- Түймені басқанда main.js ішіндегі checkLetter() шақырылады -->
+      <button type="button" class="l-submit" onclick="checkLetter()" data-i18n="letterBtn">Ашу</button>
+
+      <!-- Қате хабарламасы. role="alert" экран оқу құралына оны бірден хабарлайды -->
+      <div class="l-err" id="letterErr" role="alert" data-i18n="letterErr">Пароль дұрыс емес</div>
     </div>
-    <div class="count-sep reveal reveal-delay-4">:</div>
-    <div class="count-item reveal reveal-delay-4">
-      <span class="count-num" id="cntSecs">00</span>
-      <span class="count-label" data-i18n="cntSecs">Секунд</span>
+
+    <!-- Хат мәтіні. Пароль дұрыс болғанда main.js осы блокты көрсетеді -->
+    <div class="l-content" id="letterContent">
+      <div class="l-body" id="letterBody"></div>
     </div>
-  </div>
-</div>
+  </section>
+
+</main>
 
 <!-- ═══════════════════════════════════════
-     LETTER — Хат
+     LIGHTBOX: суретті үлкейтіп көру
+     Жабу түймесінде бөлек onclick жоқ: басу контейнерге өтіп,
+     closeLb() бір-ақ рет шақырылады
 ═══════════════════════════════════════ -->
-<div class="sec" id="letter">
-  <p class="sec-eyebrow reveal" data-i18n="letterTitle">Хат 💌</p>
-  <div class="l-gate" id="letterGate">
-    <div class="l-gate-icon">💌</div>
-    <h3 data-i18n="letterGateH3">🔐 Жасырын хат</h3>
-    <p data-i18n="letterGateP">Хатты ашу үшін пароль енгізіңіз</p>
-    <input class="l-inp" id="letterPass" type="password"
-      data-i18n-ph="gatePlaceholder" placeholder="Пароль..."
-      onkeydown="if(event.key==='Enter')checkLetter()">
-    <button class="l-submit" onclick="checkLetter()" data-i18n="letterBtn">Ашу 💌</button>
-    <div class="l-err" id="letterErr" data-i18n="letterErr">Пароль дұрыс емес</div>
-  </div>
-  <div class="l-content" id="letterContent">
-    <div class="l-body" id="letterBody"></div>
-  </div>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Суретті көру" onclick="closeLb()">
+  <button type="button" id="lb-close" aria-label="Жабу">&times;</button>
+  <img id="lbImg" alt=""
+       src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
 </div>
 
 <!-- ═══════════════════════════════════════
-     FOOTER
+     FOOTER: беттің төменгі бөлігі
 ═══════════════════════════════════════ -->
 <footer>
-  <div class="f-name" data-i18n="footerName">Moni🕊️ · Ақмарал · Ақалек</div>
-  <div class="f-date" data-i18n="footerDate">14 сәуір 2026 — мәңгілік ❤️</div>
+  <div class="f-name" data-i18n="footerName">Moni · Ақмарал · Ақалек</div>
+  <div class="f-date" data-i18n="footerDate">14 сәуір 2026 — мәңгілік</div>
+
+  <!-- Сыртқы сілтемелер. rel="noopener noreferrer": жаңа бет сіздің бетті басқара алмайды -->
   <div class="f-social">
-    <a href="https://www.tiktok.com/@aakalek_" target="_blank">TikTok @aakalek_</a>
-    <a href="https://www.instagram.com/marralym" target="_blank">Instagram marralym</a>
+    <a href="https://www.tiktok.com/@aakalek_" target="_blank" rel="noopener noreferrer">TikTok @aakalek_</a>
+    <a href="https://www.instagram.com/marralym" target="_blank" rel="noopener noreferrer">Instagram marralym</a>
   </div>
 </footer>
 
-<audio id="audio"></audio>
-<script src="main.js"></script>
+<!-- Музыка ойнатқыш. preload="none": пайдаланушы ойнатқанға дейін файл жүктелмейді, трафик үнемделеді -->
+<audio id="audio" preload="none"></audio>
+
+<!-- defer: бет толық оқылғаннан кейін скрипт іске қосылады, бет жылдам ашылады -->
+<script src="main.js" defer></script>
 </body>
 </html>

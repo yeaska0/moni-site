@@ -1,10 +1,10 @@
 {
   "name": "moni-site",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Moni: галерея, видео, музыка және жеке хат бар статикалық сайт",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx --yes serve ."
   },
-  "private": true
+  "license": "UNLICENSED"
 }

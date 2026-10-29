@@ -1,110 +1,93 @@
 /* ════════════════════════════════════════════════════
-   main.js — Moni🕊️ · Ultimate Romantic Design
-   Luxury · Warm Champagne & Rose Gold
+   main.js
+   Сайттың барлық логикасы осы файлда:
+   деректер, аудармалар, галерея, видео, музыка,
+   хат қақпасы, санағыш, бөлшектер анимациясы.
    Автор: Ақалек | 2026
 ════════════════════════════════════════════════════ */
 
-
-/* ════════════════════════════════════════════════════
-   1. СУРЕТТЕР (IMAGES)
-════════════════════════════════════════════════════ */
-
-const IMG0  = 'assets/images/photo_base0.png';
-const IMG1  = 'assets/images/photo_base1.png';
-const IMG2  = 'assets/images/photo_base2.png';
-const IMG3  = 'assets/images/photo_base3.png';
-const IMG4  = 'assets/images/photo_base4.png';
-const IMG5  = 'assets/images/photo1.jpg';
-const IMG6  = 'assets/images/photo2.jpg';
-const IMG7  = 'assets/images/photo3.jpg';
-const IMG8  = 'assets/images/2026-06-24%2020.38.34.jpg';
-const IMG9  = 'assets/images/2026-06-24%2020.38.46.jpg';
-const IMG10 = 'assets/images/2026-06-24%2020.39.27.jpg';
-const IMG11 = 'assets/images/2026-06-24%2020.39.31.jpg';
-const IMG12 = 'assets/images/2026-06-24%2020.39.35.jpg';
-const IMG13 = 'assets/images/2026-06-24%2020.39.40.jpg';
-const IMG14 = 'assets/images/2026-06-24%2020.39.43.jpg';
-const IMG15 = 'assets/images/2026-06-24%2020.39.47.jpg';
-const IMG16 = 'assets/images/2026-06-24%2020.39.52.jpg';
-const IMG17 = 'assets/images/2026-06-24%2020.39.57.jpg';
-const IMG18 = 'assets/images/2026-06-24%2020.40.11.jpg';
-const IMG19 = 'assets/images/2026-06-24%2020.40.32.jpg';
-const IMG20 = 'assets/images/2026-06-24%2020.40.35.jpg';
-const IMG21 = 'assets/images/2026-06-24%2020.40.39.jpg';
-const IMG22 = 'assets/images/2026-06-24%2020.40.42.jpg';
-const IMG23 = 'assets/images/2026-06-24%2020.40.45.jpg';
-const IMG24 = 'assets/images/2026-06-24%2020.40.49.jpg';
-const IMG25 = 'assets/images/2026-06-24%2020.40.53.jpg';
-const IMG26 = 'assets/images/2026-06-24%2020.40.56.jpg';
-const IMG27 = 'assets/images/2026-06-24%2020.41.00.jpg';
+/* 'use strict' режимі: кездейсоқ қателерді (мысалы, жарияланбаған айнымалыны)
+   браузер жасырмай, бірден көрсетеді. */
+'use strict';
 
 
 /* ════════════════════════════════════════════════════
-   2. СУРЕТТЕР МАССИВІ (IMAGE ARRAY)
+   1. БАПТАУЛАР (CONFIG)
+   Өзгертуге болатын барлық мәндер бір жерде тұр.
 ════════════════════════════════════════════════════ */
 
-const IMGS = [
-  IMG0,  IMG1,  IMG2,  IMG3,  IMG4,
-  IMG5,  IMG6,  IMG7,  IMG8,  IMG9,
-  IMG10, IMG11, IMG12, IMG13, IMG14,
-  IMG15, IMG16, IMG17, IMG18, IMG19,
-  IMG20, IMG21, IMG22, IMG23, IMG24,
-  IMG25, IMG26, IMG27,
+/* Хатты ашатын пароль.
+   ЕСКЕРТУ: бұл файл браузерде ашық көрінеді, сондықтан пароль нағыз
+   қорғаныс емес, тек "ашу ойыны". */
+const LETTER_PASSWORD = '0358';
+
+/* Санағыш осы күннен бастап есептейді (жергілікті уақытпен) */
+const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
+
+/* Әдепкі тіл және тілді браузерде сақтайтын кілт */
+const DEFAULT_LANG = 'kk';
+const STORAGE_KEY_LANG = 'lang';
+
+/* Файлдар тұратын бумалар */
+const IMAGE_DIR = 'assets/images/';
+const VIDEO_DIR = 'assets/videos/';
+const AUDIO_DIR = 'assets/audio/';
+
+/* Басты экрандағы фото (галерея тізімінен бөлек көрсетіледі) */
+const HERO_IMAGE_FILE = 'photo_base4.png';
+
+/* 1x1 мөлдір сурет: лайтбокс жабылғанда бос src қалдырмау үшін */
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+
+/* ════════════════════════════════════════════════════
+   2. ДЕРЕКТЕР (DATA)
+   Әр сурет өз жазуымен бір объектіде тұр,
+   сондықтан жазулар мен суреттердің арасы шатаспайды.
+════════════════════════════════════════════════════ */
+
+/* file: файл аты (бос орындар қалай болса солай жазылады, жолға кейін автоматты кодталады)
+   caption: суреттің астындағы жазу */
+const GALLERY = [
+  { file: 'photo_base0.png',            caption: 'Менің Monim'    },
+  { file: 'photo_base1.png',            caption: 'Сүйкімді'       },
+  { file: 'photo_base2.png',            caption: 'Стильді'        },
+  { file: 'photo_base3.png',            caption: 'Нұрлы'          },
+  { file: 'photo_base4.png',            caption: 'Менің бақытым'  },
+  { file: 'photo1.jpg',                 caption: 'Ақмарал'        },
+  { file: 'photo2.jpg',                 caption: 'Ақалек'         },
+  { file: 'photo3.jpg',                 caption: 'Moni'           },
+  { file: '2026-06-24 20.38.34.jpg',    caption: 'Moni'           },
+  { file: '2026-06-24 20.38.46.jpg',    caption: 'Ақмарал'        },
+  { file: '2026-06-24 20.39.27.jpg',    caption: 'Сүйкімді'       },
+  { file: '2026-06-24 20.39.31.jpg',    caption: 'Нұрлы'          },
+  { file: '2026-06-24 20.39.35.jpg',    caption: 'Moni'           },
+  { file: '2026-06-24 20.39.40.jpg',    caption: 'Ерекше'         },
+  { file: '2026-06-24 20.39.43.jpg',    caption: 'Әдемі'          },
+  { file: '2026-06-24 20.39.47.jpg',    caption: 'Жүрегім'        },
+  { file: '2026-06-24 20.39.52.jpg',    caption: 'Moni'           },
+  { file: '2026-06-24 20.39.57.jpg',    caption: 'Керемет'        },
+  { file: '2026-06-24 20.40.11.jpg',    caption: 'Сүйіктім'       },
+  { file: '2026-06-24 20.40.32.jpg',    caption: 'Жарқыным'       },
+  { file: '2026-06-24 20.40.35.jpg',    caption: 'Moni'           },
+  { file: '2026-06-24 20.40.39.jpg',    caption: 'Бақытым'        },
+  { file: '2026-06-24 20.40.42.jpg',    caption: 'Ақалек'         },
+  { file: '2026-06-24 20.40.45.jpg',    caption: 'Нурым'          },
+  { file: '2026-06-24 20.40.49.jpg',    caption: 'Moni'           },
+  { file: '2026-06-24 20.40.53.jpg',    caption: 'Армандым'       },
+  { file: '2026-06-24 20.40.56.jpg',    caption: 'Жаным'          },
+  { file: '2026-06-24 20.41.00.jpg',    caption: 'Moni'           },
 ];
 
-
-/* ════════════════════════════════════════════════════
-   3. ЖАЗУЛАР (CAPTIONS)
-════════════════════════════════════════════════════ */
-
-const CAPS = [
-  'Менің Monim 🌹',   // IMG0
-  'Сүйкімді 💕',      // IMG1
-  'Стильді ✨',        // IMG2
-  'Нұрлы 😍',         // IMG3
-  'Менің бақытым 🌸', // IMG4
-  'Ақмарал 💙',       // IMG5
-  'Ақалек 🌸',        // IMG6
-  'Moni ❤️',          // IMG7
-  'Moni 💙',          // IMG8
-  'Ақмарал ✨',       // IMG9
-  'Сүйкімді 🌸',      // IMG10
-  'Нұрлы 💫',         // IMG11
-  'Moni 🌹',          // IMG12
-  'Ерекше 💕',        // IMG13
-  'Әдемі 🌺',         // IMG14
-  'Жүрегім 💙',       // IMG15
-  'Moni ❤️',          // IMG16
-  'Керемет ✨',        // IMG17
-  'Сүйіктім 🩷',      // IMG18
-  'Жарқыным 💖',      // IMG19
-  'Moni 🌷',          // IMG20
-  'Бақытым 💗',       // IMG21
-  'Ақалек 💙',        // IMG22
-  'Нурым 🌸',         // IMG23
-  'Moni 💫',          // IMG24
-  'Армандым 💕',      // IMG25
-  'Жаным ❤️',         // IMG26
-  'Moni 🌹',          // IMG27
-];
-
-
-/* ════════════════════════════════════════════════════
-   4. МУЗЫКА ТРЕКТЕРІ (TRACKS)
-════════════════════════════════════════════════════ */
-
+/* Музыка тректері */
 const TRACKS = [
-  { src: 'assets/audio/Sadraddin_-_Qolymnan_usta.mp3',  title: 'Qolymnan Usta 🎵' },
-  { src: 'assets/audio/Sadraddin_Bakr_-_Sagynysh.mp3',  title: 'Sagynysh 🎵'       },
-  { src: 'assets/audio/Kairat Nurtas - Маралым.mp3',    title: 'Маралым 🎵'         },
+  { file: 'Sadraddin_-_Qolymnan_usta.mp3', title: 'Qolymnan Usta' },
+  { file: 'Sadraddin_Bakr_-_Sagynysh.mp3', title: 'Sagynysh'      },
+  { file: 'Kairat Nurtas - Маралым.mp3',   title: 'Маралым'       },
 ];
 
-
-/* ════════════════════════════════════════════════════
-   5. БЕЙНЕЛЕР (VIDEOS)
-════════════════════════════════════════════════════ */
-
-const VIDS = [
+/* Видео файлдары */
+const VIDEO_FILES = [
   'TikSave_io_7551293612592581893-hd.mp4',
   'TikSave_io_7561655786267594040-hd.mp4',
   'TikSave_io_7590279590208195848-hd.mp4',
@@ -118,435 +101,759 @@ const VIDS = [
 
 
 /* ════════════════════════════════════════════════════
-   6. АУДАРМАЛАР (TRANSLATIONS — i18n)
-   kk — Қазақша  |  ru — Орысша  |  en — Ағылшынша
+   3. АУДАРМАЛАР (i18n)
+   kk: қазақша | ru: орысша | en: ағылшынша
+   Кілттер index.html ішіндегі data-i18n атрибуттарымен бірдей.
 ════════════════════════════════════════════════════ */
 
 const i18n = {
 
   kk: {
-    gateSub:         'Менің жауапсыз махаббатым',
-    gateBtn:         'Кіру →',
-    gatePlaceholder: 'Пароль...',
-    gateErr:         'Пароль дұрыс емес',
     navGallery:      'Галерея',
     navVideos:       'Видео',
     navMusic:        'Музыка',
     navLetter:       'Хат',
-    heroEyebrow:     'Moni-дің Әлімі ✨',
+    heroEyebrow:     'Moni-дің Әлімі',
     galleryTitle:    'Галерея',
     videosTitle:     'Видео',
-    musicTitle:      'Музыка 🎵',
-    letterTitle:     'Хат 💌',
-    letterGateH3:    '🔐 Жасырын хат',
+    musicTitle:      'Музыка',
+    musicPlay:       'Ойнату',
+    musicPause:      'Тоқтату',
+    letterTitle:     'Хат',
+    letterGateH3:    'Жасырын хат',
     letterGateP:     'Хатты ашу үшін пароль енгізіңіз',
-    letterBtn:       'Ашу 💌',
+    gatePlaceholder: 'Пароль...',
+    letterBtn:       'Ашу',
     letterErr:       'Пароль дұрыс емес',
     letterTo:        'Сүйіктім Moni-ге,',
     letterBody:
-      'Мони, саған көптен бері айтқым келген бір нәрсе бар.\n' +
-      'Бәлкім бұл хатты жазбауым керек шығар. Бірақ ішімде сақтап жүруден шаршадым. Сондықтан бір рет болса да жүрегімдегіні жасырмай айтқым келеді.\n' +
-      'Сен мұны білмеуің де мүмкін, бірақ өмірімнің қиын кезеңдерінде маған байқамай үлкен көмек көрсеткен адамдардың бірі өзің болдың.\n' +
-      'Сенімен сөйлескен кездерімде ішімдегі уайымдарым мен шаршаған ойларым бір сәтке болса да жоғалып кететін. Жаным тынышталып, бәрі жақсы болатын сияқты көрінетін.\n' +
-      'Маған сенің сыртқы келбетіңнен бұрын жүрегің ұнайды. Адамды өзіне баурап алатын мінезің, ақкөңілдігің, адамдарға деген қарым-қатынасың, жылы жүзің — осының бәрі сені ерекше етеді.\n' +
-      'Мен сені жақсы көремін. Бірақ бұл хатты сенен бір нәрсе талап ету үшін жазып отырған жоқпын. Керісінше, сені құрметтегендіктен жазып отырмын.\n' +
-      'Тек бір нәрсені білгеніңді қалаймын: сен менің өмірімде із қалдырған адамсың.\n' +
-      'Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.',
+        'Мони, саған көптен бері айтқым келген бір нәрсе бар.\n' +
+        'Бәлкім бұл хатты жазбауым керек шығар. Бірақ ішімде сақтап жүруден шаршадым. Сондықтан бір рет болса да жүрегімдегіні жасырмай айтқым келеді.\n' +
+        'Сен мұны білмеуің де мүмкін, бірақ өмірімнің қиын кезеңдерінде маған байқамай үлкен көмек көрсеткен адамдардың бірі өзің болдың.\n' +
+        'Сенімен сөйлескен кездерімде ішімдегі уайымдарым мен шаршаған ойларым бір сәтке болса да жоғалып кететін. Жаным тынышталып, бәрі жақсы болатын сияқты көрінетін.\n' +
+        'Маған сенің сыртқы келбетіңнен бұрын жүрегің ұнайды. Адамды өзіне баурап алатын мінезің, ақкөңілдігің, адамдарға деген қарым-қатынасың, жылы жүзің — осының бәрі сені ерекше етеді.\n' +
+        'Мен сені жақсы көремін. Бірақ бұл хатты сенен бір нәрсе талап ету үшін жазып отырған жоқпын. Керісінше, сені құрметтегендіктен жазып отырмын.\n' +
+        'Тек бір нәрсені білгеніңді қалаймын: сен менің өмірімде із қалдырған адамсың.\n' +
+        'Саған шын жүректен бақыт тілеймін. Өзің армандаған өмірге жет, әрқашан күліп жүр.',
     letterSig:       'Ақалек · Ақмарал',
-    letterDate:      '14 сәуір 2026 — мәңгілік ❤️',
+    letterDate:      '14 сәуір 2026 — мәңгілік',
     countEyebrow:    'Танысқанымызға',
     countTitle:      'Бірге өткен уақыт',
     cntDays:         'Күн',
     cntHours:        'Сағат',
     cntMins:         'Минут',
     cntSecs:         'Секунд',
-    footerName:      'Moni🕊️ · Ақмарал · Ақалек',
-    footerDate:      '14 сәуір 2026 — мәңгілік ❤️',
+    footerName:      'Moni · Ақмарал · Ақалек',
+    footerDate:      '14 сәуір 2026 — мәңгілік',
   },
 
   ru: {
-    gateSub:         'Моя безответная любовь',
-    gateBtn:         'Войти →',
-    gatePlaceholder: 'Пароль...',
-    gateErr:         'Неверный пароль',
     navGallery:      'Галерея',
     navVideos:       'Видео',
     navMusic:        'Музыка',
     navLetter:       'Письмо',
-    heroEyebrow:     'Алим для Мони ✨',
+    heroEyebrow:     'Алим для Мони',
     galleryTitle:    'Галерея',
     videosTitle:     'Видео',
-    musicTitle:      'Музыка 🎵',
-    letterTitle:     'Письмо 💌',
-    letterGateH3:    '🔐 Секретное письмо',
+    musicTitle:      'Музыка',
+    musicPlay:       'Воспроизвести',
+    musicPause:      'Пауза',
+    letterTitle:     'Письмо',
+    letterGateH3:    'Секретное письмо',
     letterGateP:     'Введите пароль, чтобы открыть письмо',
-    letterBtn:       'Открыть 💌',
+    gatePlaceholder: 'Пароль...',
+    letterBtn:       'Открыть',
     letterErr:       'Неверный пароль',
     letterTo:        'Моя дорогая Мони,',
     letterBody:
-      'Мони, есть кое-что, что я давно хотел тебе сказать.\n' +
-      'Может, и не стоило писать это письмо. Но я устал держать всё внутри себя. Поэтому хочу хотя бы раз открыто сказать то, что у меня на сердце.\n' +
-      'Ты, возможно, этого не знаешь, но в самые трудные периоды моей жизни ты незаметно стала одним из тех людей, кто очень мне помог.\n' +
-      'Когда мы разговаривали, тревоги и тяжёлые мысли хоть на мгновение куда-то уходили. На душе становилось спокойно, и казалось, что всё будет хорошо.\n' +
-      'Мне нравится не твоя внешность — мне нравится твоя душа. Характер, который притягивает людей, искренность, тёплое отношение к окружающим, добрая улыбка — всё это делает тебя особенной.\n' +
-      'Я люблю тебя. Но это письмо — не просьба и не требование. Я пишу его, потому что уважаю тебя.\n' +
-      'Я просто хочу, чтобы ты знала: ты оставила след в моей жизни.\n' +
-      'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
+        'Мони, есть кое-что, что я давно хотел тебе сказать.\n' +
+        'Может, и не стоило писать это письмо. Но я устал держать всё внутри себя. Поэтому хочу хотя бы раз открыто сказать то, что у меня на сердце.\n' +
+        'Ты, возможно, этого не знаешь, но в самые трудные периоды моей жизни ты незаметно стала одним из тех людей, кто очень мне помог.\n' +
+        'Когда мы разговаривали, тревоги и тяжёлые мысли хоть на мгновение куда-то уходили. На душе становилось спокойно, и казалось, что всё будет хорошо.\n' +
+        'Мне нравится не твоя внешность — мне нравится твоя душа. Характер, который притягивает людей, искренность, тёплое отношение к окружающим, добрая улыбка — всё это делает тебя особенной.\n' +
+        'Я люблю тебя. Но это письмо — не просьба и не требование. Я пишу его, потому что уважаю тебя.\n' +
+        'Я просто хочу, чтобы ты знала: ты оставила след в моей жизни.\n' +
+        'Желаю тебе счастья от всего сердца. Пусть жизнь, о которой ты мечтаешь, станет реальностью. Всегда улыбайся.',
     letterSig:       'Ақалек · Ақмарал',
-    letterDate:      '14 апреля 2026 — навсегда ❤️',
+    letterDate:      '14 апреля 2026 — навсегда',
     countEyebrow:    'Со дня нашего знакомства',
     countTitle:      'Время вместе',
     cntDays:         'Дней',
     cntHours:        'Часов',
     cntMins:         'Минут',
     cntSecs:         'Секунд',
-    footerName:      'Moni🕊️ · Ақмарал · Ақалек',
-    footerDate:      '14 апреля 2026 — навсегда ❤️',
+    footerName:      'Moni · Ақмарал · Ақалек',
+    footerDate:      '14 апреля 2026 — навсегда',
   },
 
   en: {
-    gateSub:         'My unrequited love',
-    gateBtn:         'Enter →',
-    gatePlaceholder: 'Password...',
-    gateErr:         'Incorrect password',
     navGallery:      'Gallery',
     navVideos:       'Videos',
     navMusic:        'Music',
     navLetter:       'Letter',
-    heroEyebrow:     "Alim for Moni ✨",
+    heroEyebrow:     'Alim for Moni',
     galleryTitle:    'Gallery',
     videosTitle:     'Videos',
-    musicTitle:      'Music 🎵',
-    letterTitle:     'Letter 💌',
-    letterGateH3:    '🔐 A Secret Letter',
+    musicTitle:      'Music',
+    musicPlay:       'Play',
+    musicPause:      'Pause',
+    letterTitle:     'Letter',
+    letterGateH3:    'A Secret Letter',
     letterGateP:     'Enter the password to open the letter',
-    letterBtn:       'Open 💌',
+    gatePlaceholder: 'Password...',
+    letterBtn:       'Open',
     letterErr:       'Incorrect password',
     letterTo:        'My dearest Moni,',
     letterBody:
-      "Moni, there is something I have wanted to tell you for a long time.\n" +
-      "Perhaps I should not have written this letter. But I am tired of keeping everything inside. So I want to say, just this once, what is truly in my heart.\n" +
-      "You may not know this, but during the hardest times of my life, you quietly became one of the people who helped me the most.\n" +
-      "Whenever we talked, my worries and heavy thoughts would fade away, even for just a moment. I felt at peace, and everything seemed like it would be alright.\n" +
-      "What I love about you is not your appearance — it is your soul. The way you draw people in, your sincerity, your warmth toward others, your gentle smile — all of this makes you extraordinary.\n" +
-      "I love you. But I am not writing this letter to ask anything of you. I am writing it because I respect you.\n" +
-      "I simply want you to know: you have left a mark on my life.\n" +
-      "I wish you happiness with all my heart. May the life you dream of become your reality. Always keep smiling.",
+        'Moni, there is something I have wanted to tell you for a long time.\n' +
+        'Perhaps I should not have written this letter. But I am tired of keeping everything inside. So I want to say, just this once, what is truly in my heart.\n' +
+        'You may not know this, but during the hardest times of my life, you quietly became one of the people who helped me the most.\n' +
+        'Whenever we talked, my worries and heavy thoughts would fade away, even for just a moment. I felt at peace, and everything seemed like it would be alright.\n' +
+        'What I love about you is not your appearance — it is your soul. The way you draw people in, your sincerity, your warmth toward others, your gentle smile — all of this makes you extraordinary.\n' +
+        'I love you. But I am not writing this letter to ask anything of you. I am writing it because I respect you.\n' +
+        'I simply want you to know: you have left a mark on my life.\n' +
+        'I wish you happiness with all my heart. May the life you dream of become your reality. Always keep smiling.',
     letterSig:       'Aqalek · Aqmaral',
-    letterDate:      'April 14, 2026 — forever ❤️',
+    letterDate:      'April 14, 2026 — forever',
     countEyebrow:    'Since the day we met',
     countTitle:      'Time together',
     cntDays:         'Days',
     cntHours:        'Hours',
     cntMins:         'Minutes',
     cntSecs:         'Seconds',
-    footerName:      'Moni🕊️ · Aqmaral · Aqalek',
-    footerDate:      'April 14, 2026 — forever ❤️',
+    footerName:      'Moni · Aqmaral · Aqalek',
+    footerDate:      'April 14, 2026 — forever',
   },
 
 };
 
 
 /* ════════════════════════════════════════════════════
-   7. ЛОГИКА (CORE FUNCTIONS)
+   4. КӨМЕКШІ ФУНКЦИЯЛАР (HELPERS)
 ════════════════════════════════════════════════════ */
 
+/* Файл атынан толық жол жасайды.
+   encodeURIComponent бос орын мен қазақ/орыс әріптерін
+   браузер түсінетін қауіпсіз түрге келтіреді. */
+function buildPath(directory, fileName) {
+  return directory + encodeURIComponent(fileName);
+}
 
-/* ── ТІЛ АУЫСТЫРУ (setLang) ─────────────────────── */
+/* localStorage-тан оқу. Жеке шолу режимінде немесе
+   тыйым салынғанда браузер қате шығарады, сондықтан try/catch қолданылады. */
+function readStorage(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : value;
+  } catch (error) {
+    return fallback;
+  }
+}
 
-let currentLang = 'kk';
+/* localStorage-қа жазу. Жазылмаса, сайт жұмысына кедергі болмайды. */
+function writeStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    /* Сақтау мүмкін болмады. Бұл маңызды емес, жай ғана елемейміз. */
+  }
+}
+
+/* Пайдаланушы анимацияны азайтуды сұраған ба (құрылғы параметрі) */
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+
+/* ════════════════════════════════════════════════════
+   5. ТІЛ АУЫСТЫРУ (setLang)
+   index.html ішіндегі onclick="setLang('kk')" осыны шақырады.
+════════════════════════════════════════════════════ */
+
+let currentLang = DEFAULT_LANG;
 
 function setLang(lang) {
+  /* 1-қадам: белгісіз тіл келсе (мысалы, localStorage-та ескі мән), әдепкіге ораламыз */
+  if (!Object.prototype.hasOwnProperty.call(i18n, lang)) {
+    lang = DEFAULT_LANG;
+  }
   currentLang = lang;
+  const dictionary = i18n[lang];
+
+  /* 2-қадам: бет тілін көрсетеміз (экран оқу құралы мен іздеу жүйесіне керек) */
   document.documentElement.lang = lang;
 
-  document.querySelectorAll('[data-i18n]').forEach((el) => {
-    const key = el.dataset.i18n;
-    if (i18n[lang][key] !== undefined) el.textContent = i18n[lang][key];
+  /* 3-қадам: data-i18n бар барлық мәтінді аударамыз */
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const translation = dictionary[element.dataset.i18n];
+    if (translation !== undefined) {
+      element.textContent = translation;
+    }
   });
 
-  document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
-    const key = el.dataset.i18nPh;
-    if (i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
+  /* 4-қадам: енгізу өрісінің placeholder мәтінін аударамыз */
+  document.querySelectorAll('[data-i18n-ph]').forEach((element) => {
+    const translation = dictionary[element.dataset.i18nPh];
+    if (translation !== undefined) {
+      element.placeholder = translation;
+    }
   });
 
+  /* 5-қадам: хат мәтінін, музыка түймелерінің атауларын жаңартамыз */
   renderLetterBody();
+  syncMusicUi();
 
-  document.querySelectorAll('.lang-btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
+  /* 6-қадам: белсенді тіл түймесін белгілейміз */
+  document.querySelectorAll('.lang-btn').forEach((button) => {
+    const isActive = button.dataset.lang === lang;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
   });
 
-  try { localStorage.setItem('lang', lang); } catch (e) {}
+  /* 7-қадам: келесі кіргенде сол тіл ашылуы үшін есте сақтаймыз */
+  writeStorage(STORAGE_KEY_LANG, lang);
 }
 
 
+/* ════════════════════════════════════════════════════
+   6. ХАТ (LETTER)
+════════════════════════════════════════════════════ */
 
-
-/* ── ХАТ МАЗМҰНЫН САЛУ (renderLetterBody) ──────── */
-
+/* Хат мәтінін таңдалған тілде бетке салады.
+   textContent қолданылады: мәтін HTML ретінде емес, таза мәтін ретінде қойылады.
+   Жол үзілістері (\n) CSS-тегі white-space арқылы көрінеді. */
 function renderLetterBody() {
-  const el = document.getElementById('letterBody');
-  if (!el) return;
-  const t = i18n[currentLang];
-  el.innerHTML =
-    `<span class="l-to">${t.letterTo}</span>\n` +
-    `${t.letterBody}\n` +
-    `<span class="l-sig">${t.letterSig}<br><small>${t.letterDate}</small></span>`;
+  const container = document.getElementById('letterBody');
+  if (!container) return;
+
+  const dictionary = i18n[currentLang];
+
+  /* Алғашқы жол: "Сүйіктім Moni-ге," */
+  const addressee = document.createElement('span');
+  addressee.className = 'l-to';
+  addressee.textContent = dictionary.letterTo;
+
+  /* Хаттың негізгі мәтіні */
+  const body = document.createTextNode('\n' + dictionary.letterBody + '\n');
+
+  /* Қолтаңба және күн */
+  const signature = document.createElement('span');
+  signature.className = 'l-sig';
+  signature.appendChild(document.createTextNode(dictionary.letterSig));
+  signature.appendChild(document.createElement('br'));
+  const date = document.createElement('small');
+  date.textContent = dictionary.letterDate;
+  signature.appendChild(date);
+
+  /* Ескі мазмұнды жаңасымен бір әрекетте алмастырамыз */
+  container.replaceChildren(addressee, body, signature);
 }
 
-
-/* ── LETTER: хат паролі ─────────────────────────── */
-
+/* Парольді тексереді. index.html ішіндегі onclick осыны шақырады. */
 function checkLetter() {
-  const input = document.getElementById('letterPass');
-  const err   = document.getElementById('letterErr');
+  const input   = document.getElementById('letterPass');
+  const error   = document.getElementById('letterErr');
+  const gate    = document.getElementById('letterGate');
+  const content = document.getElementById('letterContent');
+  if (!input || !error || !gate || !content) return;
 
-  if (input.value === '0358') {
-    document.getElementById('letterGate').style.display    = 'none';
-    document.getElementById('letterContent').style.display = 'block';
+  /* trim: кездейсоқ қосылған бос орындарды алып тастайды */
+  if (input.value.trim() === LETTER_PASSWORD) {
+    error.style.display   = 'none';
+    gate.style.display    = 'none';
+    content.style.display = 'block';
   } else {
-    err.style.display = 'block';
-    input.value       = '';
+    error.style.display = 'block';
+    input.value = '';
     input.focus();
   }
 }
 
+/* Пароль өрісінің оқиғалары.
+   1) Қайта теріп бастағанда қате хабарламасы жойылады.
+   2) Enter басылса, пароль тексеріледі (index.html ішінде inline onkeydown жоқ). */
+function initLetterGate() {
+  const input = document.getElementById('letterPass');
+  const error = document.getElementById('letterErr');
+  if (!input || !error) return;
 
-/* ── LIGHTBOX ───────────────────────────────────── */
+  input.addEventListener('input', () => {
+    error.style.display = 'none';
+  });
 
-function openLb(src) {
-  document.getElementById('lbImg').src        = src;
-  document.getElementById('lb').style.display = 'flex';
-  document.body.style.overflow                = 'hidden';
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') checkLetter();
+  });
+}
+
+
+/* ════════════════════════════════════════════════════
+   7. ЛАЙТБОКС (LIGHTBOX): суретті үлкейтіп көру
+════════════════════════════════════════════════════ */
+
+let lightboxOpen = false;       /* Қазір ашық па */
+let lastFocusedElement = null;  /* Жабылғанда фокусты қайтару үшін */
+
+function openLb(src, altText) {
+  const lightbox = document.getElementById('lb');
+  const image    = document.getElementById('lbImg');
+  const closeBtn = document.getElementById('lb-close');
+  if (!lightbox || !image) return;
+
+  /* Қай элемент басылғанын есте сақтаймыз */
+  lastFocusedElement = document.activeElement;
+
+  image.src = src;
+  image.alt = altText || '';
+  lightbox.style.display = 'flex';
+  document.body.style.overflow = 'hidden';  /* Артқы бет айналмайды */
+  lightboxOpen = true;
+
+  /* Фокусты жабу түймесіне береміз (пернетақтамен қолданушыларға) */
+  if (closeBtn) closeBtn.focus();
 }
 
 function closeLb() {
-  document.getElementById('lb').style.display = 'none';
-  document.body.style.overflow                = '';
+  if (!lightboxOpen) return;
+
+  const lightbox = document.getElementById('lb');
+  const image    = document.getElementById('lbImg');
+
+  lightbox.style.display = 'none';
+  document.body.style.overflow = '';
+  image.src = BLANK_PIXEL;
+  lightboxOpen = false;
+
+  /* Фокусты бұрынғы орнына қайтарамыз */
+  if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+    lastFocusedElement.focus();
+  }
+  lastFocusedElement = null;
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeLb();
+/* Escape перне лайтбоксты жабады */
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeLb();
 });
 
 
 /* ════════════════════════════════════════════════════
-   8. BUILDERS — СЕКЦИЯЛАР ЖАСАУШЫЛАРЫ
+   8. ГАЛЕРЕЯ (GALLERY)
 ════════════════════════════════════════════════════ */
 
-
-/* ── GALLERY ─────────────────────────────────────── */
-
-(function buildGallery() {
+function buildGallery() {
   const grid = document.getElementById('gGrid');
+  if (!grid) return;
 
-  IMGS.forEach((src, i) => {
+  /* DocumentFragment: барлық суретті алдымен жадта жинап,
+     бетке бір-ақ рет қосады. Бұл жылдамырақ. */
+  const fragment = document.createDocumentFragment();
+
+  GALLERY.forEach((photo, index) => {
+    const src = buildPath(IMAGE_DIR, photo.file);
+
+    /* Сурет карточкасы. role="button" мен tabindex пернетақтамен басқаруға мүмкіндік береді */
     const item = document.createElement('div');
     item.className = 'g-item';
-    item.style.transitionDelay = `${(i % 4) * 0.06}s`;
-    item.innerHTML = `
-      <img src="${src}" alt="${CAPS[i] || ''}" loading="lazy">
-      <div class="g-cap">${CAPS[i] || ''}</div>
-    `;
-    item.onclick = () => openLb(src);
-    grid.appendChild(item);
+    item.setAttribute('role', 'button');
+    item.tabIndex = 0;
+    item.style.transitionDelay = `${(index % 4) * 0.06}s`;
+
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = photo.caption;
+    image.loading = 'lazy';      /* Экранға жақындағанда ғана жүктеледі */
+    image.decoding = 'async';
+
+    const caption = document.createElement('div');
+    caption.className = 'g-cap';
+    caption.textContent = photo.caption;
+
+    item.appendChild(image);
+    item.appendChild(caption);
+
+    /* Тінтуірмен басу */
+    item.addEventListener('click', () => openLb(src, photo.caption));
+
+    /* Пернетақта: Enter басқанда бірден ашылады.
+       Space басқанда бет төмен айналмасын деп әрекет тоқтатылады,
+       ал лайтбокс Space босатылғанда (keyup) ашылады: әйтпесе фокус
+       жабу түймесіне ауысып, Space сол түймені басып қоюы мүмкін. */
+    item.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        openLb(src, photo.caption);
+      } else if (event.key === ' ') {
+        event.preventDefault();
+      }
+    });
+    item.addEventListener('keyup', (event) => {
+      if (event.key === ' ') {
+        openLb(src, photo.caption);
+      }
+    });
+
+    fragment.appendChild(item);
   });
 
-  document.getElementById('heroImg').src = IMGS[4];
-})();
+  grid.appendChild(fragment);
+
+  /* Басты экрандағы фото */
+  const heroImage = document.getElementById('heroImg');
+  if (heroImage) heroImage.src = buildPath(IMAGE_DIR, HERO_IMAGE_FILE);
+}
 
 
-/* ── VIDEOS ──────────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   9. ВИДЕО (VIDEOS)
+════════════════════════════════════════════════════ */
 
-(function buildVideos() {
+/* Көрсетілген видеодан басқа барлық видеоны тоқтатады */
+function pauseAllVideos(exceptVideo) {
+  document.querySelectorAll('#vGrid video').forEach((video) => {
+    if (video !== exceptVideo && !video.paused) video.pause();
+  });
+}
+
+function buildVideos() {
   const grid = document.getElementById('vGrid');
+  if (!grid) return;
 
-  VIDS.forEach((filename, i) => {
+  const fragment = document.createDocumentFragment();
+
+  VIDEO_FILES.forEach((fileName, index) => {
     const item = document.createElement('div');
     item.className = 'v-item';
-    item.style.transitionDelay = `${(i % 3) * 0.08}s`;
-    item.innerHTML = `<video src="assets/videos/${filename}" controls preload="metadata" playsinline></video>`;
-    grid.appendChild(item);
+    item.style.transitionDelay = `${(index % 3) * 0.08}s`;
+
+    const video = document.createElement('video');
+    video.src = buildPath(VIDEO_DIR, fileName);
+    video.controls = true;
+    video.preload = 'metadata';   /* Тек ұзақтығы мен алғашқы кадр жүктеледі, трафик үнемделеді */
+    video.playsInline = true;     /* iPhone-да толық экранға автоматты шықпайды */
+
+    item.appendChild(video);
+    fragment.appendChild(item);
   });
-})();
+
+  grid.appendChild(fragment);
+
+  /* Бір видео қосылғанда басқа видеолар мен музыка тоқтайды.
+     "play" оқиғасы жоғары көтерілмейді, сондықтан true (capture) қолданылады. */
+  grid.addEventListener('play', (event) => {
+    if (event.target instanceof HTMLVideoElement) {
+      pauseAllVideos(event.target);
+      if (audio && !audio.paused) audio.pause();
+    }
+  }, true);
+}
 
 
-/* ── MUSIC ───────────────────────────────────────── */
+/* ════════════════════════════════════════════════════
+   10. МУЗЫКА (MUSIC)
+════════════════════════════════════════════════════ */
 
 const audio = document.getElementById('audio');
-let   activeIndex = -1;
+let activeIndex = -1;   /* Қазір таңдалған тректің нөмірі. -1: ешқайсысы емес */
+
+/* Ойнату және үзіліс белгішелері (SVG). currentColor: түсті CSS береді */
+const ICON_PLAY  = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"></path></svg>';
 
 function buildMusic() {
   const list = document.getElementById('musicList');
   if (!list) return;
-  list.innerHTML = '';
 
-  TRACKS.forEach((track, i) => {
+  const fragment = document.createDocumentFragment();
+
+  TRACKS.forEach((track, index) => {
     const card = document.createElement('div');
     card.className = 'music-card';
-    card.id        = `mcard-${i}`;
-    card.style.transitionDelay = `${i * 0.10}s`;
-    card.innerHTML = `
-      <button class="mc-btn" id="mcbtn-${i}">▶</button>
-      <span class="mc-title">${track.title}</span>
-    `;
-    card.querySelector('.mc-btn').onclick = () => playCard(i);
-    list.appendChild(card);
+    card.id = `mcard-${index}`;
+    card.style.transitionDelay = `${index * 0.1}s`;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'mc-btn';
+    button.id = `mcbtn-${index}`;
+    button.innerHTML = ICON_PLAY;
+    button.addEventListener('click', () => playCard(index));
+
+    const title = document.createElement('span');
+    title.className = 'mc-title';
+    title.textContent = track.title;
+
+    card.appendChild(button);
+    card.appendChild(title);
+    fragment.appendChild(card);
   });
 
-  // Observe music cards after building
-  document.querySelectorAll('.music-card').forEach((el) => {
-    if (revealObserver) revealObserver.observe(el);
-  });
+  list.appendChild(fragment);
+  syncMusicUi();
 }
 
+/* Түйме басылғанда: ойнату, тоқтату немесе басқа трекке ауысу */
 function playCard(index) {
-  if (activeIndex === index && !audio.paused) {
-    audio.pause();
-    setCardState(index, false);
+  if (!audio) return;
+
+  /* Сол трек қайта басылды: ойнап тұрса тоқтатамыз, тоқтап тұрса жалғастырамыз. */
+  if (index === activeIndex) {
+    if (audio.paused) {
+      startPlayback();
+    } else {
+      audio.pause();
+    }
     return;
   }
-  if (activeIndex >= 0) setCardState(activeIndex, false);
-  activeIndex  = index;
-  audio.src    = TRACKS[index].src;
-  audio.play();
-  setCardState(index, true);
+
+  /* Басқа трек таңдалды */
+  activeIndex = index;
+  audio.src = buildPath(AUDIO_DIR, TRACKS[index].file);
+  startPlayback();
+}
+
+/* audio.play() "уәде" (Promise) қайтарады. Браузер бұғаттаса қате шығады,
+   оны ұстамасақ, консольде өңделмеген қате қалады. */
+function startPlayback() {
+  const result = audio.play();
+  if (result !== undefined) {
+    result.catch((error) => {
+      console.warn('Аудионы ойнату мүмкін болмады:', error);
+      syncMusicUi();
+    });
+  }
+}
+
+/* Барлық карточканың көрінісін аудионың нақты күйіне сәйкестендіреді */
+function syncMusicUi() {
+  if (!audio) return;
+  TRACKS.forEach((track, index) => {
+    setCardState(index, index === activeIndex && !audio.paused);
+  });
 }
 
 function setCardState(index, playing) {
-  const card = document.getElementById(`mcard-${index}`);
-  const btn  = document.getElementById(`mcbtn-${index}`);
-  if (!card || !btn) return;
+  const card   = document.getElementById(`mcard-${index}`);
+  const button = document.getElementById(`mcbtn-${index}`);
+  if (!card || !button) return;
+
+  const dictionary = i18n[currentLang];
   card.classList.toggle('playing', playing);
-  btn.textContent = playing ? '⏸' : '▶';
+  button.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+  button.setAttribute('aria-label', playing ? dictionary.musicPause : dictionary.musicPlay);
+  button.setAttribute('aria-pressed', String(playing));
 }
 
-audio.addEventListener('ended', () => {
-  playCard((activeIndex + 1) % TRACKS.length);
-});
+/* Аудионың күйі өзгергенде (қай жақтан болса да) түймелер автоматты жаңарады */
+if (audio) {
+  audio.addEventListener('play', () => {
+    pauseAllVideos(null);   /* Музыка қосылса, видеолар тоқтайды */
+    syncMusicUi();
+  });
+  audio.addEventListener('pause', syncMusicUi);
+  audio.addEventListener('error', () => {
+    console.warn('Аудио файл табылмады немесе ашылмады:', audio.src);
+    syncMusicUi();
+  });
+
+  /* Трек біткенде келесісі қосылады, соңғысынан кейін біріншіге оралады */
+  audio.addEventListener('ended', () => {
+    playCard((activeIndex + 1) % TRACKS.length);
+  });
+}
 
 
 /* ════════════════════════════════════════════════════
-   9. PARTICLE SYSTEM — Бөлшектер жүйесі
-   Алтын мен раушан реңді бөлшектер
+   11. БӨЛШЕКТЕР ЖҮЙЕСІ (PARTICLES)
+   Hero бөліміндегі алтын, раушан және кілегей түсті бөлшектер.
 ════════════════════════════════════════════════════ */
 
-function createParticles(canvasId, count) {
+function createParticles(canvasId, requestedCount) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d');
-  count = count || 60;
+  const context = canvas.getContext('2d');
+  if (!context) return;
 
+  /* Телефонда бөлшек саны екі есе аз: батарея мен өнімділікті үнемдеу */
+  const count = window.innerWidth < 640
+      ? Math.round(requestedCount / 2)
+      : requestedCount;
+
+  /* Бөлшек түстері: [қызыл, жасыл, көк] */
+  const colors = [
+    [196, 168, 120],  /* алтын */
+    [200, 160, 168],  /* раушан */
+    [240, 232, 220],  /* кілегей */
+  ];
+
+  /* Кенептің өлшемін контейнерге сәйкестендіру */
   function resize() {
     canvas.width  = canvas.offsetWidth  || (canvas.parentElement && canvas.parentElement.offsetWidth)  || window.innerWidth;
     canvas.height = canvas.offsetHeight || (canvas.parentElement && canvas.parentElement.offsetHeight) || window.innerHeight;
   }
   resize();
-  window.addEventListener('resize', resize, { passive: true });
 
-  const colors = [
-    [196, 168, 120],  // gold
-    [200, 160, 168],  // rose
-    [240, 232, 220],  // cream
-  ];
+  /* Терезе өлшемі өзгергенде 150 мс күтіп, бір рет қана қайта өлшейміз */
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 150);
+  }, { passive: true });
 
-  const particles = Array.from({ length: count }, () => {
-    const c = colors[Math.floor(Math.random() * colors.length)];
-    return {
-      x:     Math.random() * canvas.width,
-      y:     Math.random() * canvas.height,
-      r:     Math.random() * 1.8 + 0.4,
-      vx:    (Math.random() - 0.5) * 0.22,
-      vy:    -(Math.random() * 0.40 + 0.08),
-      alpha: Math.random() * 0.32 + 0.08,
-      color: c,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.008 + 0.004,
-    };
-  });
+  /* Әр бөлшектің бастапқы күйі кездейсоқ */
+  const particles = Array.from({ length: count }, () => ({
+    x:     Math.random() * canvas.width,
+    y:     Math.random() * canvas.height,
+    r:     Math.random() * 1.8 + 0.4,                /* радиус */
+    vx:    (Math.random() - 0.5) * 0.22,             /* көлденең жылдамдық */
+    vy:    -(Math.random() * 0.4 + 0.08),            /* жоғары қарай жылдамдық */
+    alpha: Math.random() * 0.32 + 0.08,              /* ең жоғары мөлдірсіздік */
+    color: colors[Math.floor(Math.random() * colors.length)],
+    phase: Math.random() * Math.PI * 2,              /* жыпылықтау фазасы */
+    speed: Math.random() * 0.008 + 0.004,            /* жыпылықтау жылдамдығы */
+  }));
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.phase += p.speed;
-
-      if (p.y < -10 || p.x < -20 || p.x > canvas.width + 20) {
-        p.x     = Math.random() * canvas.width;
-        p.y     = canvas.height + 10;
-        p.phase = 0;
-      }
-
-      const a = p.alpha * (0.5 + 0.5 * Math.sin(p.phase));
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${a})`;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(draw);
+  /* Бір бөлшекті сызу */
+  function drawParticle(particle) {
+    const alpha = particle.alpha * (0.5 + 0.5 * Math.sin(particle.phase));
+    context.beginPath();
+    context.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+    context.fillStyle = `rgba(${particle.color[0]},${particle.color[1]},${particle.color[2]},${alpha})`;
+    context.fill();
   }
 
-  draw();
+  /* Бір кадр: орнын жаңарту және сызу */
+  function renderFrame() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((particle) => {
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.phase += particle.speed;
+
+      /* Экраннан шығып кетсе, төменнен қайта шығады */
+      if (particle.y < -10 || particle.x < -20 || particle.x > canvas.width + 20) {
+        particle.x = Math.random() * canvas.width;
+        particle.y = canvas.height + 10;
+        particle.phase = 0;
+      }
+
+      drawParticle(particle);
+    });
+  }
+
+  /* Анимацияны азайту таңдалған болса, қозғалыссыз бір кадр ғана салынады */
+  if (prefersReducedMotion()) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(drawParticle);
+    return;
+  }
+
+  /* Анимация циклі. requestAnimationFrame: браузер өзі ыңғайлы уақытта шақырады */
+  let animationId = null;
+
+  function loop() {
+    renderFrame();
+    animationId = requestAnimationFrame(loop);
+  }
+  function start() {
+    if (animationId === null) animationId = requestAnimationFrame(loop);
+  }
+  function stop() {
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+  }
+
+  /* Hero экраннан шығып кетсе, анимация тоқтайды (процессор үнемделеді) */
+  if ('IntersectionObserver' in window) {
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) start(); else stop();
+      });
+    });
+    visibilityObserver.observe(canvas);
+  } else {
+    start();
+  }
 }
 
 
 /* ════════════════════════════════════════════════════
-   10. SCROLL REVEAL — IntersectionObserver
+   12. СКРОЛЛ КЕЗІНДЕГІ ПАЙДА БОЛУ (SCROLL REVEAL)
 ════════════════════════════════════════════════════ */
 
-let revealObserver = null;
+/* Элемент көрінген соң, оның inline transition-delay мәнін тазалайды.
+   Inline мән CSS ережелерінен басым, сондықтан тазаланбаса, кейінгі hover
+   және "playing" күйінің ауысуы да сол уақытқа кешігіп, баяу болады.
+   Тазалау opacity анимациясы біткен соң жасалады. */
+function releaseDelayAfterReveal(element) {
+  /* Inline кешігуі жоқ элементке (мысалы, .reveal) тазалайтын ештеңе жоқ */
+  if (!element.style.transitionDelay) return;
+
+  function onTransitionEnd(event) {
+    /* Ішкі элементтердің (мысалы, img) анимациясын елемейміз */
+    if (event.target === element && event.propertyName === 'opacity') {
+      element.style.transitionDelay = '';
+      element.removeEventListener('transitionend', onTransitionEnd);
+    }
+  }
+  element.addEventListener('transitionend', onTransitionEnd);
+}
 
 function initScrollReveal() {
-  revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
-  );
+  const targets = document.querySelectorAll('.reveal, .g-item, .v-item, .music-card');
 
-  document.querySelectorAll('.reveal, .g-item, .v-item').forEach((el) => {
-    revealObserver.observe(el);
-  });
+  /* Анимацияны азайту таңдалған немесе браузер IntersectionObserver-ді білмесе,
+     барлығын бірден көрсетеміз */
+  if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
+    targets.forEach((element) => element.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        element.classList.add('visible');
+        observer.unobserve(element);          /* Бір рет көрсетілген соң бақылау тоқтайды */
+        releaseDelayAfterReveal(element);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+  targets.forEach((element) => observer.observe(element));
 }
 
 
 /* ════════════════════════════════════════════════════
-   11. COUNTDOWN — Санағыш (14 сәуір 2026 бастап)
+   13. САНАҒЫШ (COUNTDOWN)
 ════════════════════════════════════════════════════ */
 
 function initCountdown() {
-  const start = new Date('2026-04-14T00:00:00');
+  /* Элементтерді бір рет қана іздейміз, әр секунд сайын емес */
+  const daysEl  = document.getElementById('cntDays');
+  const hoursEl = document.getElementById('cntHours');
+  const minsEl  = document.getElementById('cntMins');
+  const secsEl  = document.getElementById('cntSecs');
+  if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-  function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+  /* 7 -> "07" */
+  function pad(number) {
+    return String(number).padStart(2, '0');
+  }
 
   function update() {
-    const diff = Date.now() - start.getTime();
-    if (diff < 0) return;
+    const diff = Date.now() - RELATIONSHIP_START.getTime();
+    if (diff < 0) return;   /* Күн әлі келмеген */
 
-    const totalSecs = Math.floor(diff / 1000);
-    const days  = Math.floor(totalSecs / 86400);
-    const hours = Math.floor((totalSecs % 86400) / 3600);
-    const mins  = Math.floor((totalSecs % 3600) / 60);
-    const secs  = totalSecs % 60;
-
-    const d = document.getElementById('cntDays');
-    const h = document.getElementById('cntHours');
-    const m = document.getElementById('cntMins');
-    const s = document.getElementById('cntSecs');
-
-    if (d) d.textContent = days;
-    if (h) h.textContent = pad(hours);
-    if (m) m.textContent = pad(mins);
-    if (s) s.textContent = pad(secs);
+    const totalSeconds = Math.floor(diff / 1000);
+    daysEl.textContent  = String(Math.floor(totalSeconds / 86400));
+    hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
+    minsEl.textContent  = pad(Math.floor((totalSeconds % 3600) / 60));
+    secsEl.textContent  = pad(totalSeconds % 60);
   }
 
   update();
@@ -555,40 +862,58 @@ function initCountdown() {
 
 
 /* ════════════════════════════════════════════════════
-   12. NAV SCROLL EFFECT
+   14. МӘЗІР ТҮСІ (NAV SCROLL)
+   Бет 48 пиксельден асса, мәзірге "scrolled" класы қосылады.
 ════════════════════════════════════════════════════ */
 
 function initNavScroll() {
   const nav = document.getElementById('nav');
   if (!nav) return;
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 48);
-  }, { passive: true });
+
+  let isScrolled = false;
+
+  function onScroll() {
+    const shouldBeScrolled = window.scrollY > 48;
+    /* Класты тек күй өзгергенде ғана ауыстырамыз */
+    if (shouldBeScrolled !== isScrolled) {
+      isScrolled = shouldBeScrolled;
+      nav.classList.toggle('scrolled', isScrolled);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();   /* Бет жартылай айналған күйде ашылса, бірден дұрыс көрінсін */
 }
 
 
 /* ════════════════════════════════════════════════════
-   12. ИНИЦИАЛИЗАЦИЯ (INIT)
+   15. ІСКЕ ҚОСУ (INIT)
+   Реті маңызды: алдымен элементтер жасалады,
+   содан кейін тіл, анимация және т.б.
 ════════════════════════════════════════════════════ */
 
-(function init() {
-  /* Сақталған тілді қолдану */
-  let savedLang = 'kk';
-  try { savedLang = localStorage.getItem('lang') || 'kk'; } catch (e) {}
-  setLang(savedLang);
-
-  /* Scroll reveal */
-  initScrollReveal();
-
-  /* Music cards */
+function init() {
+  /* 1. Мазмұн блоктарын жасау */
+  buildGallery();
+  buildVideos();
   buildMusic();
 
-  /* Countdown */
+  /* 2. Сақталған тілді қолдану (элементтер дайын болған соң) */
+  setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
+
+  /* 3. Жасалған элементтерді скролл анимациясына тіркеу */
+  initScrollReveal();
+
+  /* 4. Қалған функциялар */
+  initLetterGate();
   initCountdown();
-
-  /* Nav scroll */
   initNavScroll();
-
-  /* Particles — hero */
   createParticles('heroCanvas', 70);
-})();
+}
+
+/* Бет оқылып жатса, DOM дайын болғанша күтеміз; дайын болса, бірден іске қосамыз */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
