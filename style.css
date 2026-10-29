@@ -8,7 +8,7 @@
 :root {
   color-scheme: dark;
 
-  /* Су және әйнек түстері (Суреттегідей) */
+  /* Су және әйнек түстері */
   --bg-top:        #237190;
   --bg-mid:        #104058;
   --bg-bottom:     #081d28;
@@ -29,7 +29,7 @@
   --text-muted:    #a3d8ec;
   --text-faint:    #6caac3;
 
-  /* Алтын / Көгілдір неон екпіндері */
+  /* Неон екпіндері */
   --cyan-glow:     rgba(0, 225, 255, 0.4);
   --aqua:          #68e1fd;
   --gold:          #7ce0ff;
@@ -70,7 +70,6 @@ html {
 
 body {
   font-family: var(--font-sans), sans-serif;
-  /* Суреттегідей су сияқты терең көгілдір градиент */
   background: radial-gradient(circle at 50% 0%, #3094ba 0%, #0d384e 50%, #05141d 100%) fixed;
   color: var(--text);
   line-height: 1.7;
@@ -122,18 +121,18 @@ button {
 /* ════════════════════════════════════════════════════
    REVEAL
 ════════════════════════════════════════════════════ */
-.reveal {
+.reveal, .g-item, .v-item, .music-card {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
 }
-.reveal.visible {
+.reveal.visible, .g-item.visible, .v-item.visible, .music-card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ════════════════════════════════════════════════════
-   ЖОҒАРҒЫ МӘЗІР (NAV) - СТЕКЛЯННЫЙ СТИЛЬ
+   ЖОҒАРҒЫ МӘЗІР (NAV)
 ════════════════════════════════════════════════════ */
 #nav {
   position: fixed; top: 16px; left: 50%;
@@ -144,7 +143,6 @@ button {
   display: flex; align-items: center; justify-content: space-between;
   min-height: var(--nav-h); padding: 0 28px;
 
-  /* Әйнек эффектісі */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -223,7 +221,6 @@ button {
   padding: 120px 32px 80px;
 }
 
-/* Дөңгелек фото судағы әйнек сияқты */
 .hero-photo {
   width: 170px; height: 170px; border-radius: 50%;
   object-fit: cover;
@@ -284,7 +281,7 @@ button {
 }
 
 /* ════════════════════════════════════════════════════
-   10. ГАЛЕРЕЯ - ӘЙНЕК РАМКАЛАР
+   10. ГАЛЕРЕЯ
 ════════════════════════════════════════════════════ */
 .g-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
@@ -299,8 +296,6 @@ button {
   box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4);
   transition: all 0.4s var(--ease);
 }
-
-.g-item.visible { opacity: 1; transform: translateY(0); }
 
 .g-item img {
   display: block; width: 100%; height: 100%; object-fit: cover;
@@ -429,59 +424,6 @@ button {
 }
 
 /* ════════════════════════════════════════════════════
-   14. ХАТ - СТЕКЛЯННЫЙ КОНВЕРТ
-════════════════════════════════════════════════════ */
-.l-gate {
-  display: flex; flex-direction: column; align-items: center; gap: 18px;
-  max-width: 500px; margin: 0 auto; padding: 52px 44px; text-align: center;
-  background: var(--glass-card);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.5);
-}
-
-.l-gate-icon { color: var(--aqua); filter: drop-shadow(0 0 8px var(--cyan-glow)); }
-.l-gate h3 { font-family: var(--font-serif), serif; font-size: 1.6rem; color: #fff; }
-.l-gate p { color: var(--text-muted); font-size: 0.9rem; }
-
-.l-inp {
-  width: 100%; padding: 15px 20px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-sm);
-  color: #fff; font-size: 1rem; text-align: center; letter-spacing: 0.2em;
-  transition: all 0.3s;
-}
-
-.l-inp:focus {
-  border-color: var(--aqua); box-shadow: 0 0 15px var(--cyan-glow);
-}
-
-.l-submit {
-  padding: 14px 44px;
-  background: linear-gradient(135deg, #42c8f5, #0e749e);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-sm);
-  color: #fff; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.6);
-  transition: all 0.3s;
-}
-
-.l-err { display: none; color: var(--danger); font-size: 0.85rem; }
-.l-content { display: none; }
-
-.l-body {
-  position: relative; max-width: 680px; margin: 0 auto; padding: 60px 56px;
-  background: var(--glass-card);
-  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.5);
-  color: #fff; font-size: 0.98rem; line-height: 1.95; white-space: pre-line;
-}
-
-.l-to { display: block; margin-bottom: 24px; font-family: var(--font-script), cursive; font-size: 2.2rem; color: var(--aqua); }
-.l-sig { display: block; margin-top: 36px; font-family: var(--font-script), cursive; font-size: 1.6rem; color: var(--aqua); text-align: right; }
-.l-sig small { display: block; margin-top: 4px; font-family: var(--font-sans), sans-serif; font-size: 0.75rem; color: var(--text-faint); }
-
-/* ════════════════════════════════════════════════════
    15. САНАҒЫШ (COUNTDOWN)
 ════════════════════════════════════════════════════ */
 #countdown {
@@ -568,11 +510,6 @@ footer {
     background: rgba(255, 255, 255, 0.18);
   }
 
-  .l-submit:hover {
-    transform: translateY(-2px); opacity: 0.95;
-    box-shadow: 0 8px 25px var(--cyan-glow);
-  }
-
   .count-item:hover {
     transform: translateY(-6px); border-color: var(--border-glow);
     box-shadow: 0 0 30px var(--cyan-glow);
@@ -603,7 +540,6 @@ footer {
   .v-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .count-item { padding: 20px 24px; min-width: 90px; }
   .count-num { font-size: 2.6rem; }
-  .l-body { padding: 40px 24px; }
 }
 
 @media (max-width: 480px) {
@@ -615,14 +551,6 @@ footer {
 /* ════════════════════════════════════════════════════
    ИНТЕРАКТИВТІ ЖҰЛДЫЗДАР / FADE
 ════════════════════════════════════════════════════ */
-.l-content {
-  animation: letterOpen 0.8s var(--ease-out) forwards;
-}
-@keyframes letterOpen {
-  0% { opacity: 0; transform: scaleY(0.9) translateY(-20px); }
-  100% { opacity: 1; transform: scaleY(1) translateY(0); }
-}
-
 .lang-fade { opacity: 0.3; transition: opacity 0.3s ease; }
 
 .click-spark {
