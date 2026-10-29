@@ -37,6 +37,8 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAAL
 ════════════════════════════════════════════════════ */
 
 const GALLERY = [
+  { file: 'photo_new1.webp',            caption: 'Moni'           },
+  { file: 'photo_new2.jpeg',            caption: 'Ақмарал'        },
   { file: 'photo_base0.png',            caption: 'Менің Monim'    },
   { file: 'photo_base1.png',            caption: 'Сүйкімді'       },
   { file: 'photo_base2.png',            caption: 'Стильді'        },
@@ -76,6 +78,9 @@ const TRACKS = [
 
 /* Видео файлдары */
 const VIDEO_FILES = [
+  'video_new1.mp4',
+  'video_new2.mp4',
+  'video_new3.mp4',
   'TikSave_io_7551293612592581893-hd.mp4',
   'TikSave_io_7561655786267594040-hd.mp4',
   'TikSave_io_7590279590208195848-hd.mp4',
