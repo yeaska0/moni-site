@@ -9,52 +9,14 @@
 'use strict';
 
 /* ════════════════════════════════════════════════════
-   1. БАПТАУЛАР ЖӘНЕ SUPABASE ИНТЕГРАЦИЯСЫ
+   1. БАПТАУЛАР ЖӘНЕ КІРУ ҚАҚПАСЫ (SITE LOCK)
 ════════════════════════════════════════════════════ */
-
-const SUPABASE_URL = 'https://gszzmuesqejdgecgklqs.supabase.co';
-
-// ⚠️ НАЗАР АУДАРЫҢЫЗ: Төмендегі ANON KEY-ді Supabase -> Project Settings -> API Keys ішінен толық көшіріп қойыңыз!
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzenptdWVzcWVqZGdlY2drbHFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NjIxNDUsImV4cCI6MjA3NzMzODE0NX0.9X2I22y4pS...';
-
-const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
-/* Google OAuth арқылы кіру */
-async function signInWithGoogle() {
-  if (!supabaseClient) return;
-  const { error } = await supabaseClient.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: window.location.origin
-    }
-  });
-  if (error) console.error('Error signing in:', error.message);
-}
-
-/* Қолданушының кіргенін сақтау және базаға жазу */
-async function logVisitToDatabase(user) {
-  if (!supabaseClient || !user) return;
-
-  const { error } = await supabaseClient
-      .from('visits')
-      .insert([
-        {
-          email: user.email,
-          full_name: user.user_metadata?.full_name || user.email,
-          logged_at: new Date().toISOString()
-        }
-      ]);
-
-  if (error) {
-    console.error('Visits log error:', error);
-  }
-}
-
 /* Парольді тексеру және сайтты ашу */
-async function unlockSite() {
+function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
   const overlay = document.getElementById('site-lock-overlay');
@@ -62,14 +24,6 @@ async function unlockSite() {
 
   if (input.value.trim() === SITE_PASSWORD) {
     writeStorage(STORAGE_KEY_AUTH, 'true');
-
-    // Базаға жазу
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const user = session?.user;
-    if (user) {
-      await logVisitToDatabase(user);
-    }
-
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
     document.body.style.overflow = '';
@@ -80,12 +34,9 @@ async function unlockSite() {
   }
 }
 
-/* Авторизацияны тексеру логикасы */
-async function checkSiteAuth() {
+/* Авторизация күйін тексеру */
+function checkSiteAuth() {
   const overlay = document.getElementById('site-lock-overlay');
-  const googleBtn = document.getElementById('google-login-btn');
-  const passwordStep = document.getElementById('password-step');
-  const welcomeText = document.getElementById('user-welcome-text');
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
 
@@ -98,23 +49,6 @@ async function checkSiteAuth() {
   }
 
   document.body.style.overflow = 'hidden';
-
-  if (!supabaseClient) return;
-
-  // Google сессиясын тексеру
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  const user = session?.user;
-
-  if (user) {
-    // Google арқылы кіріп тұр, енді пароль сұраймыз
-    if (googleBtn) googleBtn.style.display = 'none';
-    if (passwordStep) passwordStep.style.display = 'block';
-    if (welcomeText) welcomeText.textContent = `Hello, ${user.user_metadata?.full_name || user.email}!`;
-  } else {
-    // Елі Google-мен кірмеген
-    if (googleBtn) googleBtn.style.display = 'flex';
-    if (passwordStep) passwordStep.style.display = 'none';
-  }
 
   if (input) {
     input.addEventListener('input', () => { if (error) error.style.display = 'none'; });
