@@ -30,7 +30,7 @@
   --text-faint:    #6caac3;
 
   /* Неон екпіндері */
-  --cyan-glow:     rgba(0, 225, 255, 0.4);
+  --cyan-glow:     rgba(0, 225, 253, 0.4);
   --aqua:          #68e1fd;
   --gold:          #7ce0ff;
   --gold-light:    #b6f0ff;
@@ -563,7 +563,6 @@ footer {
   100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
 }
 
-
 /* ════════════════════════════════════════════════════
    17. SITE LOCK OVERLAY (СТЕКЛЯННЫЙ КІРУ ҚАҚПАСЫ)
 ════════════════════════════════════════════════════ */
@@ -585,7 +584,6 @@ footer {
   padding: 44px 32px;
   display: flex; flex-direction: column; align-items: center; text-align: center;
 
-  /* Суреттегідей көгілдір әйнек панель */
   background: rgba(18, 62, 86, 0.45);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-glass);
@@ -648,6 +646,24 @@ footer {
 .lock-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px var(--cyan-glow), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Google OAuth дугме стилови */
+.google-btn {
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid var(--border-glass);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.google-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: var(--border-glow);
+  box-shadow: 0 0 25px var(--cyan-glow);
 }
 
 .lock-err {

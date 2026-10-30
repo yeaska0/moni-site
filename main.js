@@ -8,13 +8,14 @@
 
 'use strict';
 
-
 /* ════════════════════════════════════════════════════
    1. БАПТАУЛАР ЖӘНЕ SUPABASE ИНТЕГРАЦИЯСЫ
 ════════════════════════════════════════════════════ */
 
 const SUPABASE_URL = 'https://gszzmuesqejdgecgklqs.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzenptdWVzcWVqZGdlY2drbHFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NjIxNDUsImV4cCI6MjA3NzMzODE0NX0.9X2I22y4pS...'; // Supabase API Keys ішіндегі anon key-ді қойыңыз
+
+// ⚠️ НАЗАР АУДАРЫҢЫЗ: Төмендегі ANON KEY-ді Supabase -> Project Settings -> API Keys ішінен толық көшіріп қойыңыз!
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzenptdWVzcWVqZGdlY2drbHFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NjIxNDUsImV4cCI6MjA3NzMzODE0NX0.9X2I22y4pS...';
 
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
@@ -63,12 +64,14 @@ async function unlockSite() {
     writeStorage(STORAGE_KEY_AUTH, 'true');
 
     // Базаға жазу
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const user = session?.user;
     if (user) {
       await logVisitToDatabase(user);
     }
 
     overlay.classList.add('unlocked');
+    overlay.style.display = 'none';
     document.body.style.overflow = '';
   } else {
     error.style.display = 'block';
@@ -90,6 +93,7 @@ async function checkSiteAuth() {
 
   if (isAuth === 'true') {
     if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
     return;
   }
 
@@ -98,7 +102,8 @@ async function checkSiteAuth() {
   if (!supabaseClient) return;
 
   // Google сессиясын тексеру
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const user = session?.user;
 
   if (user) {
     // Google арқылы кіріп тұр, енді пароль сұраймыз
@@ -117,26 +122,20 @@ async function checkSiteAuth() {
   }
 }
 
-
-/* Санағыш осы күннен бастап есептейді (жергілікті уақытпен) */
+/* Санағыш басталатын күн */
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
 
-
-/* Әдепкі тіл және тілді браузерде сақтайтын кілт */
+/* Әдепкі тіл */
 const DEFAULT_LANG = 'en';
 const STORAGE_KEY_LANG = 'lang';
 
-/* Файлдар тұратын бумалар */
+/* Бумалар */
 const IMAGE_DIR = 'assets/images/';
 const VIDEO_DIR = 'assets/videos/';
 const AUDIO_DIR = 'assets/audio/';
 
-/* Басты экрандағы фото */
 const HERO_IMAGE_FILE = 'photo_base4.png';
-
-/* 1x1 мөлдір сурет: лайтбокс жабылғанда бос src қалдырмау үшін */
 const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
 
 /* ════════════════════════════════════════════════════
    2. ДЕРЕКТЕР (DATA)
@@ -175,14 +174,12 @@ const GALLERY = [
   { file: '2026-06-24 20.41.00.jpg',    caption: 'Moni'           },
 ];
 
-/* Музыка тректері */
 const TRACKS = [
   { file: 'Sadraddin_-_Qolymnan_usta.mp3', title: 'Qolymnan Usta' },
   { file: 'Sadraddin_Bakr_-_Sagynysh.mp3', title: 'Sagynysh'      },
   { file: 'Kairat Nurtas - Маралым.mp3',   title: 'Маралым'       },
 ];
 
-/* Видео файлдары */
 const VIDEO_FILES = [
   'video_new1.mp4',
   'video_new2.mp4',
@@ -198,24 +195,21 @@ const VIDEO_FILES = [
   'TikSave.io_7650786355441601800-hd.mp4',
 ];
 
-
 /* ════════════════════════════════════════════════════
    3. АУДАРМАЛАР (i18n)
 ════════════════════════════════════════════════════ */
 
 const i18n = {
-
   kk: {
     navGallery:      'Галерея',
     navVideos:       'Видео',
     navMusic:        'Музыка',
-    heroEyebrow:     'Moni-дің Әлімі',
+    heroEyebrow:     'Moni-дің Әлемі',
     galleryTitle:    'Галерея',
     videosTitle:     'Видео',
     musicTitle:      'Музыка',
     musicPlay:       'Ойнату',
     musicPause:      'Тоқтату',
-
     countEyebrow:    'Танысқанымызға',
     countTitle:      'Бірге өткен уақыт',
     cntDays:         'Күн',
@@ -225,7 +219,6 @@ const i18n = {
     footerName:      'Moni · Ақмарал · Ақалек',
     footerDate:      '14 сәуір 2026 — мәңгілік',
   },
-
   ru: {
     navGallery:      'Галерея',
     navVideos:       'Видео',
@@ -236,7 +229,6 @@ const i18n = {
     musicTitle:      'Музыка',
     musicPlay:       'Воспроизвести',
     musicPause:      'Пауза',
-
     countEyebrow:    'Со дня нашего знакомства',
     countTitle:      'Время вместе',
     cntDays:         'Дней',
@@ -246,7 +238,6 @@ const i18n = {
     footerName:      'Moni · Ақмарал · Ақалек',
     footerDate:      '14 апреля 2026 — навсегда',
   },
-
   en: {
     navGallery:      'Gallery',
     navVideos:       'Videos',
@@ -257,7 +248,6 @@ const i18n = {
     musicTitle:      'Music',
     musicPlay:       'Play',
     musicPause:      'Pause',
-
     countEyebrow:    'Since the day we met',
     countTitle:      'Time together',
     cntDays:         'Days',
@@ -267,9 +257,7 @@ const i18n = {
     footerName:      'Moni · Aqmaral · Aqalek',
     footerDate:      'April 14, 2026 — forever',
   },
-
 };
-
 
 /* ════════════════════════════════════════════════════
    4. КӨМЕКШІ ФУНКЦИЯЛАР (HELPERS)
@@ -299,7 +287,6 @@ function writeStorage(key, value) {
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
-
 
 /* ════════════════════════════════════════════════════
    5. ТІЛ АУЫСТЫРУ (setLang)
@@ -346,7 +333,6 @@ function setLang(lang) {
 
   writeStorage(STORAGE_KEY_LANG, lang);
 }
-
 
 /* ════════════════════════════════════════════════════
    7. ЛАЙТБОКС (LIGHTBOX)
@@ -417,7 +403,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') prevLb();
 });
 
-
 /* ════════════════════════════════════════════════════
    8. ГАЛЕРЕЯ (GALLERY)
 ════════════════════════════════════════════════════ */
@@ -475,7 +460,6 @@ function buildGallery() {
   if (heroImage) heroImage.src = buildPath(IMAGE_DIR, HERO_IMAGE_FILE);
 }
 
-
 /* ════════════════════════════════════════════════════
    9. ВИДЕО (VIDEOS)
 ════════════════════════════════════════════════════ */
@@ -516,7 +500,6 @@ function buildVideos() {
     }
   }, true);
 }
-
 
 /* ════════════════════════════════════════════════════
    10. МУЗЫКА (MUSIC)
@@ -622,7 +605,6 @@ if (audio) {
   });
 }
 
-
 /* ════════════════════════════════════════════════════
    11. БӨЛШЕКТЕР ЖҮЙЕСІ (PARTICLES)
 ════════════════════════════════════════════════════ */
@@ -639,9 +621,9 @@ function createParticles(canvasId, requestedCount) {
       : requestedCount;
 
   const colors = [
-    [104, 225, 253],  /* аква */
-    [255, 255, 255],  /* ақ */
-    [182, 240, 255],  /* ашық көк */
+    [104, 225, 253],
+    [255, 255, 255],
+    [182, 240, 255],
   ];
 
   function resize() {
@@ -728,7 +710,6 @@ function createParticles(canvasId, requestedCount) {
   }
 }
 
-
 /* ════════════════════════════════════════════════════
    12. СКРОЛЛ КЕЗІНДЕГІ ПАЙДА БОЛУ (SCROLL REVEAL)
 ════════════════════════════════════════════════════ */
@@ -767,7 +748,6 @@ function initScrollReveal() {
   targets.forEach((element) => observer.observe(element));
 }
 
-
 /* ════════════════════════════════════════════════════
    13. САНАҒЫШ (COUNTDOWN)
 ════════════════════════════════════════════════════ */
@@ -798,7 +778,6 @@ function initCountdown() {
   setInterval(update, 1000);
 }
 
-
 /* ════════════════════════════════════════════════════
    14. МӘЗІР ТҮСІ (NAV SCROLL)
 ════════════════════════════════════════════════════ */
@@ -821,21 +800,18 @@ function initNavScroll() {
   onScroll();
 }
 
-
 /* ════════════════════════════════════════════════════
    15. ІСКЕ ҚОСУ (INIT)
 ════════════════════════════════════════════════════ */
 function init() {
   checkSiteAuth();
   buildGallery();
-
   buildVideos();
   buildMusic();
 
   setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
 
   initScrollReveal();
-
   initCountdown();
   initNavScroll();
   createParticles('heroCanvas', 70);
@@ -846,7 +822,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
 
 /* ════════════════════════════════════════════════════
    16. ИНТЕРАКТИВТІ ЭФФЕКТ (Жұлдыздар)
