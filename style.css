@@ -648,24 +648,6 @@ footer {
   box-shadow: 0 10px 25px var(--cyan-glow), inset 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
-/* Google OAuth дугме стилови */
-.google-btn {
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border: 1px solid var(--border-glass);
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 10px;
-  backdrop-filter: blur(10px);
-}
-
-.google-btn:hover {
-  background: rgba(255, 255, 255, 0.28);
-  border-color: var(--border-glow);
-  box-shadow: 0 0 25px var(--cyan-glow);
-}
-
 .lock-err {
   display: none; margin-top: 14px; color: var(--danger); font-size: 0.82rem;
 }
