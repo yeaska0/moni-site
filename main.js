@@ -696,3 +696,62 @@ document.addEventListener('click', function(e) {
     spark.remove();
   }, 1000);
 });
+
+/* ════════════════════════════════════════════════════
+   AMBIENT MUSIC LOGIC
+════════════════════════════════════════════════════ */
+const ambientAudio = document.getElementById('ambient-audio');
+const ambientBtn = document.getElementById('ambient-toggle-btn');
+const ambientIcon = document.getElementById('ambient-icon');
+
+let isAmbientPlaying = false;
+
+if (ambientAudio) {
+  ambientAudio.volume = 0.35; // Дыбыс деңгейін 35% етіп нәзік қою
+}
+
+function toggleAmbientMusic() {
+  if (!ambientAudio) return;
+
+  if (isAmbientPlaying) {
+    ambientAudio.pause();
+    isAmbientPlaying = false;
+    if (ambientBtn) ambientBtn.classList.remove('playing');
+    if (ambientIcon) ambientIcon.textContent = '🔇';
+  } else {
+    /* Негізгі музыка ойнап тұрса оны тоқтату */
+    if (audio && !audio.paused) {
+      audio.pause();
+    }
+
+    ambientAudio.play().then(() => {
+      isAmbientPlaying = true;
+      if (ambientBtn) ambientBtn.classList.add('playing');
+      if (ambientIcon) ambientIcon.textContent = '🎵';
+    }).catch((err) => {
+      console.warn('Ambient autoplay blocked:', err);
+    });
+  }
+}
+
+if (ambientBtn) {
+  ambientBtn.addEventListener('click', toggleAmbientMusic);
+}
+
+/* Экранды алғаш рет басқанда авто-ойнату логикасы */
+function initAmbientAutoplay() {
+  if (!ambientAudio || isAmbientPlaying) return;
+
+  const startOnUserInteraction = () => {
+    if (!isAmbientPlaying) {
+      toggleAmbientMusic();
+    }
+    document.removeEventListener('click', startOnUserInteraction);
+    document.removeEventListener('keydown', startOnUserInteraction);
+  };
+
+  document.addEventListener('click', startOnUserInteraction);
+  document.addEventListener('keydown', startOnUserInteraction);
+}
+
+// init() функциясының ішіне initAmbientAutoplay() шақыруын қосыңыз

@@ -1,27 +1,45 @@
 <!DOCTYPE html>
+<!-- Құжат тілі: бастапқыда қазақ тілі. Тіл ауысқанда main.js бұл мәнді жаңартады. -->
 <html lang="en">
 <head>
+  <!-- Таңбалар кодировкасы: қазақ әріптері дұрыс көрінуі үшін міндетті -->
   <meta charset="UTF-8">
+
+  <!-- Мобильді құрылғыларда бет өлшемін дұрыс көрсету -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Браузер жолағының түсі (телефонда) -->
   <meta name="theme-color" content="#1a1216">
+
+  <!-- Іздеу жүйелері мен әлеуметтік желілерге арналған сипаттама -->
   <meta name="description" content="Moni: галерея, видео, музыка және жеке хат.">
 
+  <!-- Сілтеме әлеуметтік желіде жіберілгенде көрсетілетін атау -->
   <meta property="og:title" content="Agalek">
   <meta property="og:description" content="Галерея, видео, музыка және жеке хат.">
   <meta property="og:type" content="website">
 
+  <!-- Браузер қойындысындағы бет атауы -->
   <title>Agalek</title>
 
+  <!-- Браузер қойындысындағы шағын белгіше (жүрекше) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
+  <!-- Қаріптерді жылдам жүктеу үшін алдын ала қосылу -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Қаріптер: Playfair Display, Dancing Script, Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  <!-- Сайттың дизайн файлы -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- SITE ACCESS LOCK (КІРУ ҚАҚПАСЫ) -->
+<!-- ═══════════════════════════════════════
+     SITE ACCESS LOCK (КІРУ ҚАҚПАСЫ)
+═══════════════════════════════════════ -->
 <div id="site-lock-overlay" class="site-lock-overlay">
   <div class="site-lock-card">
     <div class="lock-avatar">
@@ -34,6 +52,7 @@
     <h2 class="lock-title">Access Restricted</h2>
     <p class="lock-subtitle">Enter password to unlock site</p>
 
+    <!-- Пароль енгізу блогы -->
     <div id="password-step" style="width: 100%; margin-top: 15px;">
       <div class="lock-input-group">
         <span class="lock-icon">🔒</span>
@@ -46,18 +65,24 @@
   </div>
 </div>
 
+<!-- Мәзірді өткізіп, тікелей мазмұнға өту сілтемесі -->
 <a href="#main" class="skip-link">Мазмұнға өту</a>
 
-<!-- NAVIGATION -->
+<!-- ═══════════════════════════════════════
+     NAVIGATION: жоғарғы мәзір
+═══════════════════════════════════════ -->
 <nav id="nav" aria-label="Негізгі мәзір">
+  <!-- Сайттың белгісі (логотипі) -->
   <div class="nav-logo">Moni</div>
 
+  <!-- Бөлімдерге сілтемелер -->
   <ul class="nav-links">
     <li><a href="#gallery" data-i18n="navGallery">Галерея</a></li>
     <li><a href="#videos"  data-i18n="navVideos">Видео</a></li>
     <li><a href="#music"   data-i18n="navMusic">Музыка</a></li>
   </ul>
 
+  <!-- Тіл ауыстырғыш: KK, RU, EN -->
   <div class="lang-switch" role="group" aria-label="Language selection">
     <button type="button" class="lang-btn" data-lang="kk" aria-label="Қазақша" onclick="setLang('kk')">KK</button>
     <button type="button" class="lang-btn" data-lang="ru" aria-label="Русский" onclick="setLang('ru')">RU</button>
@@ -65,10 +90,12 @@
   </div>
 </nav>
 
-<!-- MAIN CONTENT -->
+<!-- Негізгі мазмұн -->
 <main id="main">
 
-  <!-- HERO -->
+  <!-- ═══════════════════════════════════════
+       HERO: басты экран
+  ═══════════════════════════════════════ -->
   <header id="hero">
     <canvas id="heroCanvas" aria-hidden="true"></canvas>
 
@@ -83,25 +110,33 @@
     <div class="hero-scroll-hint" aria-hidden="true">&darr;</div>
   </header>
 
-  <!-- GALLERY -->
+  <!-- ═══════════════════════════════════════
+       GALLERY: галерея
+  ═══════════════════════════════════════ -->
   <section class="sec" id="gallery" aria-labelledby="galleryHeading">
     <p class="sec-eyebrow reveal" id="galleryHeading" data-i18n="galleryTitle">Галерея</p>
     <div class="g-grid" id="gGrid"></div>
   </section>
 
-  <!-- VIDEOS -->
+  <!-- ═══════════════════════════════════════
+       VIDEOS: видео
+  ═══════════════════════════════════════ -->
   <section class="sec" id="videos" aria-labelledby="videosHeading">
     <p class="sec-eyebrow reveal" id="videosHeading" data-i18n="videosTitle">Видео</p>
     <div class="v-grid" id="vGrid"></div>
   </section>
 
-  <!-- MUSIC -->
+  <!-- ═══════════════════════════════════════
+       MUSIC: музыка
+  ═══════════════════════════════════════ -->
   <section class="sec" id="music" aria-labelledby="musicHeading">
     <p class="sec-eyebrow reveal" id="musicHeading" data-i18n="musicTitle">Музыка</p>
     <div class="music-list" id="musicList"></div>
   </section>
 
-  <!-- COUNTDOWN -->
+  <!-- ═══════════════════════════════════════
+       COUNTDOWN: бірге өткен уақыт санағышы
+  ═══════════════════════════════════════ -->
   <section id="countdown" aria-labelledby="countHeading">
     <p class="sec-eyebrow reveal" data-i18n="countEyebrow">Танысқанымызға</p>
     <h2 class="count-title reveal" id="countHeading" data-i18n="countTitle">Бірге өткен уақыт</h2>
@@ -131,7 +166,9 @@
 
 </main>
 
-<!-- LIGHTBOX -->
+<!-- ═══════════════════════════════════════
+     LIGHTBOX: суретті үлкейтіп көру
+═══════════════════════════════════════ -->
 <div id="lb" role="dialog" aria-modal="true" aria-label="Суретті көру">
   <button type="button" id="lb-close" aria-label="Жабу" onclick="closeLb()">&times;</button>
   <button type="button" id="lb-prev" class="lb-nav" aria-label="Алдыңғы" onclick="prevLb(event)">&#10094;</button>
@@ -139,7 +176,9 @@
   <button type="button" id="lb-next" class="lb-nav" aria-label="Келесі" onclick="nextLb(event)">&#10095;</button>
 </div>
 
-<!-- FOOTER -->
+<!-- ═══════════════════════════════════════
+     FOOTER: беттің төменгі бөлігі
+═══════════════════════════════════════ -->
 <footer>
   <div class="f-name" data-i18n="footerName">Moni · Ақмарал · Ақалек</div>
   <div class="f-date" data-i18n="footerDate">14 сәуір 2026 — мәңгілік</div>
@@ -152,6 +191,18 @@
 
 <audio id="audio" preload="none"></audio>
 
+<!-- Ambient Background Music Control -->
+<div id="ambient-control" class="ambient-control">
+  <button type="button" id="ambient-toggle-btn" class="ambient-btn" aria-label="Toggle Background Music">
+    <span id="ambient-icon">🎵</span>
+  </button>
+</div>
+
+<audio id="ambient-audio" loop preload="auto">
+  <source src="assets/audio/ambient.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Негізгі JS файлы -->
 <script src="main.js" defer></script>
 </body>
 </html>

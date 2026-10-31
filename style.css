@@ -651,3 +651,47 @@ footer {
 .lock-err {
   display: none; margin-top: 14px; color: var(--danger); font-size: 0.82rem;
 }
+
+/* ════════════════════════════════════════════════════
+   AMBIENT MUSIC BUTTON (ФОНДЫҚ МУЗЫКА БАТЫРМАСЫ)
+════════════════════════════════════════════════════ */
+.ambient-control {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+}
+
+.ambient-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(18, 62, 86, 0.55);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s var(--ease);
+}
+
+.ambient-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--border-glow);
+  box-shadow: 0 0 20px var(--cyan-glow);
+}
+
+.ambient-btn.playing {
+  border-color: var(--aqua);
+  box-shadow: 0 0 25px var(--cyan-glow);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px var(--cyan-glow); }
+  50% { box-shadow: 0 0 30px var(--aqua); }
+}
