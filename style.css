@@ -1,660 +1,389 @@
-/* ════════════════════════════════════════════════════
-   style.css
-   Сайттың сыртқы көрінісі: Glassmorphic / Frutiger Aero стилі.
-   Тақырып: Сұйық көгілдір су, мөлдір әйнек карточкалар, жарқырау.
-   Автор: Ақалек | 2026
-════════════════════════════════════════════════════ */
-
 :root {
-  color-scheme: dark;
-
-  /* Су және әйнек түстері */
-  --bg-top:        #237190;
-  --bg-mid:        #104058;
-  --bg-bottom:     #081d28;
-
-  /* Әйнек панельдер фоны */
-  --glass-bg:      rgba(255, 255, 255, 0.12);
-  --glass-bg-hover:rgba(255, 255, 255, 0.22);
-  --glass-card:    rgba(18, 62, 86, 0.45);
-
-  /* Жарқырауық жиектер мен сызықтар */
-  --border-glass:  rgba(255, 255, 255, 0.45);
-  --border-glow:   rgba(140, 235, 255, 0.65);
-  --border-light:  rgba(255, 255, 255, 0.25);
-
-  /* Мәтін түстері */
-  --cream:         #ffffff;
-  --text:          #e6f7ff;
-  --text-muted:    #a3d8ec;
-  --text-faint:    #6caac3;
-
-  /* Неон екпіндері */
-  --cyan-glow:     rgba(0, 225, 253, 0.4);
-  --aqua:          #68e1fd;
-  --gold:          #7ce0ff;
-  --gold-light:    #b6f0ff;
-  --gold-dim:      rgba(104, 225, 253, 0.2);
-  --gold-glow:     rgba(104, 225, 253, 0.35);
-  --danger:        #ff8282;
-
-  /* Қаріптер */
-  --font-serif:  'Playfair Display', Georgia, serif;
-  --font-sans:   'Inter', system-ui, -apple-system, sans-serif;
-  --font-script: 'Dancing Script', cursive;
-
-  /* Қозғалыс пен бұрыштар */
-  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --radius-sm:   14px;
-  --radius-md:   22px;
-  --radius-lg:   32px;
-
-  --nav-h:       70px;
+  --bg-dark: #121619;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --aqua: #68e1fd;
+  --cyan-glow: rgba(104, 225, 253, 0.35);
+  --text-main: #f0f4f8;
+  --text-muted: #a0aec0;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --ease: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* ════════════════════════════════════════════════════
-   RESET ЖӘНЕ ФОН
-════════════════════════════════════════════════════ */
-*, *::before, *::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 20px);
-  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: var(--font-sans), sans-serif;
-  background: radial-gradient(circle at 50% 0%, #3094ba 0%, #0d384e 50%, #05141d 100%) fixed;
-  color: var(--text);
-  line-height: 1.7;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-img, video {
-  max-width: 100%;
-}
-
-button, input {
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ════════════════════════════════════════════════════
-   ACCESSIBILITY & SCROLLBAR
+   NAVIGATION (ҮСТІНЕ ШЫҒЫП КЕТПЕЙТІН ЫҢҒАЙЛЫ МӘЗІР)
 ════════════════════════════════════════════════════ */
-:focus-visible {
-  outline: 2px solid var(--aqua);
-  outline-offset: 3px;
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(18, 22, 25, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-glass);
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px; height: 1px; margin: -1px; padding: 0;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-}
-
-.skip-link {
-  position: absolute; left: -9999px; top: 0; z-index: 3000;
-  padding: 0.75rem 1rem; background: var(--bg-mid); color: #fff;
-  border-radius: var(--radius-sm); text-decoration: none;
-}
-.skip-link:focus { left: 16px; top: 16px; }
-
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #071a24; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3aaed8, #0e5272);
-  border-radius: 4px;
-}
-
-/* ════════════════════════════════════════════════════
-   REVEAL
-════════════════════════════════════════════════════ */
-.reveal, .g-item, .v-item, .music-card {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
-}
-.reveal.visible, .g-item.visible, .v-item.visible, .music-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ════════════════════════════════════════════════════
-   ЖОҒАРҒЫ МӘЗІР (NAV)
-════════════════════════════════════════════════════ */
-#nav {
-  position: fixed; top: 16px; left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 48px);
-  max-width: 1200px;
-  z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: var(--nav-h); padding: 0 28px;
-
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-glass);
-  border-radius: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,255,0.6);
-  transition: all 0.4s var(--ease);
-}
-
-#nav.scrolled {
-  top: 8px;
-  background: rgba(10, 42, 60, 0.75);
-  border-color: var(--border-glow);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.4);
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .nav-logo {
-  font-family: var(--font-serif), serif;
-  font-size: 1.3rem; font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #fff;
-  text-shadow: 0 0 12px var(--cyan-glow);
+  cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .nav-links {
-  display: flex; list-style: none; gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.nav-links a {
-  display: block; color: var(--text); text-decoration: none;
-  font-size: 0.88rem; font-weight: 500; padding: 8px 18px;
-  border-radius: 20px; transition: all 0.3s;
+.nav-links::-webkit-scrollbar {
+  display: none;
 }
 
-.nav-links a:hover {
+.nav-item {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  transition: all 0.25s var(--ease);
+}
+
+.nav-item:hover, .nav-item.active {
   color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: rgba(104, 225, 253, 0.15);
+  border: 1px solid var(--border-glass);
 }
 
 .lang-switch {
-  display: flex; gap: 4px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--border-light);
-  border-radius: 20px; padding: 3px;
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px;
+  border-radius: 20px;
+  border: 1px solid var(--border-glass);
 }
 
 .lang-btn {
-  background: transparent; border: none; border-radius: 16px;
-  padding: 5px 12px; color: var(--text-muted); font-size: 0.75rem; font-weight: 600;
-  transition: all 0.3s;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.lang-btn.active, .lang-btn[aria-pressed="true"] {
-  background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-/* ════════════════════════════════════════════════════
-   HERO БӨЛІМІ
-════════════════════════════════════════════════════ */
-#hero {
-  position: relative; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; padding-top: 60px;
-}
-
-#heroCanvas {
-  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
-}
-
-.hero-content {
-  position: relative; z-index: 1;
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 120px 32px 80px;
-}
-
-.hero-photo {
-  width: 170px; height: 170px; border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 30px var(--cyan-glow), inset 0 0 15px rgba(255,255,255,0.5), 0 20px 40px rgba(0,0,0,0.4);
-  margin-bottom: 30px;
-  animation: heroFloat 6s ease-in-out infinite;
-}
-
-@keyframes heroFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-12px); }
-}
-
-.hero-eyebrow {
-  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.25em;
-  text-transform: uppercase; color: var(--aqua); margin-bottom: 16px;
-  text-shadow: 0 0 10px var(--cyan-glow);
-}
-
-.hero-name {
-  font-family: var(--font-serif), serif;
-  font-size: clamp(4.5rem, 13vw, 9rem);
-  font-weight: 700; line-height: 0.95;
-  color: #fff;
-  text-shadow: 0 4px 20px rgba(0, 180, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.4);
-}
-
-.hero-scroll-hint {
-  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-  color: var(--text-faint); font-size: 1.5rem;
-  animation: scrollBounce 2.2s ease-in-out infinite;
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
-  50%      { transform: translateX(-50%) translateY(8px); opacity: 1; }
+.lang-btn.active {
+  background: var(--aqua);
+  color: #121619;
 }
 
 /* ════════════════════════════════════════════════════
-   SECTIONS & GLASS CARDS
+   MAIN SECTION & WINDOW TABS
 ════════════════════════════════════════════════════ */
-.sec {
-  max-width: 1200px; margin: 0 auto; padding: 100px 36px;
+main {
+  flex: 1;
+  padding-top: 80px; /* МӘЗІР МЕН КОНТЕНТ АРАСЫНА МІНДЕТТІ БОС ОРЫН */
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.window-section {
+  display: none;
+  animation: fadeIn 0.35s ease-out;
+}
+
+.window-section.active-window {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .sec-eyebrow {
-  display: block; font-family: var(--font-serif), serif;
-  font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: #fff;
-  margin-bottom: 40px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-.sec-eyebrow::after {
-  content: ''; display: block; width: 60px; height: 3px;
-  background: linear-gradient(90deg, var(--aqua), transparent);
-  margin-top: 14px; border-radius: 2px;
+/* HERO SECTION */
+#hero {
+  text-align: center;
+  padding: 40px 0 20px;
+  position: relative;
 }
 
-/* ════════════════════════════════════════════════════
-   10. ГАЛЕРЕЯ
-════════════════════════════════════════════════════ */
-.g-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
+#heroCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-.g-item {
-  position: relative; border-radius: var(--radius-md); overflow: hidden;
-  aspect-ratio: 3 / 4;
-  background: var(--glass-card);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4);
-  transition: all 0.4s var(--ease);
+.hero-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--aqua);
+  box-shadow: 0 0 25px var(--cyan-glow);
+  margin-bottom: 16px;
 }
 
-.g-item img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.6s var(--ease);
+.hero-eyebrow {
+  color: var(--aqua);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.g-cap {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 40px 16px 16px;
-  background: linear-gradient(to top, rgba(5, 25, 38, 0.95), transparent);
-  color: #fff; font-size: 0.85rem; font-weight: 500;
-  opacity: 0; transform: translateY(6px); transition: all 0.3s;
+.hero-name {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  margin-top: 4px;
 }
 
-/* ════════════════════════════════════════════════════
-   11. ЛАЙТБОКС (LIGHTBOX)
-════════════════════════════════════════════════════ */
-#lb {
-  display: none; position: fixed; inset: 0; z-index: 2000;
-  background: rgba(5, 20, 30, 0.88);
-  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  align-items: center; justify-content: center;
-}
-
-#lb-close {
-  position: absolute; top: 24px; right: 24px; z-index: 1;
-  width: 48px; height: 48px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid var(--border-glass); color: #fff; font-size: 1.8rem;
-  transition: all 0.3s;
-}
-
-#lbImg {
-  max-width: 85vw; max-height: 82vh; border-radius: var(--radius-md);
-  border: 2px solid var(--border-glass);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.8), 0 0 40px var(--cyan-glow);
-}
-
-.lb-nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid var(--border-glass); color: #fff; font-size: 1.5rem;
-  width: 50px; height: 50px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; z-index: 2;
-  backdrop-filter: blur(10px); transition: all 0.3s;
-}
-
-.lb-nav:hover {
-  background: rgba(255, 255, 255, 0.3); transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 0 20px var(--cyan-glow);
-}
-#lb-prev { left: 24px; }
-#lb-next { right: 24px; }
-
-/* ════════════════════════════════════════════════════
-   12. ВИДЕО
-════════════════════════════════════════════════════ */
-.v-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-}
-
-.v-item {
-  border-radius: var(--radius-md); overflow: hidden;
-  background: var(--glass-card);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4);
-  transition: all 0.4s var(--ease);
-}
-
-.v-item video {
-  display: block; width: 100%; aspect-ratio: 9 / 16;
-  object-fit: contain; background: #000;
-}
-
-/* ════════════════════════════════════════════════════
-   13. МУЗЫКА
-════════════════════════════════════════════════════ */
-.music-list {
-  display: flex; flex-direction: column; gap: 14px; max-width: 600px;
-}
-
-.music-card {
-  display: flex; align-items: center; gap: 18px; padding: 18px 24px;
-  background: var(--glass-card);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-md);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
-  transition: all 0.35s var(--ease);
-}
-
-.music-card.playing {
-  border-color: var(--border-glow);
-  background: rgba(20, 85, 115, 0.55);
-  box-shadow: 0 0 30px var(--cyan-glow), inset 0 1px 2px rgba(255,255,255,0.6);
-  transform: translateX(8px);
-}
-
-.mc-btn {
-  display: flex; align-items: center; justify-content: center;
-  width: 48px; height: 48px; border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-  border: 1px solid var(--border-glass); color: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.25s;
-}
-
-.music-card.playing .mc-btn {
-  background: var(--aqua); color: #05141d;
-  box-shadow: 0 0 20px var(--aqua);
-}
-
-.mc-title { flex: 1; font-size: 0.95rem; font-weight: 500; color: #fff; }
-
-.music-card.playing::after {
-  content: ''; width: 22px; height: 18px;
-  background:
-          linear-gradient(var(--aqua), var(--aqua)) 0 100%    / 4px 40%  no-repeat,
-          linear-gradient(var(--aqua), var(--aqua)) 9px 100%  / 4px 100% no-repeat,
-          linear-gradient(var(--aqua), var(--aqua)) 18px 100% / 4px 60%  no-repeat;
-  animation: equalizer 1s ease-in-out infinite;
-}
-
-@keyframes equalizer {
-  0%, 100% { background-size: 4px 40%, 4px 100%, 4px 60%; }
-  50%      { background-size: 4px 100%, 4px 35%, 4px 90%; }
-}
-
-/* ════════════════════════════════════════════════════
-   15. САНАҒЫШ (COUNTDOWN)
-════════════════════════════════════════════════════ */
+/* COUNTDOWN */
 #countdown {
-  text-align: center; padding: 100px 36px;
+  margin: 40px 0;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  padding: 24px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
 .count-title {
-  margin-bottom: 50px; font-family: var(--font-script), cursive;
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--aqua);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
-.count-grid { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+.count-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
 
 .count-item {
-  display: flex; flex-direction: column; align-items: center;
-  min-width: 140px; margin: 8px; padding: 32px 40px;
-  background: var(--glass-card);
-  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--border-glass); border-radius: 24px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4);
-  transition: all 0.4s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .count-num {
-  font-family: var(--font-serif), serif;
-  font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 700; line-height: 1;
-  font-variant-numeric: tabular-nums; color: #fff;
-  text-shadow: 0 0 20px var(--cyan-glow);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--aqua);
 }
 
 .count-label {
-  margin-top: 10px; font-size: 0.75rem; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .count-sep {
-  align-self: center; margin: 0 4px; padding-bottom: 24px;
-  font-family: var(--font-serif), serif; font-size: 2.8rem; color: rgba(255,255,255,0.4);
+  font-size: 1.5rem;
+  color: var(--text-muted);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-
-/* ════════════════════════════════════════════════════
-   16. FOOTER
-════════════════════════════════════════════════════ */
-footer {
-  padding: 60px 36px 80px; text-align: center;
-  background: rgba(5, 20, 30, 0.6);
-  backdrop-filter: blur(15px); border-top: 1px solid var(--border-glass);
+/* G-GRID (ГАЛЕРЕЯ) */
+.g-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  padding-bottom: 40px;
 }
 
-.f-name { margin-bottom: 8px; font-family: var(--font-serif), serif; font-size: 1.1rem; color: #fff; }
-.f-date { margin-bottom: 24px; font-family: var(--font-script), cursive; font-size: 1.1rem; color: var(--aqua); }
-
-.f-social { display: flex; justify-content: center; gap: 20px; }
-.f-social a {
-  padding: 8px 16px; border-radius: 20px; color: var(--text-muted); text-decoration: none;
-  font-size: 0.85rem; background: rgba(255,255,255,0.08); border: 1px solid var(--border-light);
-  transition: all 0.3s;
-}
-
-/* ════════════════════════════════════════════════════
-   HOVER ӘСЕРЛЕРІ
-════════════════════════════════════════════════════ */
-@media (hover: hover) {
-  .g-item:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: var(--border-glow);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.5), 0 0 25px var(--cyan-glow);
-  }
-  .g-item:hover img { transform: scale(1.08); }
-  .g-item:hover .g-cap { opacity: 1; transform: translateY(0); }
-
-  .v-item:hover {
-    transform: translateY(-8px); border-color: var(--border-glow);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.5), 0 0 25px var(--cyan-glow);
-  }
-
-  .music-card:hover {
-    border-color: var(--border-glow); transform: translateX(8px);
-    background: rgba(255, 255, 255, 0.18);
-  }
-
-  .count-item:hover {
-    transform: translateY(-6px); border-color: var(--border-glow);
-    box-shadow: 0 0 30px var(--cyan-glow);
-  }
-
-  .f-social a:hover {
-    color: #fff; background: rgba(255,255,255,0.2); border-color: var(--aqua);
-    box-shadow: 0 0 15px var(--cyan-glow);
-  }
-}
-
-@media (hover: none) {
-  .g-cap { opacity: 1; transform: none; }
-}
-
-/* ════════════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .v-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-  #nav { width: calc(100% - 24px); top: 10px; padding: 10px 16px; row-gap: 8px; }
-  .nav-links { order: 3; flex-basis: 100%; justify-content: center; flex-wrap: wrap; }
-  .sec { padding: 80px 20px; }
-  .g-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .v-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .count-item { padding: 20px 24px; min-width: 90px; }
-  .count-num { font-size: 2.6rem; }
-}
-
-@media (max-width: 480px) {
-  .hero-name { font-size: 3.8rem; }
-  .v-grid { grid-template-columns: 1fr; }
-  .count-sep { font-size: 1.5rem; }
-}
-
-/* ════════════════════════════════════════════════════
-   ИНТЕРАКТИВТІ ЖҰЛДЫЗДАР / FADE
-════════════════════════════════════════════════════ */
-.lang-fade { opacity: 0.3; transition: opacity 0.3s ease; }
-
-.click-spark {
-  position: absolute; pointer-events: none; font-size: 1.3rem;
-  animation: floatUp 1s ease-out forwards; z-index: 9999;
-  filter: drop-shadow(0 0 8px var(--aqua));
-}
-@keyframes floatUp {
-  0% { opacity: 1; transform: translateY(0) scale(0.8); }
-  100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
-}
-
-/* ════════════════════════════════════════════════════
-   17. SITE LOCK OVERLAY (СТЕКЛЯННЫЙ КІРУ ҚАҚПАСЫ)
-════════════════════════════════════════════════════ */
-.site-lock-overlay {
-  position: fixed; inset: 0; z-index: 99999;
-  display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(circle at 50% 30%, #154c68 0%, #061c28 70%, #020b10 100%);
-  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  padding: 20px;
-  transition: opacity 0.6s var(--ease-out), visibility 0.6s var(--ease-out);
-}
-
-.site-lock-overlay.unlocked {
-  opacity: 0; visibility: hidden; pointer-events: none;
-}
-
-.site-lock-card {
-  width: 100%; max-width: 380px;
-  padding: 44px 32px;
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-
-  background: rgba(18, 62, 86, 0.45);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+.g-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: var(--card-bg);
   border: 1px solid var(--border-glass);
-  border-radius: 28px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 30px var(--cyan-glow);
+  cursor: pointer;
 }
 
-.lock-avatar {
-  width: 80px; height: 80px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--border-glass);
-  color: var(--aqua);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px var(--cyan-glow);
-  margin-bottom: 24px;
+.g-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease);
 }
 
-.lock-title {
-  font-family: var(--font-serif), serif;
-  font-size: 1.5rem; color: #fff; margin-bottom: 6px;
-  letter-spacing: 0.02em;
+.g-item:hover img {
+  transform: scale(1.08);
 }
 
-.lock-subtitle {
-  font-size: 0.82rem; color: var(--text-muted); margin-bottom: 28px;
+.g-cap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  font-size: 0.8rem;
+  text-align: center;
 }
 
-.lock-input-group {
-  width: 100%; position: relative; margin-bottom: 20px;
-  display: flex; align-items: center;
+/* V-GRID (ВИДЕО) */
+.v-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding-bottom: 40px;
 }
 
-.lock-icon {
-  position: absolute; left: 16px; font-size: 0.9rem; opacity: 0.7;
+.v-item {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
 }
 
-.lock-input-group input {
-  width: 100%; padding: 14px 16px 14px 44px;
-  background: rgba(5, 25, 38, 0.6);
-  border: 1px solid var(--border-light);
-  border-radius: 14px; color: #fff; font-size: 1rem;
-  transition: all 0.3s;
+.v-item video {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
 }
 
-.lock-input-group input:focus {
-  outline: none;
+/* MUSIC LIST (МУЗЫКА ТІЗІМІ) */
+.music-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.music-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s var(--ease);
+}
+
+.music-card.playing {
   border-color: var(--aqua);
   box-shadow: 0 0 15px var(--cyan-glow);
 }
 
-.lock-btn {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, #1b8eb5, #0a4f6d);
-  border: 1px solid var(--border-glass); border-radius: 14px;
-  color: #fff; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
-  transition: all 0.3s;
+.mc-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--aqua);
+  color: #121619;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.lock-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px var(--cyan-glow), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+.mc-title {
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 
-.lock-err {
-  display: none; margin-top: 14px; color: var(--danger); font-size: 0.82rem;
+/* LIGHTBOX */
+#lb {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(10px);
+  justify-content: center;
+  align-items: center;
 }
 
-/* ════════════════════════════════════════════════════
-   AMBIENT MUSIC BUTTON (ФОНДЫҚ МУЗЫКА БАТЫРМАСЫ)
-════════════════════════════════════════════════════ */
+#lb img {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+#lb-close, .lb-nav {
+  position: absolute;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#lb-close { top: 20px; right: 20px; }
+#lb-prev { left: 20px; }
+#lb-next { right: 20px; }
+
+/* AMBIENT CONTROL */
 .ambient-control {
   position: fixed;
   bottom: 24px;
@@ -663,144 +392,139 @@ footer {
 }
 
 .ambient-btn {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(18, 62, 86, 0.55);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: rgba(18, 22, 25, 0.8);
   border: 1px solid var(--border-glass);
   color: #fff;
   font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-  transition: all 0.3s var(--ease);
-}
-
-.ambient-btn:hover {
-  transform: scale(1.1);
-  border-color: var(--border-glow);
-  box-shadow: 0 0 20px var(--cyan-glow);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
 }
 
 .ambient-btn.playing {
   border-color: var(--aqua);
-  box-shadow: 0 0 25px var(--cyan-glow);
-  animation: pulseGlow 3s infinite ease-in-out;
+  box-shadow: 0 0 15px var(--cyan-glow);
 }
 
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px var(--cyan-glow); }
-  50% { box-shadow: 0 0 30px var(--aqua); }
+/* LOCK OVERLAY */
+.site-lock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: #121619;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-
-/* ════════════════════════════════════════════════════
-   МОБИЛЬДІ ҚҰРЫЛҒЫЛАРҒА АРНАЛҒАН КӨЛДЕНЕҢ СКРОЛЛ (CAROUSEL)
-════════════════════════════════════════════════════ */
-
-/* Галерея мен Видео секцияларын көлденең сырғымалы ету */
-.g-grid, .v-grid {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  gap: 16px;
-  padding: 10px 5px 25px 5px;
-  /* Скроллбары әдемі және білінбей тұруы үшін */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-.g-grid::-webkit-scrollbar, .v-grid::-webkit-scrollbar {
-  height: 6px;
-}
-
-.g-grid::-webkit-scrollbar-thumb, .v-grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 10px;
-}
-
-/* Мобильді экранда карточкалардың өлшемін ықшамдау */
-.g-item {
-  flex: 0 0 78% !important; /* Экранның 78%-ын алып, келесі суреттің шеті көрініп тұрады */
-  max-width: 320px;
-  scroll-snap-align: center;
-}
-
-.v-item {
-  flex: 0 0 85% !important;
-  max-width: 340px;
-  scroll-snap-align: center;
-}
-
-/* Музыка тізімін де жинақы етіп, саусақпен оңай басылатындай жасау */
-.music-list {
-  display: flex !important;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.music-card {
+.site-lock-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  padding: 32px;
+  border-radius: 24px;
   width: 100%;
+  max-width: 360px;
+  text-align: center;
 }
 
-/* Ноутбуктер мен үлкен экрандарда (Desktop) қайтадан тор (Grid) түрінде әдемі көрінуі үшін */
-@media (min-width: 769px) {
+.lock-input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+
+.lock-input-group input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  margin-left: 8px;
+}
+
+.lock-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: var(--aqua);
+  color: #121619;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lock-err {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  display: none;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  border-top: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+.f-social {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.f-social a {
+  color: var(--aqua);
+  text-decoration: none;
+}
+
+/* MOBILE RESPONSIVE ADAPTATION */
+@media (max-width: 640px) {
+  nav {
+    padding: 8px 0;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 8px 16px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-item {
+    font-size: 0.82rem;
+    padding: 6px 10px;
+  }
+
+  main {
+    padding-top: 110px; /* Мобильді мәзірге лайықталған биіктік */
+  }
+
   .g-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
-    overflow-x: visible !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .v-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-    overflow-x: visible !important;
+    grid-template-columns: 1fr;
   }
-
-  .g-item, .v-item {
-    flex: initial !important;
-    max-width: none !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════
-   ТЕРЕЗЕЛЕРДІ (ОКНО) АУЫСТЫРУ ЛОГИКАСЫ (TABS)
-════════════════════════════════════════════════════ */
-.window-section {
-  display: none; /* Басқа терезелерді жасырамыз */
-  animation: fadeInWindow 0.4s ease-out;
-}
-
-.window-section.active-window {
-  display: block; /* Тек активті терезені көрсетеміз */
-}
-
-@keyframes fadeInWindow {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Активті мәзірді белгілеу */
-.nav-links a.active {
-  color: var(--aqua);
-  position: relative;
-}
-
-.nav-links a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--aqua);
-  border-radius: 2px;
-  box-shadow: 0 0 8px var(--cyan-glow);
 }

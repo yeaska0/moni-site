@@ -43,21 +43,25 @@
 
 <!-- NAVIGATION -->
 <nav id="nav" aria-label="Негізгі мәзір">
-  <div class="nav-logo">Moni</div>
-  <ul class="nav-links">
-    <li><a href="#home" class="active" onclick="switchWindow('home', event)" data-i18n="navHome">Басты бет</a></li>
-    <li><a href="#gallery" onclick="switchWindow('gallery', event)" data-i18n="navGallery">Галерея</a></li>
-    <li><a href="#videos" onclick="switchWindow('videos', event)" data-i18n="navVideos">Видео</a></li>
-    <li><a href="#music" onclick="switchWindow('music', event)" data-i18n="navMusic">Музыка</a></li>
-  </ul>
-  <div class="lang-switch" role="group" aria-label="Language selection">
-    <button type="button" class="lang-btn" data-lang="kk" aria-label="Қазақша" onclick="setLang('kk')">KK</button>
-    <button type="button" class="lang-btn" data-lang="ru" aria-label="Русский" onclick="setLang('ru')">RU</button>
-    <button type="button" class="lang-btn active" data-lang="en" aria-label="English" onclick="setLang('en')" aria-pressed="true">EN</button>
+  <div class="nav-container">
+    <div class="nav-logo" onclick="switchWindow('home', event)">Moni</div>
+
+    <div class="nav-links">
+      <a href="#home" class="nav-item active" onclick="switchWindow('home', event)" data-i18n="navHome">Басты бет</a>
+      <a href="#gallery" class="nav-item" onclick="switchWindow('gallery', event)" data-i18n="navGallery">Галерея</a>
+      <a href="#videos" class="nav-item" onclick="switchWindow('videos', event)" data-i18n="navVideos">Видео</a>
+      <a href="#music" class="nav-item" onclick="switchWindow('music', event)" data-i18n="navMusic">Музыка</a>
+    </div>
+
+    <div class="lang-switch" role="group" aria-label="Language selection">
+      <button type="button" class="lang-btn" data-lang="kk" onclick="setLang('kk')">KK</button>
+      <button type="button" class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button type="button" class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN CONTENT CONTAINER -->
 <main id="main">
 
   <!-- 1-ОКНО: БАСТЫ БЕТ -->

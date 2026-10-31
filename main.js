@@ -47,15 +47,11 @@ function readSessionStorage(key, fallback) {
   try {
     const value = sessionStorage.getItem(key);
     return value === null ? fallback : value;
-  } catch (error) {
-    return fallback;
-  }
+  } catch (error) { return fallback; }
 }
 
 function writeSessionStorage(key, value) {
-  try {
-    sessionStorage.setItem(key, value);
-  } catch (error) { }
+  try { sessionStorage.setItem(key, value); } catch (error) { }
 }
 
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
@@ -226,42 +222,30 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach((button) => {
     const isActive = button.dataset.lang === lang;
     button.classList.toggle('active', isActive);
-    button.setAttribute('aria-pressed', String(isActive));
   });
 
   writeStorage(STORAGE_KEY_LANG, lang);
 }
 
-/* ════════════════════════════════════════════════════
-   ТЕРЕЗЕЛЕРДІ (ОКНО) АУЫСТЫРУ ЛОГИКАСЫ
-════════════════════════════════════════════════════ */
+/* ТЕРЕЗЕЛЕРДІ (ОКНО) АУЫСТЫРУ ЛОГИКАСЫ */
 function switchWindow(targetId, event) {
   if (event) event.preventDefault();
 
-  // 1. Барлық терезелерді жасыру
   document.querySelectorAll('.window-section').forEach(sec => {
     sec.classList.remove('active-window');
   });
 
-  // 2. Керекті терезені ғана ашу
   const target = document.getElementById(targetId);
   if (target) target.classList.add('active-window');
 
-  // 3. Меню батырмаларының активтілігін ауыстыру
-  document.querySelectorAll('.nav-links a').forEach(link => {
+  document.querySelectorAll('.nav-item').forEach(link => {
     link.classList.remove('active');
   });
-  if (event && event.target) {
-    event.target.classList.add('active');
-  } else {
-    const activeLink = document.querySelector(`.nav-links a[href="#${targetId}"]`);
-    if (activeLink) activeLink.classList.add('active');
-  }
 
-  // Видео басқа терезеде ойнап қалмауы үшін тоқтату
+  const activeLink = document.querySelector(`.nav-item[href="#${targetId}"]`);
+  if (activeLink) activeLink.classList.add('active');
+
   pauseAllVideos(null);
-
-  // Беттің ең басына апару
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -340,13 +324,11 @@ function buildGallery() {
     item.className = 'g-item';
     item.setAttribute('role', 'button');
     item.tabIndex = 0;
-    item.style.transitionDelay = `${(index % 4) * 0.06}s`;
 
     const image = document.createElement('img');
     image.src = src;
     image.alt = photo.caption;
     image.loading = 'lazy';
-    image.decoding = 'async';
 
     const caption = document.createElement('div');
     caption.className = 'g-cap';
@@ -355,7 +337,6 @@ function buildGallery() {
     item.appendChild(image);
     item.appendChild(caption);
     item.addEventListener('click', () => openLb(index));
-    item.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); openLb(index); } });
     fragment.appendChild(item);
   });
 
@@ -380,7 +361,6 @@ function buildVideos() {
   VIDEO_FILES.forEach((fileName, index) => {
     const item = document.createElement('div');
     item.className = 'v-item';
-    item.style.transitionDelay = `${(index % 3) * 0.08}s`;
 
     const video = document.createElement('video');
     video.src = buildPath(VIDEO_DIR, fileName);
@@ -418,7 +398,6 @@ function buildMusic() {
     const card = document.createElement('div');
     card.className = 'music-card';
     card.id = `mcard-${index}`;
-    card.style.transitionDelay = `${index * 0.1}s`;
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -486,8 +465,6 @@ function setCardState(index, playing) {
   const dictionary = i18n[currentLang];
   card.classList.toggle('playing', playing);
   button.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
-  button.setAttribute('aria-label', playing ? dictionary.musicPause : dictionary.musicPlay);
-  button.setAttribute('aria-pressed', String(playing));
 }
 
 if (audio) {
@@ -609,36 +586,6 @@ function createParticles(canvasId, requestedCount) {
   } else { start(); }
 }
 
-function releaseDelayAfterReveal(element) {
-  if (!element.style.transitionDelay) return;
-  function onTransitionEnd(event) {
-    if (event.target === element && event.propertyName === 'opacity') {
-      element.style.transitionDelay = '';
-      element.removeEventListener('transitionend', onTransitionEnd);
-    }
-  }
-  element.addEventListener('transitionend', onTransitionEnd);
-}
-
-function initScrollReveal() {
-  const targets = document.querySelectorAll('.reveal, .g-item, .v-item, .music-card');
-  if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
-    targets.forEach((element) => element.classList.add('visible'));
-    return;
-  }
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const element = entry.target;
-        element.classList.add('visible');
-        observer.unobserve(element);
-        releaseDelayAfterReveal(element);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
-  targets.forEach((element) => observer.observe(element));
-}
-
 function initCountdown() {
   const daysEl  = document.getElementById('cntDays');
   const hoursEl = document.getElementById('cntHours');
@@ -658,34 +605,16 @@ function initCountdown() {
   update(); setInterval(update, 1000);
 }
 
-function initNavScroll() {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-  let isScrolled = false;
-  function onScroll() {
-    const shouldBeScrolled = window.scrollY > 48;
-    if (shouldBeScrolled !== isScrolled) {
-      isScrolled = shouldBeScrolled;
-      nav.classList.toggle('scrolled', isScrolled);
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-}
-
 function init() {
   checkSiteAuth();
   buildGallery();
   buildVideos();
   buildMusic();
   setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
-  initScrollReveal();
   initCountdown();
-  initNavScroll();
   createParticles('heroCanvas', 70);
   initAmbientAutoplay();
 
-  // Бастапқы кезде тек басты терезені ашу
   switchWindow('home', null);
 }
 
