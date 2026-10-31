@@ -528,3 +528,78 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ════════════════════════════════════════════════════
+   SOCIAL PROFILES BUTTON CARDS
+════════════════════════════════════════════════════ */
+.social-profiles-sec {
+  margin: 35px 0 50px;
+  text-align: center;
+}
+
+.social-sec-title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.social-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.social-btn-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  border-radius: 18px;
+  text-decoration: none;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s var(--ease);
+}
+
+.social-btn-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--aqua);
+  box-shadow: 0 8px 20px var(--cyan-glow);
+}
+
+.social-btn-icon {
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  border: 1px solid var(--border-glass);
+}
+
+.social-btn-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.social-btn-platform {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.social-btn-handle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--aqua);
+}
