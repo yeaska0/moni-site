@@ -3,7 +3,6 @@
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
-/* Парольді тексеру және сайтты ашу */
 function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
@@ -11,13 +10,10 @@ function unlockSite() {
   if (!input || !error || !overlay) return;
 
   if (input.value.trim() === SITE_PASSWORD) {
-    /* localStorage орнына sessionStorage қолданамыз (әр кіріп-шыққан сайын пароль сұрау үшін) */
     writeSessionStorage(STORAGE_KEY_AUTH, 'true');
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
     document.body.style.overflow = '';
-
-    /* Парольді енгізіп батырманы басқан бойда әуенді тікелей қосу */
     playAmbientMusicDirectly();
   } else {
     error.style.display = 'block';
@@ -31,7 +27,6 @@ function checkSiteAuth() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
 
-  /* Сессиялық сақтауды тексеру */
   const isAuth = readSessionStorage(STORAGE_KEY_AUTH, 'false');
 
   if (isAuth === 'true') {
@@ -48,7 +43,6 @@ function checkSiteAuth() {
   }
 }
 
-/* SessionStorage үшін көмекші функциялар */
 function readSessionStorage(key, fallback) {
   try {
     const value = sessionStorage.getItem(key);
@@ -129,6 +123,7 @@ const VIDEO_FILES = [
 
 const i18n = {
   kk: {
+    navHome:         'Басты бет',
     navGallery:      'Галерея',
     navVideos:       'Видео',
     navMusic:        'Музыка',
@@ -148,6 +143,7 @@ const i18n = {
     footerDate:      '14 сәуір 2026 — мәңгілік',
   },
   ru: {
+    navHome:         'Главная',
     navGallery:      'Галерея',
     navVideos:       'Видео',
     navMusic:        'Музыка',
@@ -167,6 +163,7 @@ const i18n = {
     footerDate:      '14 апреля 2026 — навсегда',
   },
   en: {
+    navHome:         'Home',
     navGallery:      'Gallery',
     navVideos:       'Videos',
     navMusic:        'Music',
@@ -187,23 +184,19 @@ const i18n = {
   },
 };
 
-function buildPath(directory, fileName) {
-  return directory + encodeURIComponent(fileName);
-}
-
 function readStorage(key, fallback) {
   try {
     const value = localStorage.getItem(key);
     return value === null ? fallback : value;
-  } catch (error) {
-    return fallback;
-  }
+  } catch (error) { return fallback; }
 }
 
 function writeStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (error) { }
+  try { localStorage.setItem(key, value); } catch (error) { }
+}
+
+function buildPath(directory, fileName) {
+  return directory + encodeURIComponent(fileName);
 }
 
 function prefersReducedMotion() {
@@ -221,23 +214,10 @@ function setLang(lang) {
 
   document.documentElement.lang = lang;
 
-  const mainEl = document.getElementById('main');
-  if (mainEl) {
-    mainEl.classList.add('lang-fade');
-    setTimeout(() => mainEl.classList.remove('lang-fade'), 300);
-  }
-
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     const translation = dictionary[element.dataset.i18n];
     if (translation !== undefined) {
       element.textContent = translation;
-    }
-  });
-
-  document.querySelectorAll('[data-i18n-ph]').forEach((element) => {
-    const translation = dictionary[element.dataset.i18nPh];
-    if (translation !== undefined) {
-      element.placeholder = translation;
     }
   });
 
@@ -250,6 +230,39 @@ function setLang(lang) {
   });
 
   writeStorage(STORAGE_KEY_LANG, lang);
+}
+
+/* ════════════════════════════════════════════════════
+   ТЕРЕЗЕЛЕРДІ (ОКНО) АУЫСТЫРУ ЛОГИКАСЫ
+════════════════════════════════════════════════════ */
+function switchWindow(targetId, event) {
+  if (event) event.preventDefault();
+
+  // 1. Барлық терезелерді жасыру
+  document.querySelectorAll('.window-section').forEach(sec => {
+    sec.classList.remove('active-window');
+  });
+
+  // 2. Керекті терезені ғана ашу
+  const target = document.getElementById(targetId);
+  if (target) target.classList.add('active-window');
+
+  // 3. Меню батырмаларының активтілігін ауыстыру
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+  if (event && event.target) {
+    event.target.classList.add('active');
+  } else {
+    const activeLink = document.querySelector(`.nav-links a[href="#${targetId}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  }
+
+  // Видео басқа терезеде ойнап қалмауы үшін тоқтату
+  pauseAllVideos(null);
+
+  // Беттің ең басына апару
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 let lightboxOpen = false;
@@ -305,9 +318,7 @@ function prevLb(event) {
 
 document.addEventListener('click', (event) => {
   const lightbox = document.getElementById('lb');
-  if (lightboxOpen && event.target === lightbox) {
-    closeLb();
-  }
+  if (lightboxOpen && event.target === lightbox) closeLb();
 });
 
 document.addEventListener('keydown', (event) => {
@@ -325,7 +336,6 @@ function buildGallery() {
 
   GALLERY.forEach((photo, index) => {
     const src = buildPath(IMAGE_DIR, photo.file);
-
     const item = document.createElement('div');
     item.className = 'g-item';
     item.setAttribute('role', 'button');
@@ -344,23 +354,8 @@ function buildGallery() {
 
     item.appendChild(image);
     item.appendChild(caption);
-
     item.addEventListener('click', () => openLb(index));
-
-    item.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        openLb(index);
-      } else if (event.key === ' ') {
-        event.preventDefault();
-      }
-    });
-    item.addEventListener('keyup', (event) => {
-      if (event.key === ' ') {
-        openLb(index);
-      }
-    });
-
+    item.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); openLb(index); } });
     fragment.appendChild(item);
   });
 
@@ -410,7 +405,6 @@ function buildVideos() {
 
 const audio = document.getElementById('audio');
 let activeIndex = -1;
-
 const ICON_PLAY  = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"></path></svg>';
 
@@ -448,8 +442,8 @@ function buildMusic() {
 
 function playCard(index) {
   if (!audio) return;
-
   pauseAllVideos(null);
+
   if (ambientAudio && !ambientAudio.paused) {
     ambientAudio.pause();
     isAmbientPlaying = false;
@@ -458,11 +452,7 @@ function playCard(index) {
   }
 
   if (index === activeIndex) {
-    if (audio.paused) {
-      startPlayback();
-    } else {
-      audio.pause();
-    }
+    if (audio.paused) startPlayback(); else audio.pause();
     return;
   }
 
@@ -501,41 +491,28 @@ function setCardState(index, playing) {
 }
 
 if (audio) {
-  audio.addEventListener('play', () => {
-    pauseAllVideos(null);
-    syncMusicUi();
-  });
+  audio.addEventListener('play', () => { pauseAllVideos(null); syncMusicUi(); });
   audio.addEventListener('pause', syncMusicUi);
-  audio.addEventListener('ended', () => {
-    playCard((activeIndex + 1) % TRACKS.length);
-  });
+  audio.addEventListener('ended', () => playCard((activeIndex + 1) % TRACKS.length));
 }
 
-/* ════════════════════════════════════════════════════
-   AMBIENT BACKGROUND MUSIC LOGIC
-════════════════════════════════════════════════════ */
 const ambientAudio = document.getElementById('ambient-audio');
 const ambientBtn = document.getElementById('ambient-toggle-btn');
 const ambientIcon = document.getElementById('ambient-icon');
-
 let isAmbientPlaying = false;
 
 function playAmbientMusicDirectly() {
   if (!ambientAudio || isAmbientPlaying) return;
-
   ambientAudio.volume = 0.35;
   ambientAudio.play().then(() => {
     isAmbientPlaying = true;
     if (ambientBtn) ambientBtn.classList.add('playing');
     if (ambientIcon) ambientIcon.textContent = '🎵';
-  }).catch((err) => {
-    console.warn('Autoplay blocked by browser policy:', err);
-  });
+  }).catch((err) => console.warn('Autoplay blocked by browser policy:', err));
 }
 
 function toggleAmbientMusic() {
   if (!ambientAudio) return;
-
   if (isAmbientPlaying) {
     ambientAudio.pause();
     isAmbientPlaying = false;
@@ -547,22 +524,16 @@ function toggleAmbientMusic() {
   }
 }
 
-if (ambientBtn) {
-  ambientBtn.addEventListener('click', toggleAmbientMusic);
-}
+if (ambientBtn) ambientBtn.addEventListener('click', toggleAmbientMusic);
 
 function initAmbientAutoplay() {
   if (!ambientAudio) return;
-
   const startOnUserInteraction = () => {
-    if (!isAmbientPlaying) {
-      playAmbientMusicDirectly();
-    }
+    if (!isAmbientPlaying) playAmbientMusicDirectly();
     document.removeEventListener('click', startOnUserInteraction);
     document.removeEventListener('touchstart', startOnUserInteraction);
     document.removeEventListener('keydown', startOnUserInteraction);
   };
-
   document.addEventListener('click', startOnUserInteraction);
   document.addEventListener('touchstart', startOnUserInteraction);
   document.addEventListener('keydown', startOnUserInteraction);
@@ -571,19 +542,10 @@ function initAmbientAutoplay() {
 function createParticles(canvasId, requestedCount) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
-
   const context = canvas.getContext('2d');
   if (!context) return;
-
-  const count = window.innerWidth < 640
-      ? Math.round(requestedCount / 2)
-      : requestedCount;
-
-  const colors = [
-    [104, 225, 253],
-    [255, 255, 255],
-    [182, 240, 255],
-  ];
+  const count = window.innerWidth < 640 ? Math.round(requestedCount / 2) : requestedCount;
+  const colors = [[104, 225, 253], [255, 255, 255], [182, 240, 255]];
 
   function resize() {
     canvas.width  = canvas.offsetWidth  || (canvas.parentElement && canvas.parentElement.offsetWidth)  || window.innerWidth;
@@ -598,40 +560,33 @@ function createParticles(canvasId, requestedCount) {
   }, { passive: true });
 
   const particles = Array.from({ length: count }, () => ({
-    x:     Math.random() * canvas.width,
-    y:     Math.random() * canvas.height,
-    r:     Math.random() * 1.8 + 0.4,
-    vx:    (Math.random() - 0.5) * 0.22,
-    vy:    -(Math.random() * 0.4 + 0.08),
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.8 + 0.4,
+    vx: (Math.random() - 0.5) * 0.22,
+    vy: -(Math.random() * 0.4 + 0.08),
     alpha: Math.random() * 0.32 + 0.08,
     color: colors[Math.floor(Math.random() * colors.length)],
     phase: Math.random() * Math.PI * 2,
     speed: Math.random() * 0.008 + 0.004,
   }));
 
-  function drawParticle(particle) {
-    const alpha = particle.alpha * (0.5 + 0.5 * Math.sin(particle.phase));
+  function drawParticle(p) {
+    const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.phase));
     context.beginPath();
-    context.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-    context.fillStyle = `rgba(${particle.color[0]},${particle.color[1]},${particle.color[2]},${alpha})`;
+    context.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    context.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${alpha})`;
     context.fill();
   }
 
   function renderFrame() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach((particle) => {
-      particle.x += particle.vx;
-      particle.y += particle.vy;
-      particle.phase += particle.speed;
-
-      if (particle.y < -10 || particle.x < -20 || particle.x > canvas.width + 20) {
-        particle.x = Math.random() * canvas.width;
-        particle.y = canvas.height + 10;
-        particle.phase = 0;
+    particles.forEach((p) => {
+      p.x += p.vx; p.y += p.vy; p.phase += p.speed;
+      if (p.y < -10 || p.x < -20 || p.x > canvas.width + 20) {
+        p.x = Math.random() * canvas.width; p.y = canvas.height + 10; p.phase = 0;
       }
-
-      drawParticle(particle);
+      drawParticle(p);
     });
   }
 
@@ -642,36 +597,20 @@ function createParticles(canvasId, requestedCount) {
   }
 
   let animationId = null;
-
-  function loop() {
-    renderFrame();
-    animationId = requestAnimationFrame(loop);
-  }
-  function start() {
-    if (animationId === null) animationId = requestAnimationFrame(loop);
-  }
-  function stop() {
-    if (animationId !== null) {
-      cancelAnimationFrame(animationId);
-      animationId = null;
-    }
-  }
+  function loop() { renderFrame(); animationId = requestAnimationFrame(loop); }
+  function start() { if (animationId === null) animationId = requestAnimationFrame(loop); }
+  function stop() { if (animationId !== null) { cancelAnimationFrame(animationId); animationId = null; } }
 
   if ('IntersectionObserver' in window) {
     const visibilityObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) start(); else stop();
-      });
+      entries.forEach((entry) => { if (entry.isIntersecting) start(); else stop(); });
     });
     visibilityObserver.observe(canvas);
-  } else {
-    start();
-  }
+  } else { start(); }
 }
 
 function releaseDelayAfterReveal(element) {
   if (!element.style.transitionDelay) return;
-
   function onTransitionEnd(event) {
     if (event.target === element && event.propertyName === 'opacity') {
       element.style.transitionDelay = '';
@@ -683,12 +622,10 @@ function releaseDelayAfterReveal(element) {
 
 function initScrollReveal() {
   const targets = document.querySelectorAll('.reveal, .g-item, .v-item, .music-card');
-
   if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
     targets.forEach((element) => element.classList.add('visible'));
     return;
   }
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -699,41 +636,32 @@ function initScrollReveal() {
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
-
   targets.forEach((element) => observer.observe(element));
 }
 
 function initCountdown() {
   const daysEl  = document.getElementById('cntDays');
   const hoursEl = document.getElementById('cntHours');
-  const minsEl  = document.getElementById('cntSecs'); // Түзетілген
+  const minsEl  = document.getElementById('cntMins');
   const secsEl  = document.getElementById('cntSecs');
   if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-  function pad(number) {
-    return String(number).padStart(2, '0');
-  }
-
+  function pad(number) { return String(number).padStart(2, '0'); }
   function update() {
     const diff = Math.abs(Date.now() - RELATIONSHIP_START.getTime());
-
     const totalSeconds = Math.floor(diff / 1000);
     daysEl.textContent  = String(Math.floor(totalSeconds / 86400));
     hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
     minsEl.textContent  = pad(Math.floor((totalSeconds % 3600) / 60));
     secsEl.textContent  = pad(totalSeconds % 60);
   }
-
-  update();
-  setInterval(update, 1000);
+  update(); setInterval(update, 1000);
 }
 
 function initNavScroll() {
   const nav = document.getElementById('nav');
   if (!nav) return;
-
   let isScrolled = false;
-
   function onScroll() {
     const shouldBeScrolled = window.scrollY > 48;
     if (shouldBeScrolled !== isScrolled) {
@@ -741,7 +669,6 @@ function initNavScroll() {
       nav.classList.toggle('scrolled', isScrolled);
     }
   }
-
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 }
@@ -751,14 +678,15 @@ function init() {
   buildGallery();
   buildVideos();
   buildMusic();
-
   setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
-
   initScrollReveal();
   initCountdown();
   initNavScroll();
   createParticles('heroCanvas', 70);
   initAmbientAutoplay();
+
+  // Бастапқы кезде тек басты терезені ашу
+  switchWindow('home', null);
 }
 
 if (document.readyState === 'loading') {
@@ -769,17 +697,11 @@ if (document.readyState === 'loading') {
 
 document.addEventListener('click', function(e) {
   if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
-
   const spark = document.createElement('div');
   spark.className = 'click-spark';
   spark.innerHTML = '✨';
-
   spark.style.left = (e.pageX - 10) + 'px';
   spark.style.top = (e.pageY - 10) + 'px';
-
   document.body.appendChild(spark);
-
-  setTimeout(() => {
-    spark.remove();
-  }, 1000);
+  setTimeout(() => spark.remove(), 1000);
 });
