@@ -673,4 +673,95 @@ function initScrollReveal() {
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        element.classList.add('visible');
+        observer.unobserve(element);
+        releaseDelayAfterReveal(element);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+  targets.forEach((element) => observer.observe(element));
+}
+
+function initCountdown() {
+  const daysEl  = document.getElementById('cntDays');
+  const hoursEl = document.getElementById('cntHours');
+  const minsEl  = document.getElementById('cntMins');
+  const secsEl  = document.getElementById('cntSecs');
+  if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+  function pad(number) {
+    return String(number).padStart(2, '0');
+  }
+
+  function update() {
+    const diff = Math.abs(Date.now() - RELATIONSHIP_START.getTime());
+
+    const totalSeconds = Math.floor(diff / 1000);
+    daysEl.textContent  = String(Math.floor(totalSeconds / 86400));
+    hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
+    minsEl.textContent  = pad(Math.floor((totalSeconds % 3600) / 60));
+    secsEl.textContent  = pad(totalSeconds % 60);
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+function initNavScroll() {
+  const nav = document.getElementById('nav');
+  if (!nav) return;
+
+  let isScrolled = false;
+
+  function onScroll() {
+    const shouldBeScrolled = window.scrollY > 48;
+    if (shouldBeScrolled !== isScrolled) {
+      isScrolled = shouldBeScrolled;
+      nav.classList.toggle('scrolled', isScrolled);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+function init() {
+  checkSiteAuth();
+  buildGallery();
+  buildVideos();
+  buildMusic();
+
+  setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
+
+  initScrollReveal();
+  initCountdown();
+  initNavScroll();
+  createParticles('heroCanvas', 70);
+  initAmbientAutoplay();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
+
+  const spark = document.createElement('div');
+  spark.className = 'click-spark';
+  spark.innerHTML = '✨';
+
+  spark.style.left = (e.pageX - 10) + 'px';
+  spark.style.top = (e.pageY - 10) + 'px';
+
+  document.body.appendChild(spark);
+
+  setTimeout(() => {
+    spark.remove();
+  }, 1000);
+});
