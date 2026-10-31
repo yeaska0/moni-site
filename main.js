@@ -3,6 +3,7 @@
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
+/* Парольді тексеру және сайтты ашу (сонымен бірге әуенді автоматты қосу) */
 function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
@@ -14,6 +15,9 @@ function unlockSite() {
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
     document.body.style.overflow = '';
+
+    /* Пароль дұрыс енгізілген бойда әуенді тікелей ойнату */
+    playAmbientMusicDirectly();
   } else {
     error.style.display = 'block';
     input.value = '';
@@ -380,6 +384,7 @@ function buildVideos() {
   grid.addEventListener('play', (event) => {
     if (event.target instanceof HTMLVideoElement) {
       pauseAllVideos(event.target);
+      if (ambientAudio && !ambientAudio.paused) ambientAudio.pause();
       if (audio && !audio.paused) audio.pause();
     }
   }, true);
@@ -427,6 +432,12 @@ function playCard(index) {
   if (!audio) return;
 
   pauseAllVideos(null);
+  if (ambientAudio && !ambientAudio.paused) {
+    ambientAudio.pause();
+    isAmbientPlaying = false;
+    if (ambientBtn) ambientBtn.classList.remove('playing');
+    if (ambientIcon) ambientIcon.textContent = '🔇';
+  }
 
   if (index === activeIndex) {
     if (audio.paused) {
@@ -480,6 +491,63 @@ if (audio) {
   audio.addEventListener('ended', () => {
     playCard((activeIndex + 1) % TRACKS.length);
   });
+}
+
+/* ════════════════════════════════════════════════════
+   AMBIENT BACKGROUND MUSIC LOGIC (АВТО-ОЙНАТУ)
+════════════════════════════════════════════════════ */
+const ambientAudio = document.getElementById('ambient-audio');
+const ambientBtn = document.getElementById('ambient-toggle-btn');
+const ambientIcon = document.getElementById('ambient-icon');
+
+let isAmbientPlaying = false;
+
+function playAmbientMusicDirectly() {
+  if (!ambientAudio || isAmbientPlaying) return;
+
+  ambientAudio.volume = 0.35;
+  ambientAudio.play().then(() => {
+    isAmbientPlaying = true;
+    if (ambientBtn) ambientBtn.classList.add('playing');
+    if (ambientIcon) ambientIcon.textContent = '🎵';
+  }).catch((err) => {
+    console.warn('Autoplay blocked by browser policy:', err);
+  });
+}
+
+function toggleAmbientMusic() {
+  if (!ambientAudio) return;
+
+  if (isAmbientPlaying) {
+    ambientAudio.pause();
+    isAmbientPlaying = false;
+    if (ambientBtn) ambientBtn.classList.remove('playing');
+    if (ambientIcon) ambientIcon.textContent = '🔇';
+  } else {
+    if (audio && !audio.paused) audio.pause();
+    playAmbientMusicDirectly();
+  }
+}
+
+if (ambientBtn) {
+  ambientBtn.addEventListener('click', toggleAmbientMusic);
+}
+
+function initAmbientAutoplay() {
+  if (!ambientAudio) return;
+
+  const startOnUserInteraction = () => {
+    if (!isAmbientPlaying) {
+      playAmbientMusicDirectly();
+    }
+    document.removeEventListener('click', startOnUserInteraction);
+    document.removeEventListener('touchstart', startOnUserInteraction);
+    document.removeEventListener('keydown', startOnUserInteraction);
+  };
+
+  document.addEventListener('click', startOnUserInteraction);
+  document.addEventListener('touchstart', startOnUserInteraction);
+  document.addEventListener('keydown', startOnUserInteraction);
 }
 
 function createParticles(canvasId, requestedCount) {
@@ -605,153 +673,4 @@ function initScrollReveal() {
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const element = entry.target;
-        element.classList.add('visible');
-        observer.unobserve(element);
-        releaseDelayAfterReveal(element);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
-
-  targets.forEach((element) => observer.observe(element));
-}
-
-function initCountdown() {
-  const daysEl  = document.getElementById('cntDays');
-  const hoursEl = document.getElementById('cntHours');
-  const minsEl  = document.getElementById('cntMins');
-  const secsEl  = document.getElementById('cntSecs');
-  if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
-
-  function pad(number) {
-    return String(number).padStart(2, '0');
-  }
-
-  function update() {
-    const diff = Math.abs(Date.now() - RELATIONSHIP_START.getTime());
-
-    const totalSeconds = Math.floor(diff / 1000);
-    daysEl.textContent  = String(Math.floor(totalSeconds / 86400));
-    hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
-    minsEl.textContent  = pad(Math.floor((totalSeconds % 3600) / 60));
-    secsEl.textContent  = pad(totalSeconds % 60);
-  }
-
-  update();
-  setInterval(update, 1000);
-}
-
-function initNavScroll() {
-  const nav = document.getElementById('nav');
-  if (!nav) return;
-
-  let isScrolled = false;
-
-  function onScroll() {
-    const shouldBeScrolled = window.scrollY > 48;
-    if (shouldBeScrolled !== isScrolled) {
-      isScrolled = shouldBeScrolled;
-      nav.classList.toggle('scrolled', isScrolled);
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-}
-
-function init() {
-  checkSiteAuth();
-  buildGallery();
-  buildVideos();
-  buildMusic();
-
-  setLang(readStorage(STORAGE_KEY_LANG, DEFAULT_LANG));
-
-  initScrollReveal();
-  initCountdown();
-  initNavScroll();
-  createParticles('heroCanvas', 70);
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
-
-document.addEventListener('click', function(e) {
-  if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
-
-  const spark = document.createElement('div');
-  spark.className = 'click-spark';
-  spark.innerHTML = '✨';
-
-  spark.style.left = (e.pageX - 10) + 'px';
-  spark.style.top = (e.pageY - 10) + 'px';
-
-  document.body.appendChild(spark);
-
-  setTimeout(() => {
-    spark.remove();
-  }, 1000);
-});
-
-/* ════════════════════════════════════════════════════
-   AMBIENT MUSIC LOGIC
-════════════════════════════════════════════════════ */
-const ambientAudio = document.getElementById('ambient-audio');
-const ambientBtn = document.getElementById('ambient-toggle-btn');
-const ambientIcon = document.getElementById('ambient-icon');
-
-let isAmbientPlaying = false;
-
-if (ambientAudio) {
-  ambientAudio.volume = 0.35; // Дыбыс деңгейін 35% етіп нәзік қою
-}
-
-function toggleAmbientMusic() {
-  if (!ambientAudio) return;
-
-  if (isAmbientPlaying) {
-    ambientAudio.pause();
-    isAmbientPlaying = false;
-    if (ambientBtn) ambientBtn.classList.remove('playing');
-    if (ambientIcon) ambientIcon.textContent = '🔇';
-  } else {
-    /* Негізгі музыка ойнап тұрса оны тоқтату */
-    if (audio && !audio.paused) {
-      audio.pause();
-    }
-
-    ambientAudio.play().then(() => {
-      isAmbientPlaying = true;
-      if (ambientBtn) ambientBtn.classList.add('playing');
-      if (ambientIcon) ambientIcon.textContent = '🎵';
-    }).catch((err) => {
-      console.warn('Ambient autoplay blocked:', err);
-    });
-  }
-}
-
-if (ambientBtn) {
-  ambientBtn.addEventListener('click', toggleAmbientMusic);
-}
-
-/* Экранды алғаш рет басқанда авто-ойнату логикасы */
-function initAmbientAutoplay() {
-  if (!ambientAudio || isAmbientPlaying) return;
-
-  const startOnUserInteraction = () => {
-    if (!isAmbientPlaying) {
-      toggleAmbientMusic();
-    }
-    document.removeEventListener('click', startOnUserInteraction);
-    document.removeEventListener('keydown', startOnUserInteraction);
-  };
-
-  document.addEventListener('click', startOnUserInteraction);
-  document.addEventListener('keydown', startOnUserInteraction);
-}
-
-// init() функциясының ішіне initAmbientAutoplay() шақыруын қосыңыз
+      if (entry
