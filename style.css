@@ -695,3 +695,76 @@ footer {
   0%, 100% { box-shadow: 0 0 15px var(--cyan-glow); }
   50% { box-shadow: 0 0 30px var(--aqua); }
 }
+
+
+/* ════════════════════════════════════════════════════
+   МОБИЛЬДІ ҚҰРЫЛҒЫЛАРҒА АРНАЛҒАН КӨЛДЕНЕҢ СКРОЛЛ (CAROUSEL)
+════════════════════════════════════════════════════ */
+
+/* Галерея мен Видео секцияларын көлденең сырғымалы ету */
+.g-grid, .v-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 16px;
+  padding: 10px 5px 25px 5px;
+  /* Скроллбары әдемі және білінбей тұруы үшін */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.g-grid::-webkit-scrollbar, .v-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.g-grid::-webkit-scrollbar-thumb, .v-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+}
+
+/* Мобильді экранда карточкалардың өлшемін ықшамдау */
+.g-item {
+  flex: 0 0 78% !important; /* Экранның 78%-ын алып, келесі суреттің шеті көрініп тұрады */
+  max-width: 320px;
+  scroll-snap-align: center;
+}
+
+.v-item {
+  flex: 0 0 85% !important;
+  max-width: 340px;
+  scroll-snap-align: center;
+}
+
+/* Музыка тізімін де жинақы етіп, саусақпен оңай басылатындай жасау */
+.music-list {
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.music-card {
+  width: 100%;
+}
+
+/* Ноутбуктер мен үлкен экрандарда (Desktop) қайтадан тор (Grid) түрінде әдемі көрінуі үшін */
+@media (min-width: 769px) {
+  .g-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    overflow-x: visible !important;
+  }
+
+  .v-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    overflow-x: visible !important;
+  }
+
+  .g-item, .v-item {
+    flex: initial !important;
+    max-width: none !important;
+  }
+}
