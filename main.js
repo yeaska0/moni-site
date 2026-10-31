@@ -1,21 +1,8 @@
-/* ════════════════════════════════════════════════════
-   main.js
-   Сайттың барлық логикасы осы файлда:
-   деректер, аудармалар, галерея, видео, музыка,
-   санағыш, бөлшектер анимациясы.
-   Автор: Ақалек | 2026
-════════════════════════════════════════════════════ */
-
 'use strict';
-
-/* ════════════════════════════════════════════════════
-   1. БАПТАУЛАР ЖӘНЕ КІРУ ҚАҚПАСЫ (SITE LOCK)
-════════════════════════════════════════════════════ */
 
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
-/* Парольді тексеру және сайтты ашу */
 function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
@@ -34,7 +21,6 @@ function unlockSite() {
   }
 }
 
-/* Авторизация күйін тексеру */
 function checkSiteAuth() {
   const overlay = document.getElementById('site-lock-overlay');
   const input = document.getElementById('site-pass-input');
@@ -56,24 +42,16 @@ function checkSiteAuth() {
   }
 }
 
-/* Санағыш басталатын күн */
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
-
-/* Әдепкі тіл */
 const DEFAULT_LANG = 'en';
 const STORAGE_KEY_LANG = 'lang';
 
-/* Бумалар */
 const IMAGE_DIR = 'assets/images/';
 const VIDEO_DIR = 'assets/videos/';
 const AUDIO_DIR = 'assets/audio/';
 
 const HERO_IMAGE_FILE = 'photo_base4.png';
 const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
-/* ════════════════════════════════════════════════════
-   2. ДЕРЕКТЕР (DATA)
-════════════════════════════════════════════════════ */
 
 const GALLERY = [
   { file: 'photo_new1.webp',            caption: 'Moni'           },
@@ -101,9 +79,9 @@ const GALLERY = [
   { file: '2026-06-24 20.40.35.jpg',    caption: 'Moni'           },
   { file: '2026-06-24 20.40.39.jpg',    caption: 'Бақытым'        },
   { file: '2026-06-24 20.40.42.jpg',    caption: 'Ақалек'         },
-  { file: '2026-06-24 20.40.45.jpg',    caption: 'Нурым'          },
+  { file: '2026-06-24 20.40.45.jpg',    caption: 'Нұрым'          },
   { file: '2026-06-24 20.40.49.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.40.53.jpg',    caption: 'Армандым'       },
+  { file: '2026-06-24 20.40.53.jpg',    caption: 'Арманым'        },
   { file: '2026-06-24 20.40.56.jpg',    caption: 'Жаным'          },
   { file: '2026-06-24 20.41.00.jpg',    caption: 'Moni'           },
 ];
@@ -115,9 +93,7 @@ const TRACKS = [
 ];
 
 const VIDEO_FILES = [
-  'video_new1.mp4',
-  'video_new2.mp4',
-  'video_new3.mp4',
+  'video_new1.mp4', 'video_new2.mp4', 'video_new3.mp4',
   'TikSave_io_7551293612592581893-hd.mp4',
   'TikSave_io_7561655786267594040-hd.mp4',
   'TikSave_io_7590279590208195848-hd.mp4',
@@ -128,10 +104,6 @@ const VIDEO_FILES = [
   'TikSave.io_7649322101593083144-hd.mp4',
   'TikSave.io_7650786355441601800-hd.mp4',
 ];
-
-/* ════════════════════════════════════════════════════
-   3. АУДАРМАЛАР (i18n)
-════════════════════════════════════════════════════ */
 
 const i18n = {
   kk: {
@@ -153,7 +125,6 @@ const i18n = {
     footerName:      'Moni · Ақмарал · Ақалек',
     footerDate:      '14 сәуір 2026 — мәңгілік',
   },
-
   ru: {
     navGallery:      'Галерея',
     navVideos:       'Видео',
@@ -173,7 +144,6 @@ const i18n = {
     footerName:      'Moni · Ақмарал · Ақалек',
     footerDate:      '14 апреля 2026 — навсегда',
   },
-
   en: {
     navGallery:      'Gallery',
     navVideos:       'Videos',
@@ -195,10 +165,6 @@ const i18n = {
   },
 };
 
-/* ════════════════════════════════════════════════════
-   4. КӨМЕКШІ ФУНКЦИЯЛАР (HELPERS)
-════════════════════════════════════════════════════ */
-
 function buildPath(directory, fileName) {
   return directory + encodeURIComponent(fileName);
 }
@@ -215,18 +181,12 @@ function readStorage(key, fallback) {
 function writeStorage(key, value) {
   try {
     localStorage.setItem(key, value);
-  } catch (error) {
-    /* Елемейміз */
-  }
+  } catch (error) { }
 }
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
-
-/* ════════════════════════════════════════════════════
-   5. ТІЛ АУЫСТЫРУ (setLang)
-════════════════════════════════════════════════════ */
 
 let currentLang = DEFAULT_LANG;
 
@@ -269,10 +229,6 @@ function setLang(lang) {
 
   writeStorage(STORAGE_KEY_LANG, lang);
 }
-
-/* ════════════════════════════════════════════════════
-   7. ЛАЙТБОКС (LIGHTBOX)
-════════════════════════════════════════════════════ */
 
 let lightboxOpen = false;
 let lastFocusedElement = null;
@@ -339,10 +295,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') prevLb();
 });
 
-/* ════════════════════════════════════════════════════
-   8. ГАЛЕРЕЯ (GALLERY)
-════════════════════════════════════════════════════ */
-
 function buildGallery() {
   const grid = document.getElementById('gGrid');
   if (!grid) return;
@@ -396,10 +348,6 @@ function buildGallery() {
   if (heroImage) heroImage.src = buildPath(IMAGE_DIR, HERO_IMAGE_FILE);
 }
 
-/* ════════════════════════════════════════════════════
-   9. ВИДЕО (VIDEOS)
-════════════════════════════════════════════════════ */
-
 function pauseAllVideos(exceptVideo) {
   document.querySelectorAll('#vGrid video').forEach((video) => {
     if (video !== exceptVideo && !video.paused) video.pause();
@@ -436,10 +384,6 @@ function buildVideos() {
     }
   }, true);
 }
-
-/* ════════════════════════════════════════════════════
-   10. МУЗЫКА (MUSIC)
-════════════════════════════════════════════════════ */
 
 const audio = document.getElementById('audio');
 let activeIndex = -1;
@@ -481,6 +425,8 @@ function buildMusic() {
 
 function playCard(index) {
   if (!audio) return;
+
+  pauseAllVideos(null);
 
   if (index === activeIndex) {
     if (audio.paused) {
@@ -531,19 +477,10 @@ if (audio) {
     syncMusicUi();
   });
   audio.addEventListener('pause', syncMusicUi);
-  audio.addEventListener('error', () => {
-    console.warn('Аудио файл табылмады немесе ашылмады:', audio.src);
-    syncMusicUi();
-  });
-
   audio.addEventListener('ended', () => {
     playCard((activeIndex + 1) % TRACKS.length);
   });
 }
-
-/* ════════════════════════════════════════════════════
-   11. БӨЛШЕКТЕР ЖҮЙЕСІ (PARTICLES)
-════════════════════════════════════════════════════ */
 
 function createParticles(canvasId, requestedCount) {
   const canvas = document.getElementById(canvasId);
@@ -646,10 +583,6 @@ function createParticles(canvasId, requestedCount) {
   }
 }
 
-/* ════════════════════════════════════════════════════
-   12. СКРОЛЛ КЕЗІНДЕГІ ПАЙДА БОЛУ (SCROLL REVEAL)
-════════════════════════════════════════════════════ */
-
 function releaseDelayAfterReveal(element) {
   if (!element.style.transitionDelay) return;
 
@@ -684,10 +617,6 @@ function initScrollReveal() {
   targets.forEach((element) => observer.observe(element));
 }
 
-/* ════════════════════════════════════════════════════
-   13. САНАҒЫШ (COUNTDOWN)
-════════════════════════════════════════════════════ */
-
 function initCountdown() {
   const daysEl  = document.getElementById('cntDays');
   const hoursEl = document.getElementById('cntHours');
@@ -700,8 +629,7 @@ function initCountdown() {
   }
 
   function update() {
-    const diff = Date.now() - RELATIONSHIP_START.getTime();
-    if (diff < 0) return;
+    const diff = Math.abs(Date.now() - RELATIONSHIP_START.getTime());
 
     const totalSeconds = Math.floor(diff / 1000);
     daysEl.textContent  = String(Math.floor(totalSeconds / 86400));
@@ -713,10 +641,6 @@ function initCountdown() {
   update();
   setInterval(update, 1000);
 }
-
-/* ════════════════════════════════════════════════════
-   14. МӘЗІР ТҮСІ (NAV SCROLL)
-════════════════════════════════════════════════════ */
 
 function initNavScroll() {
   const nav = document.getElementById('nav');
@@ -736,9 +660,6 @@ function initNavScroll() {
   onScroll();
 }
 
-/* ════════════════════════════════════════════════════
-   15. ІСКЕ ҚОСУ (INIT)
-════════════════════════════════════════════════════ */
 function init() {
   checkSiteAuth();
   buildGallery();
@@ -758,10 +679,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
-/* ════════════════════════════════════════════════════
-   16. ИНТЕРАКТИВТІ ЭФФЕКТ (Жұлдыздар)
-════════════════════════════════════════════════════ */
 
 document.addEventListener('click', function(e) {
   if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
