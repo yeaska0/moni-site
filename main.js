@@ -3,7 +3,7 @@
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
-/* Парольді тексеру және сайтты ашу (сонымен бірге әуенді автоматты қосу) */
+/* Парольді тексеру және сайтты ашу */
 function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
@@ -11,12 +11,13 @@ function unlockSite() {
   if (!input || !error || !overlay) return;
 
   if (input.value.trim() === SITE_PASSWORD) {
-    writeStorage(STORAGE_KEY_AUTH, 'true');
+    /* localStorage орнына sessionStorage қолданамыз (әр кіріп-шыққан сайын пароль сұрау үшін) */
+    writeSessionStorage(STORAGE_KEY_AUTH, 'true');
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
     document.body.style.overflow = '';
 
-    /* Пароль дұрыс енгізілген бойда әуенді тікелей ойнату */
+    /* Парольді енгізіп батырманы басқан бойда әуенді тікелей қосу */
     playAmbientMusicDirectly();
   } else {
     error.style.display = 'block';
@@ -30,7 +31,8 @@ function checkSiteAuth() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
 
-  const isAuth = readStorage(STORAGE_KEY_AUTH, 'false');
+  /* Сессиялық сақтауды тексеру */
+  const isAuth = readSessionStorage(STORAGE_KEY_AUTH, 'false');
 
   if (isAuth === 'true') {
     if (overlay) overlay.style.display = 'none';
@@ -44,6 +46,22 @@ function checkSiteAuth() {
     input.addEventListener('input', () => { if (error) error.style.display = 'none'; });
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlockSite(); });
   }
+}
+
+/* SessionStorage үшін көмекші функциялар */
+function readSessionStorage(key, fallback) {
+  try {
+    const value = sessionStorage.getItem(key);
+    return value === null ? fallback : value;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function writeSessionStorage(key, value) {
+  try {
+    sessionStorage.setItem(key, value);
+  } catch (error) { }
 }
 
 const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
@@ -494,7 +512,7 @@ if (audio) {
 }
 
 /* ════════════════════════════════════════════════════
-   AMBIENT BACKGROUND MUSIC LOGIC (АВТО-ОЙНАТУ)
+   AMBIENT BACKGROUND MUSIC LOGIC
 ════════════════════════════════════════════════════ */
 const ambientAudio = document.getElementById('ambient-audio');
 const ambientBtn = document.getElementById('ambient-toggle-btn');
@@ -688,7 +706,7 @@ function initScrollReveal() {
 function initCountdown() {
   const daysEl  = document.getElementById('cntDays');
   const hoursEl = document.getElementById('cntHours');
-  const minsEl  = document.getElementById('cntMins');
+  const minsEl  = document.getElementById('cntSecs'); // Түзетілген
   const secsEl  = document.getElementById('cntSecs');
   if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
