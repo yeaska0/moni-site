@@ -531,75 +531,107 @@ footer {
 
 
 /* ════════════════════════════════════════════════════
-   SOCIAL PROFILES BUTTON CARDS
+   SOCIAL PROFILES (ЫҚШАМ ӘРІ ӘДЕМІ КАРТОЧКАЛАР)
 ════════════════════════════════════════════════════ */
 .social-profiles-sec {
-  margin: 35px 0 50px;
+  margin: 40px auto 60px;
+  max-width: 900px;
   text-align: center;
 }
 
 .social-sec-title {
   font-family: var(--font-heading);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
+/* Карточкаларды жанамалап (бір-бірінің қасына) орналастыру */
 .social-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 карточка қатар тұрады */
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.social-profile-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.social-btn-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
   background: var(--card-bg);
   border: 1px solid var(--border-glass);
-  border-radius: 18px;
+  border-radius: 20px;
+  overflow: hidden;
   text-decoration: none;
   color: #fff;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s var(--ease);
+  backdrop-filter: blur(12px);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 
-.social-btn-card:hover {
-  transform: translateY(-3px);
+.social-profile-card:hover {
+  transform: translateY(-6px);
   border-color: var(--aqua);
-  box-shadow: 0 8px 20px var(--cyan-glow);
+  box-shadow: 0 10px 30px var(--cyan-glow);
 }
 
-.social-btn-icon {
-  font-size: 1.8rem;
-  width: 48px;
-  height: 48px;
+/* Суреттерді ықшамдау, тым үлкейіп кетпеуін бақылау */
+.profile-img-wrap {
+  width: 100%;
+  height: 220px; /* Компьютер мен Mac үшін бекітілген биіктік */
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.profile-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Сурет карточкаға әдемі сыйады */
+  object-position: top center; /* Профильдің жоғарғы бөлігі көрінеді */
+  transition: transform 0.4s var(--ease);
+}
+
+.social-profile-card:hover .profile-img-wrap img {
+  transform: scale(1.05);
+}
+
+.profile-card-info {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  border: 1px solid var(--border-glass);
+  gap: 10px;
+  padding: 14px;
+  background: rgba(18, 22, 25, 0.7);
+  border-top: 1px solid var(--border-glass);
 }
 
-.social-btn-text {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+.social-icon {
+  font-size: 1.2rem;
 }
 
-.social-btn-platform {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.social-btn-handle {
-  font-size: 1.05rem;
+.social-handle {
   font-weight: 600;
+  font-size: 0.95rem;
   color: var(--aqua);
 }
+
+/* Мобильді телефондарға арналған адаптация */
+@media (max-width: 640px) {
+  .social-cards-grid {
+    grid-template-columns: repeat(2, 1fr); /* Телефонда да бір-бірінің қасында тұрады */
+    gap: 12px;
+    padding: 0;
+  }
+
+  .profile-img-wrap {
+    height: 150px; /* Телефонда суреттер ықшам, ыңғайлы биіктікте болады */
+  }
+
+  .profile-card-info {
+    padding: 10px 6px;
+    gap: 6px;
+  }
+
+  .social-handle {
+    font-size: 0.8rem;
+  }
+}}
