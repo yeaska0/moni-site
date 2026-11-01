@@ -1,32 +1,37 @@
 'use strict';
 
+/* ==========================================================================
+   1. САЙТҚА КІРУДІ БҰҒАТТАУ (ПАРОЛЬ ЛОГИКАСЫ)
+   ========================================================================== */
 const SITE_PASSWORD = '114571';
 const STORAGE_KEY_AUTH = 'site_authenticated';
 
+// Парольді тексеріп, сайтты ашу
 function unlockSite() {
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
   const overlay = document.getElementById('site-lock-overlay');
+
   if (!input || !error || !overlay) return;
 
   if (input.value.trim() === SITE_PASSWORD) {
-    writeSessionStorage(STORAGE_KEY_AUTH, 'true');
+    writeSessionStorage(STORAGE_KEY_AUTH, 'true'); // Сессияға сақтау
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
-    document.body.style.overflow = '';
-    playAmbientMusicDirectly();
+    document.body.style.overflow = ''; // Скроллды қайта қосу
+    playAmbientMusicDirectly(); // Пароль дұрыс болса, фондық музыканы қосу
   } else {
-    error.style.display = 'block';
+    error.style.display = 'block'; // Қате пароль
     input.value = '';
     input.focus();
   }
 }
 
+// Сайт ашылған кезде пароль сұрау керек пе, жоқ па тексереді
 function checkSiteAuth() {
   const overlay = document.getElementById('site-lock-overlay');
   const input = document.getElementById('site-pass-input');
   const error = document.getElementById('site-pass-err');
-
   const isAuth = readSessionStorage(STORAGE_KEY_AUTH, 'false');
 
   if (isAuth === 'true') {
@@ -35,7 +40,7 @@ function checkSiteAuth() {
     return;
   }
 
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // Бұғаттаулы кезде скроллды өшіру
 
   if (input) {
     input.addEventListener('input', () => { if (error) error.style.display = 'none'; });
@@ -43,18 +48,18 @@ function checkSiteAuth() {
   }
 }
 
+// SessionStorage-пен жұмыс істейтін көмекші функциялар (Браузер жабылғанша сақталады)
 function readSessionStorage(key, fallback) {
-  try {
-    const value = sessionStorage.getItem(key);
-    return value === null ? fallback : value;
-  } catch (error) { return fallback; }
+  try { return sessionStorage.getItem(key) ?? fallback; } catch (e) { return fallback; }
 }
-
 function writeSessionStorage(key, value) {
-  try { sessionStorage.setItem(key, value); } catch (error) { }
+  try { sessionStorage.setItem(key, value); } catch (e) {}
 }
 
-const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
+/* ==========================================================================
+   2. КОНСТАНТАЛАР МЕН ДЕРЕКТЕР БАЗАСЫ (СУРЕТТЕР, ВИДЕОЛАР, ӨЛЕҢДЕР)
+   ========================================================================== */
+const RELATIONSHIP_START = new Date('2026-04-14T00:00:00'); // Санақ басталатын күн
 const DEFAULT_LANG = 'en';
 const STORAGE_KEY_LANG = 'lang';
 
@@ -63,47 +68,50 @@ const VIDEO_DIR = 'assets/videos/';
 const AUDIO_DIR = 'assets/audio/';
 
 const HERO_IMAGE_FILE = 'photo_base4.png';
-const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Кешігіп жүктелуге (lazy load) арналған бос пиксель
 
+// Галерея суреттері
 const GALLERY = [
-  { file: 'photo_new1.webp',            caption: 'Moni'           },
-  { file: 'photo_new2.jpeg',            caption: 'Ақмарал'        },
-  { file: 'photo_base0.png',            caption: 'Менің Monim'    },
-  { file: 'photo_base1.png',            caption: 'Сүйкімді'       },
-  { file: 'photo_base2.png',            caption: 'Стильді'        },
-  { file: 'photo_base3.png',            caption: 'Нұрлы'          },
-  { file: 'photo_base4.png',            caption: 'Менің бақытым'  },
-  { file: 'photo1.jpg',                 caption: 'Ақмарал'        },
-  { file: 'photo2.jpg',                 caption: 'Ақалек'         },
-  { file: 'photo3.jpg',                 caption: 'Moni'           },
-  { file: '2026-06-24 20.38.34.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.38.46.jpg',    caption: 'Ақмарал'        },
-  { file: '2026-06-24 20.39.27.jpg',    caption: 'Сүйкімді'       },
-  { file: '2026-06-24 20.39.31.jpg',    caption: 'Нұрлы'          },
-  { file: '2026-06-24 20.39.35.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.39.40.jpg',    caption: 'Ерекше'         },
-  { file: '2026-06-24 20.39.43.jpg',    caption: 'Әдемі'          },
-  { file: '2026-06-24 20.39.47.jpg',    caption: 'Жүрегім'        },
-  { file: '2026-06-24 20.39.52.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.39.57.jpg',    caption: 'Керемет'        },
-  { file: '2026-06-24 20.40.11.jpg',    caption: 'Сүйіктім'       },
-  { file: '2026-06-24 20.40.32.jpg',    caption: 'Жарқыным'       },
-  { file: '2026-06-24 20.40.35.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.40.39.jpg',    caption: 'Бақытым'        },
-  { file: '2026-06-24 20.40.42.jpg',    caption: 'Ақалек'         },
-  { file: '2026-06-24 20.40.45.jpg',    caption: 'Нұрым'          },
-  { file: '2026-06-24 20.40.49.jpg',    caption: 'Moni'           },
-  { file: '2026-06-24 20.40.53.jpg',    caption: 'Арманым'        },
-  { file: '2026-06-24 20.40.56.jpg',    caption: 'Жаным'          },
-  { file: '2026-06-24 20.41.00.jpg',    caption: 'Moni'           },
+  { file: 'photo_new1.webp', caption: 'Moni' },
+  { file: 'photo_new2.jpeg', caption: 'Ақмарал' },
+  { file: 'photo_base0.png', caption: 'Менің Monim' },
+  { file: 'photo_base1.png', caption: 'Сүйкімді' },
+  { file: 'photo_base2.png', caption: 'Стильді' },
+  { file: 'photo_base3.png', caption: 'Нұрлы' },
+  { file: 'photo_base4.png', caption: 'Менің бақытым' },
+  { file: 'photo1.jpg', caption: 'Ақмарал' },
+  { file: 'photo2.jpg', caption: 'Ақалек' },
+  { file: 'photo3.jpg', caption: 'Moni' },
+  { file: '2026-06-24 20.38.34.jpg'},
+  { file: '2026-06-24 20.38.46.jpg' },
+  { file: '2026-06-24 20.39.27.jpg' },
+  { file: '2026-06-24 20.39.31.jpg' },
+  { file: '2026-06-24 20.39.35.jpg'},
+  { file: '2026-06-24 20.39.40.jpg' },
+  { file: '2026-06-24 20.39.43.jpg' },
+  { file: '2026-06-24 20.39.47.jpg' },
+  { file: '2026-06-24 20.39.52.jpg' },
+  { file: '2026-06-24 20.39.57.jpg' },
+  { file: '2026-06-24 20.40.11.jpg' },
+  { file: '2026-06-24 20.40.32.jpg' },
+  { file: '2026-06-24 20.40.35.jpg'},
+  { file: '2026-06-24 20.40.39.jpg' },
+  { file: '2026-06-24 20.40.42.jpg' },
+  { file: '2026-06-24 20.40.45.jpg' },
+  { file: '2026-06-24 20.40.49.jpg' },
+  { file: '2026-06-24 20.40.53.jpg' },
+  { file: '2026-06-24 20.40.56.jpg'},
+  { file: '2026-06-24 20.41.00.jpg' },
 ];
 
+// Музыкалық тректер
 const TRACKS = [
   { file: 'Sadraddin_-_Qolymnan_usta.mp3', title: 'Qolymnan Usta' },
-  { file: 'Sadraddin_Bakr_-_Sagynysh.mp3', title: 'Sagynysh'      },
-  { file: 'Kairat Nurtas - Маралым.mp3',   title: 'Маралым'       },
+  { file: 'Sadraddin_Bakr_-_Sagynysh.mp3', title: 'Sagynysh' },
+  { file: 'Kairat Nurtas - Маралым.mp3', title: 'Маралым' },
 ];
 
+// Видео файлдар
 const VIDEO_FILES = [
   'video_new1.mp4', 'video_new2.mp4', 'video_new3.mp4',
   'TikSave_io_7551293612592581893-hd.mp4',
@@ -117,145 +125,98 @@ const VIDEO_FILES = [
   'TikSave.io_7650786355441601800-hd.mp4',
 ];
 
+/* ==========================================================================
+   3. КӨПТІЛДІЛІК (i18n - Internationalization)
+   ========================================================================== */
 const i18n = {
   kk: {
-    navHome:         'Басты бет',
-    navGallery:      'Галерея',
-    navVideos:       'Видео',
-    navMusic:        'Музыка',
-    heroEyebrow:     'Moni-дің Әлемі',
-    galleryTitle:    'Галерея',
-    videosTitle:     'Видео',
-    musicTitle:      'Музыка',
-    musicPlay:       'Ойнату',
-    musicPause:      'Тоқтату',
-    countEyebrow:    'Танысқанымызға',
-    countTitle:      'Бірге өткен уақыт',
-    cntDays:         'Күн',
-    cntHours:        'Сағат',
-    cntMins:         'Минут',
-    cntSecs:         'Секунд',
-    footerName:      'Moni · Ақмарал · Ақалек',
-    footerDate:      '14 сәуір 2026 — мәңгілік',
+    navHome: 'Басты бет', navGallery: 'Галерея', navVideos: 'Видео', navMusic: 'Музыка',
+    heroEyebrow: 'Moni-дің Әлемі', galleryTitle: 'Галерея', videosTitle: 'Видео', musicTitle: 'Музыка',
+    musicPlay: 'Ойнату', musicPause: 'Тоқтату', countEyebrow: 'Танысқанымызға', countTitle: 'Бірге өткен уақыт',
+    cntDays: 'Күн', cntHours: 'Сағат', cntMins: 'Минут', cntSecs: 'Секунд',
+    footerName: 'Moni · Ақмарал · Ақалек', footerDate: '14 сәуір 2026 — мәңгілік',
   },
   ru: {
-    navHome:         'Главная',
-    navGallery:      'Галерея',
-    navVideos:       'Видео',
-    navMusic:        'Музыка',
-    heroEyebrow:     'Мир Мони',
-    galleryTitle:    'Галерея',
-    videosTitle:     'Видео',
-    musicTitle:      'Музыка',
-    musicPlay:       'Воспроизвести',
-    musicPause:      'Пауза',
-    countEyebrow:    'С нашей первой встречи',
-    countTitle:      'Время вместе',
-    cntDays:         'Дней',
-    cntHours:        'Часов',
-    cntMins:         'Минут',
-    cntSecs:         'Секунд',
-    footerName:      'Moni · Ақмарал · Ақалек',
-    footerDate:      '14 апреля 2026 — навсегда',
+    navHome: 'Главная', navGallery: 'Галерея', navVideos: 'Видео', navMusic: 'Музыка',
+    heroEyebrow: 'Мир Мони', galleryTitle: 'Галерея', videosTitle: 'Видео', musicTitle: 'Музыка',
+    musicPlay: 'Воспроизвести', musicPause: 'Пауза', countEyebrow: 'С нашей первой встречи', countTitle: 'Время вместе',
+    cntDays: 'Дней', cntHours: 'Часов', cntMins: 'Минут', cntSecs: 'Секунд',
+    footerName: 'Moni · Ақмарал · Ақалек', footerDate: '14 апреля 2026 — навсегда',
   },
   en: {
-    navHome:         'Home',
-    navGallery:      'Gallery',
-    navVideos:       'Videos',
-    navMusic:        'Music',
-    heroEyebrow:     "Moni's World",
-    galleryTitle:    'Gallery',
-    videosTitle:     'Videos',
-    musicTitle:      'Music',
-    musicPlay:       'Play',
-    musicPause:      'Pause',
-    countEyebrow:    'Since the day we met',
-    countTitle:      'Time Spent Together',
-    cntDays:         'Days',
-    cntHours:        'Hours',
-    cntMins:         'Minutes',
-    cntSecs:         'Seconds',
-    footerName:      'Moni · Aqmaral · Aqalek',
-    footerDate:      'April 14, 2026 — forever',
+    navHome: 'Home', navGallery: 'Gallery', navVideos: 'Videos', navMusic: 'Music',
+    heroEyebrow: "Moni's World", galleryTitle: 'Gallery', videosTitle: 'Videos', musicTitle: 'Music',
+    musicPlay: 'Play', musicPause: 'Pause', countEyebrow: 'Since the day we met', countTitle: 'Time Spent Together',
+    cntDays: 'Days', cntHours: 'Hours', cntMins: 'Minutes', cntSecs: 'Seconds',
+    footerName: 'Moni · Aqmaral · Aqalek', footerDate: 'April 14, 2026 — forever',
   },
 };
 
-function readStorage(key, fallback) {
-  try {
-    const value = localStorage.getItem(key);
-    return value === null ? fallback : value;
-  } catch (error) { return fallback; }
-}
+// LocalStorage көмекші функциялары (тілді сақтау үшін)
+function readStorage(key, fallback) { try { return localStorage.getItem(key) ?? fallback; } catch (e) { return fallback; } }
+function writeStorage(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+function buildPath(directory, fileName) { return directory + encodeURIComponent(fileName); }
 
-function writeStorage(key, value) {
-  try { localStorage.setItem(key, value); } catch (error) { }
-}
-
-function buildPath(directory, fileName) {
-  return directory + encodeURIComponent(fileName);
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
+// Тілді ауыстыру функциясы
 let currentLang = DEFAULT_LANG;
-
 function setLang(lang) {
-  if (!Object.prototype.hasOwnProperty.call(i18n, lang)) {
-    lang = DEFAULT_LANG;
-  }
+  if (!i18n[lang]) lang = DEFAULT_LANG;
   currentLang = lang;
   const dictionary = i18n[lang];
 
-  document.documentElement.lang = lang;
+  document.documentElement.lang = lang; // HTML тілін ауыстыру
 
+  // Барлық data-i18n атрибуты бар элементтердің мәтінін ауыстыру
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     const translation = dictionary[element.dataset.i18n];
-    if (translation !== undefined) {
-      element.textContent = translation;
-    }
+    if (translation) element.textContent = translation;
   });
 
   syncMusicUi();
 
+  // Активті тіл батырмасын белгілеу
   document.querySelectorAll('.lang-btn').forEach((button) => {
-    const isActive = button.dataset.lang === lang;
-    button.classList.toggle('active', isActive);
+    button.classList.toggle('active', button.dataset.lang === lang);
   });
 
   writeStorage(STORAGE_KEY_LANG, lang);
 }
 
-/* ТЕРЕЗЕЛЕРДІ (ОКНО) АУЫСТЫРУ ЛОГИКАСЫ */
+/* ==========================================================================
+   4. ТЕРЕЗЕЛЕРДІ (ОКНО/TABS) АУЫСТЫРУ ЛОГИКАСЫ (SPA)
+   ========================================================================== */
 function switchWindow(targetId, event) {
   if (event) event.preventDefault();
 
-  document.querySelectorAll('.window-section').forEach(sec => {
-    sec.classList.remove('active-window');
-  });
+  // Барлық терезелерді жасыру
+  document.querySelectorAll('.window-section').forEach(sec => sec.classList.remove('active-window'));
 
+  // Тек қажетті терезені ашу
   const target = document.getElementById(targetId);
   if (target) target.classList.add('active-window');
 
-  document.querySelectorAll('.nav-item').forEach(link => {
-    link.classList.remove('active');
-  });
-
+  // Мәзірдегі активті батырманы ауыстыру
+  document.querySelectorAll('.nav-item').forEach(link => link.classList.remove('active'));
   const activeLink = document.querySelector(`.nav-item[href="#${targetId}"]`);
   if (activeLink) activeLink.classList.add('active');
 
+  // Басқа бетке өткенде видеоларды автоматты түрде тоқтату
   pauseAllVideos(null);
+
+  // Бетті ең басына апару
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ==========================================================================
+   5. LIGHTBOX (СУРЕТТІ ТОЛЫҚ ЭКРАНДА АШУ)
+   ========================================================================== */
 let lightboxOpen = false;
 let lastFocusedElement = null;
 let currentGalleryIndex = 0;
 
 function openLb(index) {
   const lightbox = document.getElementById('lb');
-  const image    = document.getElementById('lbImg');
+  const image = document.getElementById('lbImg');
   const closeBtn = document.getElementById('lb-close');
   if (!lightbox || !image) return;
 
@@ -266,7 +227,7 @@ function openLb(index) {
   image.src = buildPath(IMAGE_DIR, photo.file);
   image.alt = photo.caption || '';
   lightbox.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // Артқы фонның скроллын өшіру
   lightboxOpen = true;
 
   if (closeBtn) closeBtn.focus();
@@ -275,7 +236,7 @@ function openLb(index) {
 function closeLb() {
   if (!lightboxOpen) return;
   const lightbox = document.getElementById('lb');
-  const image    = document.getElementById('lbImg');
+  const image = document.getElementById('lbImg');
 
   lightbox.style.display = 'none';
   document.body.style.overflow = '';
@@ -300,35 +261,35 @@ function prevLb(event) {
   openLb(currentGalleryIndex);
 }
 
-document.addEventListener('click', (event) => {
-  const lightbox = document.getElementById('lb');
-  if (lightboxOpen && event.target === lightbox) closeLb();
+// Lightbox-ты басып немесе пернетақтамен (Escape, Arrow) басқару
+document.addEventListener('click', (e) => {
+  if (lightboxOpen && e.target === document.getElementById('lb')) closeLb();
 });
-
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (e) => {
   if (!lightboxOpen) return;
-  if (event.key === 'Escape') closeLb();
-  if (event.key === 'ArrowRight') nextLb();
-  if (event.key === 'ArrowLeft') prevLb();
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowRight') nextLb();
+  if (e.key === 'ArrowLeft') prevLb();
 });
 
+/* ==========================================================================
+   6. КОНТЕНТТІ ГЕНЕРАЦИЯЛАУ (ГАЛЕРЕЯ, ВИДЕО, МУЗЫКА)
+   ========================================================================== */
 function buildGallery() {
   const grid = document.getElementById('gGrid');
   if (!grid) return;
-
   const fragment = document.createDocumentFragment();
 
   GALLERY.forEach((photo, index) => {
-    const src = buildPath(IMAGE_DIR, photo.file);
     const item = document.createElement('div');
     item.className = 'g-item';
     item.setAttribute('role', 'button');
     item.tabIndex = 0;
 
     const image = document.createElement('img');
-    image.src = src;
+    image.src = buildPath(IMAGE_DIR, photo.file);
     image.alt = photo.caption;
-    image.loading = 'lazy';
+    image.loading = 'lazy'; // Суреттерді оңтайландырып жүктеу
 
     const caption = document.createElement('div');
     caption.className = 'g-cap';
@@ -341,7 +302,6 @@ function buildGallery() {
   });
 
   grid.appendChild(fragment);
-
   const heroImage = document.getElementById('heroImg');
   if (heroImage) heroImage.src = buildPath(IMAGE_DIR, HERO_IMAGE_FILE);
 }
@@ -355,10 +315,9 @@ function pauseAllVideos(exceptVideo) {
 function buildVideos() {
   const grid = document.getElementById('vGrid');
   if (!grid) return;
-
   const fragment = document.createDocumentFragment();
 
-  VIDEO_FILES.forEach((fileName, index) => {
+  VIDEO_FILES.forEach((fileName) => {
     const item = document.createElement('div');
     item.className = 'v-item';
 
@@ -374,6 +333,7 @@ function buildVideos() {
 
   grid.appendChild(fragment);
 
+  // Бір видео қосылғанда басқаларын және өлеңдерді тоқтату
   grid.addEventListener('play', (event) => {
     if (event.target instanceof HTMLVideoElement) {
       pauseAllVideos(event.target);
@@ -391,7 +351,6 @@ const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden=
 function buildMusic() {
   const list = document.getElementById('musicList');
   if (!list) return;
-
   const fragment = document.createDocumentFragment();
 
   TRACKS.forEach((track, index) => {
@@ -421,8 +380,9 @@ function buildMusic() {
 
 function playCard(index) {
   if (!audio) return;
-  pauseAllVideos(null);
+  pauseAllVideos(null); // Өлең қосылғанда видеоны тоқтату
 
+  // Фондық музыканы тоқтату
   if (ambientAudio && !ambientAudio.paused) {
     ambientAudio.pause();
     isAmbientPlaying = false;
@@ -430,6 +390,7 @@ function playCard(index) {
     if (ambientIcon) ambientIcon.textContent = '🔇';
   }
 
+  // Егер сол өлең қайта басылса пауза қою
   if (index === activeIndex) {
     if (audio.paused) startPlayback(); else audio.pause();
     return;
@@ -458,11 +419,10 @@ function syncMusicUi() {
 }
 
 function setCardState(index, playing) {
-  const card   = document.getElementById(`mcard-${index}`);
+  const card = document.getElementById(`mcard-${index}`);
   const button = document.getElementById(`mcbtn-${index}`);
   if (!card || !button) return;
 
-  const dictionary = i18n[currentLang];
   card.classList.toggle('playing', playing);
   button.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
 }
@@ -470,9 +430,12 @@ function setCardState(index, playing) {
 if (audio) {
   audio.addEventListener('play', () => { pauseAllVideos(null); syncMusicUi(); });
   audio.addEventListener('pause', syncMusicUi);
-  audio.addEventListener('ended', () => playCard((activeIndex + 1) % TRACKS.length));
+  audio.addEventListener('ended', () => playCard((activeIndex + 1) % TRACKS.length)); // Келесі өлеңге өту
 }
 
+/* ==========================================================================
+   7. ФОНДЫҚ МУЗЫКА (AMBIENT MUSIC)
+   ========================================================================== */
 const ambientAudio = document.getElementById('ambient-audio');
 const ambientBtn = document.getElementById('ambient-toggle-btn');
 const ambientIcon = document.getElementById('ambient-icon');
@@ -480,7 +443,7 @@ let isAmbientPlaying = false;
 
 function playAmbientMusicDirectly() {
   if (!ambientAudio || isAmbientPlaying) return;
-  ambientAudio.volume = 0.35;
+  ambientAudio.volume = 0.35; // Қатты шықпауы үшін
   ambientAudio.play().then(() => {
     isAmbientPlaying = true;
     if (ambientBtn) ambientBtn.classList.add('playing');
@@ -516,25 +479,29 @@ function initAmbientAutoplay() {
   document.addEventListener('keydown', startOnUserInteraction);
 }
 
+/* ==========================================================================
+   8. ВИЗУАЛДЫ ЭФФЕКТТЕР (PARTICLES / БӨЛШЕКТЕР АНИМАЦИЯСЫ)
+   ========================================================================== */
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function createParticles(canvasId, requestedCount) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const context = canvas.getContext('2d');
   if (!context) return;
+
+  // Телефондарда анимация қатып қалмауы үшін бөлшек санын азайту
   const count = window.innerWidth < 640 ? Math.round(requestedCount / 2) : requestedCount;
   const colors = [[104, 225, 253], [255, 255, 255], [182, 240, 255]];
 
   function resize() {
-    canvas.width  = canvas.offsetWidth  || (canvas.parentElement && canvas.parentElement.offsetWidth)  || window.innerWidth;
-    canvas.height = canvas.offsetHeight || (canvas.parentElement && canvas.parentElement.offsetHeight) || window.innerHeight;
+    canvas.width  = canvas.offsetWidth || window.innerWidth;
+    canvas.height = canvas.offsetHeight || window.innerHeight;
   }
   resize();
-
-  let resizeTimer = null;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 150);
-  }, { passive: true });
+  window.addEventListener('resize', () => setTimeout(resize, 150), { passive: true });
 
   const particles = Array.from({ length: count }, () => ({
     x: Math.random() * canvas.width,
@@ -549,6 +516,7 @@ function createParticles(canvasId, requestedCount) {
   }));
 
   function drawParticle(p) {
+    // BUG FIXED: '0.5 Math.sin' орнына көбейту белгісі ('*') қойылды
     const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.phase));
     context.beginPath();
     context.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -560,6 +528,7 @@ function createParticles(canvasId, requestedCount) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach((p) => {
       p.x += p.vx; p.y += p.vy; p.phase += p.speed;
+      // Экраннан шығып кеткен бөлшектерді қайтару
       if (p.y < -10 || p.x < -20 || p.x > canvas.width + 20) {
         p.x = Math.random() * canvas.width; p.y = canvas.height + 10; p.phase = 0;
       }
@@ -578,6 +547,7 @@ function createParticles(canvasId, requestedCount) {
   function start() { if (animationId === null) animationId = requestAnimationFrame(loop); }
   function stop() { if (animationId !== null) { cancelAnimationFrame(animationId); animationId = null; } }
 
+  // Анимацияны тек экранда көрініп тұрғанда ғана қосу (Оптимизация)
   if ('IntersectionObserver' in window) {
     const visibilityObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => { if (entry.isIntersecting) start(); else stop(); });
@@ -586,14 +556,18 @@ function createParticles(canvasId, requestedCount) {
   } else { start(); }
 }
 
+/* ==========================================================================
+   9. УАҚЫТ САНАҒЫШ (COUNTDOWN)
+   ========================================================================== */
 function initCountdown() {
-  const daysEl  = document.getElementById('cntDays');
+  const daysEl = document.getElementById('cntDays');
   const hoursEl = document.getElementById('cntHours');
-  const minsEl  = document.getElementById('cntMins');
-  const secsEl  = document.getElementById('cntSecs');
+  const minsEl = document.getElementById('cntMins');
+  const secsEl = document.getElementById('cntSecs');
   if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
   function pad(number) { return String(number).padStart(2, '0'); }
+
   function update() {
     const diff = Math.abs(Date.now() - RELATIONSHIP_START.getTime());
     const totalSeconds = Math.floor(diff / 1000);
@@ -602,9 +576,14 @@ function initCountdown() {
     minsEl.textContent  = pad(Math.floor((totalSeconds % 3600) / 60));
     secsEl.textContent  = pad(totalSeconds % 60);
   }
-  update(); setInterval(update, 1000);
+
+  update();
+  setInterval(update, 1000);
 }
 
+/* ==========================================================================
+   10. ЖОБАНЫ ІСКЕ ҚОСУ ЖӘНЕ CLICK-ЭФФЕКТТЕРІ
+   ========================================================================== */
 function init() {
   checkSiteAuth();
   buildGallery();
@@ -615,6 +594,7 @@ function init() {
   createParticles('heroCanvas', 70);
   initAmbientAutoplay();
 
+  // Сайт жүктелгенде басты бетті ашып қою
   switchWindow('home', null);
 }
 
@@ -624,13 +604,18 @@ if (document.readyState === 'loading') {
   init();
 }
 
+// Экранды шерткенде пайда болатын жұлдызшалар (Sparkles)
 document.addEventListener('click', function(e) {
+  // Егер батырмаға немесе суретке басылса, жұлдызша шықпайды
   if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
+
   const spark = document.createElement('div');
   spark.className = 'click-spark';
   spark.innerHTML = '✨';
   spark.style.left = (e.pageX - 10) + 'px';
   spark.style.top = (e.pageY - 10) + 'px';
   document.body.appendChild(spark);
+
+  // Анимация біткен соң элементті өшіріп тастау (Жадты толтырмау үшін)
   setTimeout(() => spark.remove(), 1000);
 });

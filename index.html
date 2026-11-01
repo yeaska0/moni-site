@@ -1,51 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- САЙТТЫҢ НЕГІЗГІ БАПТАУЛАРЫ -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1a1216">
   <meta name="description" content="Moni: галерея, видео, музыка және жеке хат.">
+
+  <!-- ӘЛЕУМЕТТІК ЖЕЛІЛЕРГЕ ЖІБЕРГЕНДЕ КӨРІНЕТІН АҚПАРАТ (Open Graph) -->
   <meta property="og:title" content="Agalek">
   <meta property="og:description" content="Галерея, видео, музыка және жеке хат.">
   <meta property="og:type" content="website">
+
   <title>Agalek</title>
+
+  <!-- САЙТТЫҢ ИКОНКАСЫ (БРАУЗЕР ТАБЫНДАҒЫ СУРЕТ) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
+  <!-- ҚАРІПТЕРДІ (ШРИФТТЕРДІ) ЖҮКТЕУ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- СТИЛЬДЕР ФАЙЛЫН ҚОСУ -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- SITE ACCESS LOCK -->
+<!-- ==========================================
+     1. САЙТТЫ БҰҒАТТАУ ЭКРАНЫ (ПАРОЛЬ СҰРАУ)
+=========================================== -->
 <div id="site-lock-overlay" class="site-lock-overlay">
   <div class="site-lock-card">
     <div class="lock-avatar">
-      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Құлпының (замок) иконкасы -->
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
       </svg>
     </div>
     <h2 class="lock-title">Access Restricted</h2>
     <p class="lock-subtitle">Enter password to unlock site</p>
+
+    <!-- Пароль енгізу өрісі мен батырма -->
     <div id="password-step" style="width: 100%; margin-top: 15px;">
       <div class="lock-input-group">
-        <span class="lock-icon">🔒</span>
+        <span class="lock-icon" aria-hidden="true">🔒</span>
         <input type="password" id="site-pass-input" placeholder="Enter site password..." autocomplete="off">
       </div>
       <button type="button" id="site-pass-btn" class="lock-btn" onclick="unlockSite()">UNLOCK SITE</button>
     </div>
+
+    <!-- Қате пароль жазғанда шығатын ескерту -->
     <div id="site-pass-err" class="lock-err">Incorrect password</div>
   </div>
 </div>
 
+<!-- Экран оқушыларға (зағип жандарға) арналған көмекші сілтеме -->
 <a href="#main" class="skip-link">Мазмұнға өту</a>
 
-<!-- NAVIGATION -->
+<!-- ==========================================
+     2. ЖОҒАРҒЫ МӘЗІР (НАВИГАЦИЯ ЖӘНЕ ТІЛ ТАҢДАУ)
+=========================================== -->
 <nav id="nav" aria-label="Негізгі мәзір">
   <div class="nav-container">
+    <!-- Логотип (Басты бетке қайтарады) -->
     <div class="nav-logo" onclick="switchWindow('home', event)">Moni</div>
 
+    <!-- Бөлімдерге (терезелерге) өту батырмалары -->
     <div class="nav-links">
       <a href="#home" class="nav-item active" onclick="switchWindow('home', event)" data-i18n="navHome">Басты бет</a>
       <a href="#gallery" class="nav-item" onclick="switchWindow('gallery', event)" data-i18n="navGallery">Галерея</a>
@@ -53,6 +75,7 @@
       <a href="#music" class="nav-item" onclick="switchWindow('music', event)" data-i18n="navMusic">Музыка</a>
     </div>
 
+    <!-- Тілді ауыстыру батырмалары (KK, RU, EN) -->
     <div class="lang-switch" role="group" aria-label="Language selection">
       <button type="button" class="lang-btn" data-lang="kk" onclick="setLang('kk')">KK</button>
       <button type="button" class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
@@ -61,11 +84,17 @@
   </div>
 </nav>
 
-<!-- MAIN CONTENT CONTAINER -->
+<!-- ==========================================
+     3. НЕГІЗГІ МАЗМҰН КОНТЕЙНЕРІ (БАРЛЫҚ ТЕРЕЗЕЛЕР ОСЫНДА)
+=========================================== -->
 <main id="main">
 
-  <!-- 1-ОКНО: БАСТЫ БЕТ -->
+  <!-- ----------------------------------------
+       1-ТЕРЕЗЕ: БАСТЫ БЕТ (HOME)
+  ----------------------------------------- -->
   <div id="home" class="window-section active-window">
+
+    <!-- Сәлемдесу және анимациялық фон (Бөлшектер ұшатын жер) -->
     <header id="hero">
       <canvas id="heroCanvas" aria-hidden="true"></canvas>
       <div class="hero-content">
@@ -75,6 +104,7 @@
       </div>
     </header>
 
+    <!-- Бірге өткен уақытты санау (Countdown) -->
     <section id="countdown" aria-labelledby="countHeading">
       <p class="sec-eyebrow reveal" data-i18n="countEyebrow">Танысқанымызға</p>
       <h2 class="count-title reveal" id="countHeading" data-i18n="countTitle">Бірге өткен уақыт</h2>
@@ -101,58 +131,69 @@
       </div>
     </section>
 
-    <!-- ӘЛЕУМЕТТІК ЖЕЛІ АКТИВТЕРІ (TIKTOK & INSTAGRAM) -->
+    <!-- Әлеуметтік желілер (TikTok & Instagram) карточкалары -->
     <section id="social-profiles" class="social-profiles-sec">
       <h3 class="social-sec-title">Social Profiles</h3>
-      <div class="social-cards-grid">
 
-        <!-- TikTok Card -->
+      <!-- Карточкаларды қатар ұстайтын тор (Grid) -->
+      <div class="social-cards-grid">
+        <!-- TikTok профилі -->
         <a href="https://www.tiktok.com/@aakalek_" target="_blank" rel="noopener noreferrer" class="social-profile-card">
           <div class="profile-img-wrap">
             <img src="assets/images/tiktok_profile.jpg" alt="TikTok Profile @aakalek_" loading="lazy">
           </div>
           <div class="profile-card-info">
-            <span class="social-icon">🎵</span>
+            <span class="social-icon" aria-hidden="true">🎵</span>
             <span class="social-handle">TikTok @aakalek_</span>
           </div>
         </a>
 
-        <!-- Instagram Card -->
+        <!-- Instagram профилі -->
         <a href="https://www.instagram.com/marralym" target="_blank" rel="noopener noreferrer" class="social-profile-card">
           <div class="profile-img-wrap">
             <img src="assets/images/instagram_profile.jpg" alt="Instagram Profile @marralym" loading="lazy">
           </div>
           <div class="profile-card-info">
-            <span class="social-icon">📸</span>
+            <span class="social-icon" aria-hidden="true">📸</span>
             <span class="social-handle">Instagram @marralym</span>
           </div>
         </a>
-
       </div>
     </section>
   </div>
 
-  <!-- 2-ОКНО: ГАЛЕРЕЯ -->
+  <!-- ----------------------------------------
+       2-ТЕРЕЗЕ: ГАЛЕРЕЯ (СУРЕТТЕР ТІЗІМІ)
+  ----------------------------------------- -->
   <section class="sec window-section" id="gallery" aria-labelledby="galleryHeading">
     <p class="sec-eyebrow reveal" id="galleryHeading" data-i18n="galleryTitle">Галерея</p>
+    <!-- Суреттер JavaScript (main.js) арқылы осы div-тің ішіне салынады -->
     <div class="g-grid" id="gGrid"></div>
   </section>
 
-  <!-- 3-ОКНО: ВИДЕО -->
+  <!-- ----------------------------------------
+       3-ТЕРЕЗЕ: ВИДЕОЛАР (MP4 ТІЗІМІ)
+  ----------------------------------------- -->
   <section class="sec window-section" id="videos" aria-labelledby="videosHeading">
     <p class="sec-eyebrow reveal" id="videosHeading" data-i18n="videosTitle">Видео</p>
+    <!-- Видеолар JavaScript арқылы осы div-тің ішіне салынады -->
     <div class="v-grid" id="vGrid"></div>
   </section>
 
-  <!-- 4-ОКНО: МУЗЫКА -->
+  <!-- ----------------------------------------
+       4-ТЕРЕЗЕ: МУЗЫКА (АУДИО ТРЕКТЕР ТІЗІМІ)
+  ----------------------------------------- -->
   <section class="sec window-section" id="music" aria-labelledby="musicHeading">
     <p class="sec-eyebrow reveal" id="musicHeading" data-i18n="musicTitle">Музыка</p>
+    <!-- Музыка тізімі JavaScript арқылы осы div-тің ішіне салынады -->
     <div class="music-list" id="musicList"></div>
   </section>
 
 </main>
 
-<!-- LIGHTBOX -->
+<!-- ==========================================
+     4. LIGHTBOX (СУРЕТТІ ТОЛЫҚ ЭКРАНДА АШУ)
+=========================================== -->
 <div id="lb" role="dialog" aria-modal="true" aria-label="Суретті көру">
   <button type="button" id="lb-close" aria-label="Жабу" onclick="closeLb()">&times;</button>
   <button type="button" id="lb-prev" class="lb-nav" aria-label="Алдыңғы" onclick="prevLb(event)">&#10094;</button>
@@ -160,7 +201,9 @@
   <button type="button" id="lb-next" class="lb-nav" aria-label="Келесі" onclick="nextLb(event)">&#10095;</button>
 </div>
 
-<!-- FOOTER -->
+<!-- ==========================================
+     5. ФУТЕР (САЙТТЫҢ ТӨМЕНГІ БӨЛІГІ)
+=========================================== -->
 <footer>
   <div class="f-name" data-i18n="footerName">Moni · Ақмарал · Ақалек</div>
   <div class="f-date" data-i18n="footerDate">14 сәуір 2026 — мәңгілік</div>
@@ -170,18 +213,28 @@
   </div>
 </footer>
 
+<!-- ==========================================
+     6. АУДИО ОЙНАТҚЫШТАР ЖӘНЕ БАСҚАРУ БАТЫРМАСЫ
+=========================================== -->
+
+<!-- "Музыка" бөліміндегі өлеңдерді ойнататын жасырын аудио тег -->
 <audio id="audio" preload="none"></audio>
 
-<!-- Ambient Background Music Control -->
+<!-- Фондық музыканы (Ambient) қосып/өшіретін батырма -->
 <div id="ambient-control" class="ambient-control">
   <button type="button" id="ambient-toggle-btn" class="ambient-btn" aria-label="Toggle Background Music">
     <span id="ambient-icon">🎵</span>
   </button>
 </div>
+
+<!-- Фондық музыканың файлы (Қайталана береді: loop) -->
 <audio id="ambient-audio" loop preload="auto">
   <source src="assets/audio/ambient.mp3" type="audio/mpeg">
 </audio>
 
+<!-- ==========================================
+     7. JAVASCRIPT ЛОГИКАСЫН ҚОСУ
+=========================================== -->
 <script src="main.js" defer></script>
 </body>
 </html>

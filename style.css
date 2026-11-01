@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. НЕГІЗГІ АЙНЫМАЛЫЛАР (COLORS & FONTS)
+   ========================================================================== */
 :root {
   --bg-dark: #121619;
   --card-bg: rgba(255, 255, 255, 0.05);
@@ -11,11 +14,15 @@
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* ==========================================================================
+   2. ЖАЛПЫ БАПТАУЛАР (GLOBAL STYLES)
+   ========================================================================== */
+/* BUG FIXED: "-" белгісі "*" жұлдызшаға ауыстырылды */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent; /* Телефонда басқандағы көк фонды алып тастайды */
 }
 
 body {
@@ -28,9 +35,9 @@ body {
   flex-direction: column;
 }
 
-/* ════════════════════════════════════════════════════
-   NAVIGATION (ҮСТІНЕ ШЫҒЫП КЕТПЕЙТІН ЫҢҒАЙЛЫ МӘЗІР)
-════════════════════════════════════════════════════ */
+/* ==========================================================================
+   3. ЖОҒАРҒЫ МӘЗІР (NAVIGATION)
+   ========================================================================== */
 nav {
   position: fixed;
   top: 0;
@@ -66,14 +73,14 @@ nav {
   display: flex;
   align-items: center;
   gap: 8px;
-  overflow-x: auto;
+  overflow-x: auto; /* Телефонда мәзір сыймай қалса, оңға-солға жылжиды */
   white-space: nowrap;
-  scrollbar-width: none;
+  scrollbar-width: none; /* Firefox үшін скроллды жасыру */
   -ms-overflow-style: none;
 }
 
 .nav-links::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari үшін скроллды жасыру */
 }
 
 .nav-item {
@@ -92,6 +99,7 @@ nav {
   border: 1px solid var(--border-glass);
 }
 
+/* Тіл ауыстыру батырмалары */
 .lang-switch {
   display: flex;
   gap: 4px;
@@ -118,12 +126,12 @@ nav {
   color: #121619;
 }
 
-/* ════════════════════════════════════════════════════
-   MAIN SECTION & WINDOW TABS
-════════════════════════════════════════════════════ */
+/* ==========================================================================
+   4. НЕГІЗГІ КОНТЕНТ (MAIN CONTENT & WINDOW TABS)
+   ========================================================================== */
 main {
   flex: 1;
-  padding-top: 80px; /* МӘЗІР МЕН КОНТЕНТ АРАСЫНА МІНДЕТТІ БОС ОРЫН */
+  padding-top: 80px; /* Мәзірдің үстіне шығып кетпеуі үшін */
   max-width: 1100px;
   width: 100%;
   margin: 0 auto;
@@ -131,6 +139,7 @@ main {
   padding-right: 20px;
 }
 
+/* SPA-логикасы үшін терезелерді жасыру/көрсету */
 .window-section {
   display: none;
   animation: fadeIn 0.35s ease-out;
@@ -153,13 +162,16 @@ main {
   text-align: center;
 }
 
-/* HERO SECTION */
+/* ==========================================================================
+   5. БАСТЫ БЕТ ЖӘНЕ COUNTDOWN (ТАЙМЕР)
+   ========================================================================== */
 #hero {
   text-align: center;
   padding: 40px 0 20px;
   position: relative;
 }
 
+/* Бөлшектер ұшатын анимация фоны */
 #heroCanvas {
   position: absolute;
   top: 0;
@@ -192,7 +204,7 @@ main {
   margin-top: 4px;
 }
 
-/* COUNTDOWN */
+/* Таймер блогы */
 #countdown {
   margin: 40px 0;
   text-align: center;
@@ -238,7 +250,9 @@ main {
   color: var(--text-muted);
 }
 
-/* G-GRID (ГАЛЕРЕЯ) */
+/* ==========================================================================
+   6. ГАЛЕРЕЯ (G-GRID) ЖӘНЕ ВИДЕО (V-GRID)
+   ========================================================================== */
 .g-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -264,21 +278,10 @@ main {
 }
 
 .g-item:hover img {
-  transform: scale(1.08);
+  transform: scale(1.08); /* Тышқан барғанда кішкене жақындау эффектісі */
 }
 
-.g-cap {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 8px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
-  font-size: 0.8rem;
-  text-align: center;
-}
-
-/* V-GRID (ВИДЕО) */
+/* Видеолар блогы */
 .v-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -299,7 +302,9 @@ main {
   border-radius: 16px;
 }
 
-/* MUSIC LIST (МУЗЫКА ТІЗІМІ) */
+/* ==========================================================================
+   7. МУЗЫКА ТІЗІМІ (MUSIC LIST)
+   ========================================================================== */
 .music-list {
   display: flex;
   flex-direction: column;
@@ -323,7 +328,7 @@ main {
 
 .music-card.playing {
   border-color: var(--aqua);
-  box-shadow: 0 0 15px var(--cyan-glow);
+  box-shadow: 0 0 15px var(--cyan-glow); /* Өлең қосылғандағы жарық эффектісі */
 }
 
 .mc-btn {
@@ -345,7 +350,94 @@ main {
   font-weight: 500;
 }
 
-/* LIGHTBOX */
+/* ==========================================================================
+   8. ӘЛЕУМЕТТІК ЖЕЛІЛЕР КАРТОЧКАСЫ (TIKTOK & INSTAGRAM)
+   ========================================================================== */
+.social-profiles-sec {
+  margin: 40px auto 60px;
+  max-width: 900px;
+  text-align: center;
+}
+
+.social-sec-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.social-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 карточканы қатар ұстайды */
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.social-profile-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  backdrop-filter: blur(12px);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.social-profile-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--aqua);
+  box-shadow: 0 10px 30px var(--cyan-glow);
+}
+
+/* Скриншоттарды реттеу */
+.profile-img-wrap {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.profile-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s var(--ease);
+}
+
+.social-profile-card:hover .profile-img-wrap img {
+  transform: scale(1.05);
+}
+
+.profile-card-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(18, 22, 25, 0.7);
+  border-top: 1px solid var(--border-glass);
+}
+
+.social-icon {
+  font-size: 1.2rem;
+}
+
+.social-handle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--aqua);
+}
+
+/* ==========================================================================
+   9. ҚОСЫМША UI ЭЛЕМЕНТТЕРІ (LIGHTBOX, AMBIENT, LOCK OVERLAY, FOOTER)
+   ========================================================================== */
+
+/* Суретті толық экранда ашу (Lightbox) */
 #lb {
   display: none;
   position: fixed;
@@ -383,7 +475,7 @@ main {
 #lb-prev { left: 20px; }
 #lb-next { right: 20px; }
 
-/* AMBIENT CONTROL */
+/* Фондық музыка (Ambient) басқару батырмасы */
 .ambient-control {
   position: fixed;
   bottom: 24px;
@@ -408,7 +500,7 @@ main {
   box-shadow: 0 0 15px var(--cyan-glow);
 }
 
-/* LOCK OVERLAY */
+/* Сайтты бұғаттау экраны (Пароль терезесі) */
 .site-lock-overlay {
   position: fixed;
   inset: 0;
@@ -467,14 +559,14 @@ main {
   display: none;
 }
 
-/* FOOTER */
+/* Сайттың төменгі бөлігі (Footer) */
 footer {
   text-align: center;
   padding: 30px 20px;
   border-top: 1px solid var(--border-glass);
   color: var(--text-muted);
   font-size: 0.85rem;
-  margin-top: auto;
+  margin-top: auto; /* Контент аз болса да, төменде тұрады */
 }
 
 .f-social {
@@ -489,11 +581,12 @@ footer {
   text-decoration: none;
 }
 
-/* MOBILE RESPONSIVE ADAPTATION */
+/* ==========================================================================
+   10. МОБИЛЬДІ ҚҰРЫЛҒЫЛАРҒА АДАПТАЦИЯ (RESPONSIVE)
+   ========================================================================== */
 @media (max-width: 640px) {
-  nav {
-    padding: 8px 0;
-  }
+  /* Телефонда мәзірді ықшамдау */
+  nav { padding: 8px 0; }
 
   .nav-container {
     flex-wrap: wrap;
@@ -515,123 +608,72 @@ footer {
     padding: 6px 10px;
   }
 
-  main {
-    padding-top: 110px; /* Мобильді мәзірге лайықталған биіктік */
+  main { padding-top: 110px; }
+
+  /* Галерея мен Видео телефонда көлденең скроллмен (Snap-scroll) оңай парақталады */
+  .g-grid, .v-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 5px 25px 5px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   }
 
-  .g-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  .g-grid::-webkit-scrollbar, .v-grid::-webkit-scrollbar { height: 6px; }
+  .g-grid::-webkit-scrollbar-thumb, .v-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
   }
 
-  .v-grid {
-    grid-template-columns: 1fr;
+  .g-item {
+    flex: 0 0 78% !important;
+    max-width: 320px;
+    scroll-snap-align: center;
   }
-}
 
+  .v-item {
+    flex: 0 0 85% !important;
+    max-width: 340px;
+    scroll-snap-align: center;
+  }
 
-/* ════════════════════════════════════════════════════
-   SOCIAL PROFILES (ЫҚШАМ ӘРІ ӘДЕМІ КАРТОЧКАЛАР)
-════════════════════════════════════════════════════ */
-.social-profiles-sec {
-  margin: 40px auto 60px;
-  max-width: 900px;
-  text-align: center;
-}
-
-.social-sec-title {
-  font-family: var(--font-heading);
-  font-size: 1.8rem;
-  color: #fff;
-  margin-bottom: 24px;
-}
-
-/* Карточкаларды жанамалап (бір-бірінің қасына) орналастыру */
-.social-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 карточка қатар тұрады */
-  gap: 20px;
-  padding: 0 10px;
-}
-
-.social-profile-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--card-bg);
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  overflow: hidden;
-  text-decoration: none;
-  color: #fff;
-  backdrop-filter: blur(12px);
-  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
-}
-
-.social-profile-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--aqua);
-  box-shadow: 0 10px 30px var(--cyan-glow);
-}
-
-/* Суреттерді ықшамдау, тым үлкейіп кетпеуін бақылау */
-.profile-img-wrap {
-  width: 100%;
-  height: 220px; /* Компьютер мен Mac үшін бекітілген биіктік */
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.4);
-  position: relative;
-}
-
-.profile-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Сурет карточкаға әдемі сыйады */
-  object-position: top center; /* Профильдің жоғарғы бөлігі көрінеді */
-  transition: transform 0.4s var(--ease);
-}
-
-.social-profile-card:hover .profile-img-wrap img {
-  transform: scale(1.05);
-}
-
-.profile-card-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px;
-  background: rgba(18, 22, 25, 0.7);
-  border-top: 1px solid var(--border-glass);
-}
-
-.social-icon {
-  font-size: 1.2rem;
-}
-
-.social-handle {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--aqua);
-}
-
-/* Мобильді телефондарға арналған адаптация */
-@media (max-width: 640px) {
+  /* Телефонда әлеуметтік желі карточкалары */
   .social-cards-grid {
-    grid-template-columns: repeat(2, 1fr); /* Телефонда да бір-бірінің қасында тұрады */
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 0;
   }
 
-  .profile-img-wrap {
-    height: 150px; /* Телефонда суреттер ықшам, ыңғайлы биіктікте болады */
-  }
+  .profile-img-wrap { height: 150px; }
 
   .profile-card-info {
     padding: 10px 6px;
     gap: 6px;
   }
 
-  .social-handle {
-    font-size: 0.8rem;
+  .social-handle { font-size: 0.8rem; }
+}
+
+@media (min-width: 769px) {
+  /* Ноутбукте Галерея мен Видео бұрынғыша Grid (тор) болып көрінеді */
+  .g-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    overflow-x: visible !important;
+  }
+
+  .v-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    overflow-x: visible !important;
+  }
+
+  .g-item, .v-item {
+    flex: initial !important;
+    max-width: none !important;
   }
 }
