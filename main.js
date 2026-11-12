@@ -15,13 +15,13 @@ function unlockSite() {
   if (!input || !error || !overlay) return;
 
   if (input.value.trim() === SITE_PASSWORD) {
-    writeSessionStorage(STORAGE_KEY_AUTH, 'true'); // Сессияға сақтау
+    writeSessionStorage(STORAGE_KEY_AUTH, 'true');
     overlay.classList.add('unlocked');
     overlay.style.display = 'none';
-    document.body.style.overflow = ''; // Скроллды қайта қосу
-    playAmbientMusicDirectly(); // Пароль дұрыс болса, фондық музыканы қосу
+    document.body.style.overflow = '';
+    playAmbientMusicDirectly();
   } else {
-    error.style.display = 'block'; // Қате пароль
+    error.style.display = 'block';
     input.value = '';
     input.focus();
   }
@@ -40,7 +40,7 @@ function checkSiteAuth() {
     return;
   }
 
-  document.body.style.overflow = 'hidden'; // Бұғаттаулы кезде скроллды өшіру
+  document.body.style.overflow = 'hidden';
 
   if (input) {
     input.addEventListener('input', () => { if (error) error.style.display = 'none'; });
@@ -48,7 +48,7 @@ function checkSiteAuth() {
   }
 }
 
-// SessionStorage-пен жұмыс істейтін көмекші функциялар (Браузер жабылғанша сақталады)
+// SessionStorage көмекші функциялары
 function readSessionStorage(key, fallback) {
   try { return sessionStorage.getItem(key) ?? fallback; } catch (e) { return fallback; }
 }
@@ -59,7 +59,7 @@ function writeSessionStorage(key, value) {
 /* ==========================================================================
    2. КОНСТАНТАЛАР МЕН ДЕРЕКТЕР БАЗАСЫ (СУРЕТТЕР, ВИДЕОЛАР, ӨЛЕҢДЕР)
    ========================================================================== */
-const RELATIONSHIP_START = new Date('2026-04-14T00:00:00'); // Санақ басталатын күн
+const RELATIONSHIP_START = new Date('2026-04-14T00:00:00');
 const DEFAULT_LANG = 'en';
 const STORAGE_KEY_LANG = 'lang';
 
@@ -68,10 +68,13 @@ const VIDEO_DIR = 'assets/videos/';
 const AUDIO_DIR = 'assets/audio/';
 
 const HERO_IMAGE_FILE = 'photo_base4.png';
-const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Кешігіп жүктелуге (lazy load) арналған бос пиксель
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-// Галерея суреттері
+// Галерея суреттері (дубликаттар тазаланды)
 const GALLERY = [
+  { file: 'photo_nov1.jpg', caption: 'Moni' },
+  { file: 'photo_nov2.png', caption: 'Ақмарал' },
+  { file: 'photo_nov3.png', caption: 'Ақалек' },
   { file: 'photo_new1.webp', caption: 'Moni' },
   { file: 'photo_new2.jpeg', caption: 'Ақмарал' },
   { file: 'photo_base0.png', caption: 'Менің Monim' },
@@ -82,11 +85,11 @@ const GALLERY = [
   { file: 'photo1.jpg', caption: 'Ақмарал' },
   { file: 'photo2.jpg', caption: 'Ақалек' },
   { file: 'photo3.jpg', caption: 'Moni' },
-  { file: '2026-06-24 20.38.34.jpg'},
+  { file: '2026-06-24 20.38.34.jpg' },
   { file: '2026-06-24 20.38.46.jpg' },
   { file: '2026-06-24 20.39.27.jpg' },
   { file: '2026-06-24 20.39.31.jpg' },
-  { file: '2026-06-24 20.39.35.jpg'},
+  { file: '2026-06-24 20.39.35.jpg' },
   { file: '2026-06-24 20.39.40.jpg' },
   { file: '2026-06-24 20.39.43.jpg' },
   { file: '2026-06-24 20.39.47.jpg' },
@@ -94,13 +97,13 @@ const GALLERY = [
   { file: '2026-06-24 20.39.57.jpg' },
   { file: '2026-06-24 20.40.11.jpg' },
   { file: '2026-06-24 20.40.32.jpg' },
-  { file: '2026-06-24 20.40.35.jpg'},
+  { file: '2026-06-24 20.40.35.jpg' },
   { file: '2026-06-24 20.40.39.jpg' },
   { file: '2026-06-24 20.40.42.jpg' },
   { file: '2026-06-24 20.40.45.jpg' },
   { file: '2026-06-24 20.40.49.jpg' },
   { file: '2026-06-24 20.40.53.jpg' },
-  { file: '2026-06-24 20.40.56.jpg'},
+  { file: '2026-06-24 20.40.56.jpg' },
   { file: '2026-06-24 20.41.00.jpg' },
 ];
 
@@ -111,9 +114,13 @@ const TRACKS = [
   { file: 'Kairat Nurtas - Маралым.mp3', title: 'Маралым' },
 ];
 
-// Видео файлдар
+// Видео файлдар (дубликаттар тазаланды)
 const VIDEO_FILES = [
-  'video_new1.mp4', 'video_new2.mp4', 'video_new3.mp4',
+  'video_nov1.mp4',
+  'video_nov2.mp4',
+  'video_new1.mp4',
+  'video_new2.mp4',
+  'video_new3.mp4',
   'TikSave_io_7551293612592581893-hd.mp4',
   'TikSave_io_7561655786267594040-hd.mp4',
   'TikSave_io_7590279590208195848-hd.mp4',
@@ -152,21 +159,18 @@ const i18n = {
   },
 };
 
-// LocalStorage көмекші функциялары (тілді сақтау үшін)
 function readStorage(key, fallback) { try { return localStorage.getItem(key) ?? fallback; } catch (e) { return fallback; } }
 function writeStorage(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
 function buildPath(directory, fileName) { return directory + encodeURIComponent(fileName); }
 
-// Тілді ауыстыру функциясы
 let currentLang = DEFAULT_LANG;
 function setLang(lang) {
   if (!i18n[lang]) lang = DEFAULT_LANG;
   currentLang = lang;
   const dictionary = i18n[lang];
 
-  document.documentElement.lang = lang; // HTML тілін ауыстыру
+  document.documentElement.lang = lang;
 
-  // Барлық data-i18n атрибуты бар элементтердің мәтінін ауыстыру
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     const translation = dictionary[element.dataset.i18n];
     if (translation) element.textContent = translation;
@@ -174,7 +178,6 @@ function setLang(lang) {
 
   syncMusicUi();
 
-  // Активті тіл батырмасын белгілеу
   document.querySelectorAll('.lang-btn').forEach((button) => {
     button.classList.toggle('active', button.dataset.lang === lang);
   });
@@ -188,22 +191,16 @@ function setLang(lang) {
 function switchWindow(targetId, event) {
   if (event) event.preventDefault();
 
-  // Барлық терезелерді жасыру
   document.querySelectorAll('.window-section').forEach(sec => sec.classList.remove('active-window'));
 
-  // Тек қажетті терезені ашу
   const target = document.getElementById(targetId);
   if (target) target.classList.add('active-window');
 
-  // Мәзірдегі активті батырманы ауыстыру
   document.querySelectorAll('.nav-item').forEach(link => link.classList.remove('active'));
   const activeLink = document.querySelector(`.nav-item[href="#${targetId}"]`);
   if (activeLink) activeLink.classList.add('active');
 
-  // Басқа бетке өткенде видеоларды автоматты түрде тоқтату
   pauseAllVideos(null);
-
-  // Бетті ең басына апару
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -227,7 +224,7 @@ function openLb(index) {
   image.src = buildPath(IMAGE_DIR, photo.file);
   image.alt = photo.caption || '';
   lightbox.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Артқы фонның скроллын өшіру
+  document.body.style.overflow = 'hidden';
   lightboxOpen = true;
 
   if (closeBtn) closeBtn.focus();
@@ -261,7 +258,6 @@ function prevLb(event) {
   openLb(currentGalleryIndex);
 }
 
-// Lightbox-ты басып немесе пернетақтамен (Escape, Arrow) басқару
 document.addEventListener('click', (e) => {
   if (lightboxOpen && e.target === document.getElementById('lb')) closeLb();
 });
@@ -288,15 +284,10 @@ function buildGallery() {
 
     const image = document.createElement('img');
     image.src = buildPath(IMAGE_DIR, photo.file);
-    image.alt = photo.caption;
-    image.loading = 'lazy'; // Суреттерді оңтайландырып жүктеу
-
-    const caption = document.createElement('div');
-    caption.className = 'g-cap';
-    caption.textContent = photo.caption;
+    image.alt = photo.caption || 'Photo';
+    image.loading = 'lazy';
 
     item.appendChild(image);
-    item.appendChild(caption);
     item.addEventListener('click', () => openLb(index));
     fragment.appendChild(item);
   });
@@ -333,7 +324,6 @@ function buildVideos() {
 
   grid.appendChild(fragment);
 
-  // Бір видео қосылғанда басқаларын және өлеңдерді тоқтату
   grid.addEventListener('play', (event) => {
     if (event.target instanceof HTMLVideoElement) {
       pauseAllVideos(event.target);
@@ -380,9 +370,8 @@ function buildMusic() {
 
 function playCard(index) {
   if (!audio) return;
-  pauseAllVideos(null); // Өлең қосылғанда видеоны тоқтату
+  pauseAllVideos(null);
 
-  // Фондық музыканы тоқтату
   if (ambientAudio && !ambientAudio.paused) {
     ambientAudio.pause();
     isAmbientPlaying = false;
@@ -390,7 +379,6 @@ function playCard(index) {
     if (ambientIcon) ambientIcon.textContent = '🔇';
   }
 
-  // Егер сол өлең қайта басылса пауза қою
   if (index === activeIndex) {
     if (audio.paused) startPlayback(); else audio.pause();
     return;
@@ -430,7 +418,7 @@ function setCardState(index, playing) {
 if (audio) {
   audio.addEventListener('play', () => { pauseAllVideos(null); syncMusicUi(); });
   audio.addEventListener('pause', syncMusicUi);
-  audio.addEventListener('ended', () => playCard((activeIndex + 1) % TRACKS.length)); // Келесі өлеңге өту
+  audio.addEventListener('ended', () => playCard((activeIndex + 1) % TRACKS.length));
 }
 
 /* ==========================================================================
@@ -443,7 +431,7 @@ let isAmbientPlaying = false;
 
 function playAmbientMusicDirectly() {
   if (!ambientAudio || isAmbientPlaying) return;
-  ambientAudio.volume = 0.35; // Қатты шықпауы үшін
+  ambientAudio.volume = 0.35;
   ambientAudio.play().then(() => {
     isAmbientPlaying = true;
     if (ambientBtn) ambientBtn.classList.add('playing');
@@ -492,7 +480,6 @@ function createParticles(canvasId, requestedCount) {
   const context = canvas.getContext('2d');
   if (!context) return;
 
-  // Телефондарда анимация қатып қалмауы үшін бөлшек санын азайту
   const count = window.innerWidth < 640 ? Math.round(requestedCount / 2) : requestedCount;
   const colors = [[104, 225, 253], [255, 255, 255], [182, 240, 255]];
 
@@ -516,7 +503,6 @@ function createParticles(canvasId, requestedCount) {
   }));
 
   function drawParticle(p) {
-    // BUG FIXED: '0.5 Math.sin' орнына көбейту белгісі ('*') қойылды
     const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.phase));
     context.beginPath();
     context.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -528,7 +514,6 @@ function createParticles(canvasId, requestedCount) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach((p) => {
       p.x += p.vx; p.y += p.vy; p.phase += p.speed;
-      // Экраннан шығып кеткен бөлшектерді қайтару
       if (p.y < -10 || p.x < -20 || p.x > canvas.width + 20) {
         p.x = Math.random() * canvas.width; p.y = canvas.height + 10; p.phase = 0;
       }
@@ -547,7 +532,6 @@ function createParticles(canvasId, requestedCount) {
   function start() { if (animationId === null) animationId = requestAnimationFrame(loop); }
   function stop() { if (animationId !== null) { cancelAnimationFrame(animationId); animationId = null; } }
 
-  // Анимацияны тек экранда көрініп тұрғанда ғана қосу (Оптимизация)
   if ('IntersectionObserver' in window) {
     const visibilityObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => { if (entry.isIntersecting) start(); else stop(); });
@@ -594,7 +578,6 @@ function init() {
   createParticles('heroCanvas', 70);
   initAmbientAutoplay();
 
-  // Сайт жүктелгенде басты бетті ашып қою
   switchWindow('home', null);
 }
 
@@ -604,9 +587,7 @@ if (document.readyState === 'loading') {
   init();
 }
 
-// Экранды шерткенде пайда болатын жұлдызшалар (Sparkles)
 document.addEventListener('click', function(e) {
-  // Егер батырмаға немесе суретке басылса, жұлдызша шықпайды
   if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('.g-item')) return;
 
   const spark = document.createElement('div');
@@ -616,6 +597,5 @@ document.addEventListener('click', function(e) {
   spark.style.top = (e.pageY - 10) + 'px';
   document.body.appendChild(spark);
 
-  // Анимация біткен соң элементті өшіріп тастау (Жадты толтырмау үшін)
   setTimeout(() => spark.remove(), 1000);
 });
